@@ -61,10 +61,10 @@
     <div class="pt-16 mb-4">
       <div class="flex items-center justify-between">
         <span class="text-[11px] uppercase tracking-[0.12em] font-medium" style="color: #aaa;">Seu progresso</span>
-        <span class="text-[11px] font-semibold" style="color: rgb(233, 32, 79);">0%</span>
+        <span id="progress-text" class="text-[11px] font-semibold" style="color: rgb(233, 32, 79);">0%</span>
       </div>
       <div class="mt-1.5 w-full h-1 rounded-full" style="background-color: #f0f0f0;">
-        <div class="h-full rounded-full" style="width: 0%; background-color: rgb(233, 32, 79); transition: width 0.4s;"></div>
+        <div id="progress-bar" class="h-full rounded-full" style="width: 0%; background-color: rgb(233, 32, 79); transition: width 0.4s;"></div>
       </div>
     </div>
 
@@ -73,7 +73,7 @@
 
       <!-- Card: Pré-Evento (ATIVO) -->
       <a href="pre-evento.html" class="relative bg-card border border-border rounded-2xl p-6 block hover:border-accent/30 hover:shadow-sm transition-all">
-        <span class="absolute top-3 right-3 flex items-center justify-center shrink-0" style="width: 22px; height: 22px; border-radius: 11px; border: 2px solid #ddd; background-color: #f0f0f0;"></span>
+        <button type="button" onclick="event.preventDefault(); event.stopPropagation(); toggleCheck('pre-evento')" data-card="pre-evento" class="check-btn absolute top-3 right-3 flex items-center justify-center shrink-0 z-10" style="width: 22px; height: 22px; border-radius: 11px; border: 2px solid #ddd; background-color: #f0f0f0; transition: 0.15s; cursor: pointer;"></button>
         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-accent mb-2"><path d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z"/><path d="M14 2v4a2 2 0 0 0 2 2h4"/><path d="M10 9H8"/><path d="M16 13H8"/><path d="M16 17H8"/></svg>
         <p class="font-bold mt-1 text-foreground">Pré-Evento</p>
         <p class="text-sm text-muted-foreground">Tudo o que você precisa saber</p>
@@ -81,7 +81,7 @@
 
       <!-- Card: Credenciamento (ATIVO) -->
       <a href="https://www.rodrigorosar.com.br/wpdp-credenciamento" target="_blank" class="relative bg-card border border-border rounded-2xl p-6 block hover:border-accent/30 hover:shadow-sm transition-all">
-        <span class="absolute top-3 right-3 flex items-center justify-center shrink-0" style="width: 22px; height: 22px; border-radius: 11px; border: 2px solid #ddd; background-color: #f0f0f0;"></span>
+        <button type="button" onclick="event.preventDefault(); event.stopPropagation(); toggleCheck('credenciamento')" data-card="credenciamento" class="check-btn absolute top-3 right-3 flex items-center justify-center shrink-0 z-10" style="width: 22px; height: 22px; border-radius: 11px; border: 2px solid #ddd; background-color: #f0f0f0; transition: 0.15s; cursor: pointer;"></button>
         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-accent mb-2"><rect width="8" height="4" x="8" y="2" rx="1" ry="1"/><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/><path d="m9 14 2 2 4-4"/></svg>
         <p class="font-bold mt-1 text-foreground">Credenciamento</p>
         <p class="text-sm text-muted-foreground">Faça aqui seu credenciamento</p>
@@ -89,7 +89,7 @@
 
       <!-- Card: Grupo VIP (ATIVO) -->
       <a href="https://sndflw.com/i/1jq6tK6TiDBwfzYCskJV" target="_blank" class="relative bg-card border border-border rounded-2xl p-6 block hover:border-accent/30 hover:shadow-sm transition-all">
-        <span class="absolute top-3 right-3 flex items-center justify-center shrink-0" style="width: 22px; height: 22px; border-radius: 11px; border: 2px solid #ddd; background-color: #f0f0f0;"></span>
+        <button type="button" onclick="event.preventDefault(); event.stopPropagation(); toggleCheck('grupo-vip')" data-card="grupo-vip" class="check-btn absolute top-3 right-3 flex items-center justify-center shrink-0 z-10" style="width: 22px; height: 22px; border-radius: 11px; border: 2px solid #ddd; background-color: #f0f0f0; transition: 0.15s; cursor: pointer;"></button>
         <span class="text-accent">
           <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
         </span>
@@ -99,7 +99,7 @@
 
       <!-- Card: Central de Links -->
       <div class="relative bg-card border border-border rounded-2xl p-6 opacity-60 cursor-not-allowed block">
-        <span class="absolute top-3 right-3 flex items-center justify-center shrink-0" style="width: 22px; height: 22px; border-radius: 11px; border: 2px solid #ddd; background-color: #f0f0f0;">
+        <span class="absolute top-3 right-3 flex items-center justify-center shrink-0" style="width: 22px; height: 22px; border-radius: 11px; border: 2px solid #ddd; background-color: #f0f0f0; cursor: default;">
           <svg xmlns="http://www.w3.org/2000/svg" width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-muted-foreground"><rect width="18" height="11" x="3" y="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
         </span>
         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-muted-foreground/40 mb-2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" x2="12" y1="15" y2="3"/></svg>
@@ -213,7 +213,7 @@
     <footer class="mt-16 py-6 text-center">
       <p class="text-[11px] uppercase tracking-[0.2em] text-border mb-3">Workshop Projeto de Primeira + IA</p>
       <p class="text-sm text-muted-foreground">Precisa de ajuda?</p>
-      <a href="#" class="text-sm text-foreground underline transition-all duration-200 hover:text-accent cursor-pointer">Fale com o suporte</a>
+      <a href="https://www.rodrigorosar.com.br/suporte" target="_blank" class="text-sm text-foreground underline transition-all duration-200 hover:text-accent cursor-pointer">Fale com o suporte</a>
     </footer>
 
   </div>
@@ -224,6 +224,53 @@
       const scrollAmount = 380;
       carousel.scrollBy({ left: direction * scrollAmount, behavior: 'smooth' });
     }
+
+    // Progress tracking
+    const CARDS = ['pre-evento', 'credenciamento', 'grupo-vip', 'central-links'];
+    const STORAGE_KEY = 'wpdp-progress';
+
+    function getChecked() {
+      try { return JSON.parse(localStorage.getItem(STORAGE_KEY)) || []; }
+      catch { return []; }
+    }
+
+    function saveChecked(checked) {
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(checked));
+    }
+
+    function toggleCheck(cardId) {
+      const checked = getChecked();
+      const idx = checked.indexOf(cardId);
+      if (idx === -1) checked.push(cardId);
+      else checked.splice(idx, 1);
+      saveChecked(checked);
+      updateUI();
+    }
+
+    function updateUI() {
+      const checked = getChecked();
+      const pct = Math.round((checked.length / CARDS.length) * 100);
+
+      document.getElementById('progress-text').textContent = pct + '%';
+      document.getElementById('progress-bar').style.width = pct + '%';
+
+      document.querySelectorAll('.check-btn').forEach(btn => {
+        const card = btn.getAttribute('data-card');
+        const isChecked = checked.includes(card);
+        if (isChecked) {
+          btn.style.backgroundColor = 'rgb(233, 32, 79)';
+          btn.style.borderColor = 'rgb(233, 32, 79)';
+          btn.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>';
+        } else {
+          btn.style.backgroundColor = '#f0f0f0';
+          btn.style.borderColor = '#ddd';
+          btn.innerHTML = '';
+        }
+      });
+    }
+
+    // Init on load
+    updateUI();
   </script>
 </body>
 </html>

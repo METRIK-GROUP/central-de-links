@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Pré-Evento — Workshop Projeto de Primeira + IA</title>
+  <meta name="description" content="Tudo o que você precisa saber antes do Workshop">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: { sans: ['Inter', 'sans-serif'] },
+          colors: {
+            background: 'hsl(0 0% 98%)',
+            foreground: 'hsl(0 0% 0%)',
+            card: 'hsl(0 0% 100%)',
+            'card-foreground': 'hsl(0 0% 0%)',
+            secondary: 'hsl(0 0% 96%)',
+            muted: 'hsl(0 0% 96%)',
+            'muted-foreground': 'hsl(0 0% 60%)',
+            accent: 'hsl(348 82% 52%)',
+            'accent-foreground': 'hsl(0 0% 100%)',
+            border: 'hsl(0 0% 90%)',
+          },
+          borderRadius: { '2xl': '16px' },
+        }
+      }
+    }
+  </script>
+  <style>
+    body { font-family: 'Inter', sans-serif; }
+    details summary::-webkit-details-marker { display: none; }
+    details summary { list-style: none; }
+    details[open] summary .chevron { transform: rotate(180deg); }
+    .chevron { transition: transform 0.2s ease; }
+  </style>
+</head>
+<body class="min-h-screen bg-background text-foreground">
+
+  <div class="mx-auto max-w-[680px] px-4 py-8">
+
+    <!-- Voltar -->
+    <a href="index.html" class="text-sm text-muted-foreground hover:text-foreground transition-colors inline-flex items-center gap-1 mb-8">
+      ← Voltar
+    </a>
+
+    <!-- Título -->
+    <h1 class="text-3xl sm:text-4xl font-bold text-foreground text-center tracking-tight">Pré-Evento</h1>
+    <div class="w-8 h-[3px] bg-accent mx-auto mt-3 mb-4 rounded-full"></div>
+    <p class="text-muted-foreground text-center mb-10">Tudo o que você precisa saber antes do Workshop</p>
+
+    <!-- Quando e onde -->
+    <div class="bg-card border border-border rounded-2xl p-6 sm:p-8 mb-10">
+      <div class="flex items-center gap-2 mb-4">
+        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-accent"><rect width="18" height="18" x="3" y="4" rx="2" ry="2"/><line x1="16" x2="16" y1="2" y2="6"/><line x1="8" x2="8" y1="2" y2="6"/><line x1="3" x2="21" y1="10" y2="10"/></svg>
+        <h2 class="text-lg font-bold text-foreground">Quando e onde</h2>
+      </div>
+
+      <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-6">
+        <div>
+          <p class="font-bold text-foreground">16 e 17 de maio de 2026</p>
+          <p class="text-sm text-muted-foreground">Sexta e sábado · 09h às 17h</p>
+          <p class="text-sm text-muted-foreground">Brasília (GMT-3)</p>
+        </div>
+        <div>
+          <div class="flex items-center gap-1.5 mb-1">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-accent"><rect width="20" height="15" x="2" y="7" rx="2" ry="2"/><polyline points="17 2 12 7 7 2"/></svg>
+            <span class="font-bold text-foreground">Ao vivo no Zoom</span>
+          </div>
+          <p class="text-sm text-muted-foreground">Link disponível por e-mail, WhatsApp e Central de Links 1h antes do início</p>
+        </div>
+      </div>
+
+      <div class="border-t border-border pt-4 space-y-3">
+        <div class="flex gap-6">
+          <span class="font-bold text-foreground w-14">09h00</span>
+          <span class="text-foreground">Início</span>
+        </div>
+        <div class="flex gap-6">
+          <span class="font-bold text-foreground w-14">12h00</span>
+          <span class="text-foreground">Almoço</span>
+        </div>
+        <div class="flex gap-6">
+          <span class="font-bold text-foreground w-14">13h30</span>
+          <span class="text-foreground">Retorno</span>
+        </div>
+        <div class="flex gap-6">
+          <span class="font-bold text-foreground w-14">17h00</span>
+          <span class="text-foreground">Encerramento</span>
+        </div>
+      </div>
+
+      <p class="text-sm text-muted-foreground italic mt-4">Pode encerrar mais tarde caso necessário.</p>
+    </div>
+
+    <!-- O que vai acontecer -->
+    <h2 class="text-xl font-bold text-foreground tracking-tight text-center">O que vai acontecer</h2>
+    <div class="w-8 h-[3px] bg-accent mx-auto mt-2 mb-6 rounded-full"></div>
+
+    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-16">
+      <!-- Dia 1 -->
+      <div class="bg-card border border-border rounded-2xl p-6">
+        <span class="inline-block bg-accent text-white text-[11px] font-bold uppercase tracking-wider px-3 py-1 rounded-full mb-3">Dia 1</span>
+        <h3 class="text-lg font-bold text-foreground mb-2">Processo de Projeto</h3>
+        <p class="text-sm text-muted-foreground italic mb-4">Você vai sair com um método claro para aprovar projetos em duas reuniões.</p>
+        <ul class="space-y-2 text-sm text-foreground">
+          <li class="flex items-start gap-2">
+            <span class="text-accent mt-0.5">•</span>
+            <span>Organização + Processos</span>
+          </li>
+          <li class="flex items-start gap-2">
+            <span class="text-accent mt-0.5">•</span>
+            <span>Diagnóstico dos 4 pilares</span>
+          </li>
+          <li class="flex items-start gap-2">
+            <span class="text-accent mt-0.5">•</span>
+            <span>IA + Processos</span>
+          </li>
+          <li class="flex items-start gap-2">
+            <span class="text-accent mt-0.5">•</span>
+            <span>Documentação, Mapeamento e Metodologia PDP</span>
+          </li>
+        </ul>
+      </div>
+
+      <!-- Dia 2 -->
+      <div class="bg-card border border-border rounded-2xl p-6">
+        <span class="inline-block bg-accent text-white text-[11px] font-bold uppercase tracking-wider px-3 py-1 rounded-full mb-3">Dia 2</span>
+        <h3 class="text-lg font-bold text-foreground mb-2">Processo com IA</h3>
+        <p class="text-sm text-muted-foreground italic mb-4">Você vai plugar IA no seu processo real e sair com tudo configurado.</p>
+        <ul class="space-y-2 text-sm text-foreground">
+          <li class="flex items-start gap-2">
+            <span class="text-accent mt-0.5">•</span>
+            <span>IA + Implementação</span>
+          </li>
+          <li class="flex items-start gap-2">
+            <span class="text-accent mt-0.5">•</span>
+            <span>Fundamentos IA</span>
+          </li>
+          <li class="flex items-start gap-2">
+            <span class="text-accent mt-0.5">•</span>
+            <span>Flora.AI</span>
+          </li>
+          <li class="flex items-start gap-2">
+            <span class="text-accent mt-0.5">•</span>
+            <span>Sprint 0 (mão na massa)</span>
+          </li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- Prepare seu cantinho -->
+    <h2 class="text-xl font-bold text-foreground tracking-tight text-center">Prepare seu cantinho 🍵</h2>
+    <div class="w-8 h-[3px] bg-accent mx-auto mt-2 mb-6 rounded-full"></div>
+
+    <div class="bg-[#FFF9F5] border border-border rounded-2xl p-6 sm:p-8 mb-16">
+      <p class="text-sm text-muted-foreground italic mb-6 text-center">Pense nesse final de semana como um retiro para o seu escritório.</p>
+
+      <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 text-sm">
+        <div class="flex items-start gap-3">
+          <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-accent shrink-0 mt-0.5"><rect width="20" height="15" x="2" y="7" rx="2" ry="2"/><polyline points="17 2 12 7 7 2"/></svg>
+          <span class="text-foreground"><strong>Assista pela TV</strong> — espelhe o Zoom na tela grande para mais imersão</span>
+        </div>
+        <div class="flex items-start gap-3">
+          <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-accent shrink-0 mt-0.5"><rect width="20" height="15" x="2" y="7" rx="2" ry="2"/><polyline points="17 2 12 7 7 2"/></svg>
+          <span class="text-foreground"><strong>Zoom atualizado</strong> — dê uma atualizada mesmo se já tiver</span>
+        </div>
+        <div class="flex items-start gap-3">
+          <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-accent shrink-0 mt-0.5"><path d="m2 2 20 20"/><path d="M18.4 18.4A10 10 0 0 1 2 12a10 10 0 0 1 1.6-5.4"/><path d="M12 2a10 10 0 0 1 8.4 4.6"/></svg>
+          <span class="text-foreground"><strong>Sem distrações</strong> — celular no silencioso, família avisada</span>
+        </div>
+        <div class="flex items-start gap-3">
+          <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-accent shrink-0 mt-0.5"><path d="M3 2v7c0 1.1.9 2 2 2h4a2 2 0 0 0 2-2V2"/><path d="M7 2v20"/><path d="M21 15V2v0a5 5 0 0 0-5 5v6c0 1.1.9 2 2 2h3"/></svg>
+          <span class="text-foreground"><strong>Fone de ouvido</strong> — para ouvir cada detalhe com clareza</span>
+        </div>
+        <div class="flex items-start gap-3">
+          <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-accent shrink-0 mt-0.5"><path d="m12 19 7-7 3 3-7 7-3-3z"/><path d="m18 13-1.5-7.5L2 2l3.5 14.5L13 18l5-5z"/><path d="m2 2 7.586 7.586"/><circle cx="11" cy="11" r="2"/></svg>
+          <span class="text-foreground"><strong>Caderno por perto</strong> — algumas coisas fixam melhor no papel</span>
+        </div>
+        <div class="flex items-start gap-3">
+          <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-accent shrink-0 mt-0.5"><path d="M17 8h1a4 4 0 1 1 0 8h-1"/><path d="M3 8h14v9a4 4 0 0 1-4 4H7a4 4 0 0 1-4-4Z"/><line x1="6" x2="6" y1="2" y2="4"/><line x1="10" x2="10" y1="2" y2="4"/><line x1="14" x2="14" y1="2" y2="4"/></svg>
+          <span class="text-foreground"><strong>Água e café</strong> — prepare seu cantinho com o que te faz bem</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- 5 dicas -->
+    <h2 class="text-xl font-bold text-foreground tracking-tight text-center">5 dicas para aproveitar ao máximo</h2>
+    <div class="w-8 h-[3px] bg-accent mx-auto mt-2 mb-6 rounded-full"></div>
+
+    <div class="space-y-3 mb-16">
+      <div class="bg-card border border-border rounded-2xl p-5 flex items-start gap-4">
+        <span class="shrink-0 w-9 h-9 rounded-full bg-accent text-white flex items-center justify-center font-bold text-sm">1</span>
+        <div>
+          <p class="font-bold text-foreground">Esteja presente de verdade</p>
+          <p class="text-sm text-muted-foreground">Câmera ligada, notificações desligadas. Trate como prioridade máxima.</p>
+        </div>
+      </div>
+      <div class="bg-card border border-border rounded-2xl p-5 flex items-start gap-4">
+        <span class="shrink-0 w-9 h-9 rounded-full bg-accent text-white flex items-center justify-center font-bold text-sm">2</span>
+        <div>
+          <p class="font-bold text-foreground">Anote com intenção</p>
+          <p class="text-sm text-muted-foreground">Foque no que te fez pensar: isso eu preciso aplicar na segunda-feira.</p>
+        </div>
+      </div>
+      <div class="bg-card border border-border rounded-2xl p-5 flex items-start gap-4">
+        <span class="shrink-0 w-9 h-9 rounded-full bg-accent text-white flex items-center justify-center font-bold text-sm">3</span>
+        <div>
+          <p class="font-bold text-foreground">Participe do chat</p>
+          <p class="text-sm text-muted-foreground">Pergunte, comente. As melhores sacadas surgem das trocas ao vivo.</p>
+        </div>
+      </div>
+      <div class="bg-card border border-border rounded-2xl p-5 flex items-start gap-4">
+        <span class="shrink-0 w-9 h-9 rounded-full bg-accent text-white flex items-center justify-center font-bold text-sm">4</span>
+        <div>
+          <p class="font-bold text-foreground">Aplique no mesmo dia</p>
+          <p class="text-sm text-muted-foreground">Reserve 10 minutos ao final de cada bloco para colocar algo em prática.</p>
+        </div>
+      </div>
+      <div class="bg-card border border-border rounded-2xl p-5 flex items-start gap-4">
+        <span class="shrink-0 w-9 h-9 rounded-full bg-accent text-white flex items-center justify-center font-bold text-sm">5</span>
+        <div>
+          <p class="font-bold text-foreground">Fique até o final</p>
+          <p class="text-sm text-muted-foreground">Os melhores insights e surpresas ficam para o encerramento.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Combinados para o evento -->
+    <h2 class="text-xl font-bold text-foreground tracking-tight text-center">Combinados para o evento</h2>
+    <div class="w-8 h-[3px] bg-accent mx-auto mt-2 mb-6 rounded-full"></div>
+
+    <div class="flex flex-wrap justify-center gap-2 mb-16">
+      <span class="inline-flex items-center gap-1.5 bg-card border border-border rounded-full px-4 py-2 text-sm text-foreground">
+        <span>📹</span> Câmera ligada
+      </span>
+      <span class="inline-flex items-center gap-1.5 bg-card border border-border rounded-full px-4 py-2 text-sm text-foreground">
+        <span>🔇</span> Microfone no mudo
+      </span>
+      <span class="inline-flex items-center gap-1.5 bg-card border border-border rounded-full px-4 py-2 text-sm text-foreground">
+        <span>💬</span> Perguntas pelo chat
+      </span>
+      <span class="inline-flex items-center gap-1.5 bg-card border border-border rounded-full px-4 py-2 text-sm text-foreground">
+        <span>⏰</span> Respeite os horários
+      </span>
+      <span class="inline-flex items-center gap-1.5 bg-card border border-border rounded-full px-4 py-2 text-sm text-foreground">
+        <span>🚫</span> Sem gravação de tela
+      </span>
+    </div>
+
+    <!-- Após o Workshop -->
+    <h2 class="text-xl font-bold text-foreground tracking-tight text-center">Após o Workshop</h2>
+    <div class="w-8 h-[3px] bg-accent mx-auto mt-2 mb-6 rounded-full"></div>
+
+    <div class="bg-card border border-border rounded-2xl p-6 mb-16">
+      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-accent mb-3"><polygon points="6 3 20 12 6 21 6 3"/></svg>
+      <p class="font-bold text-foreground">Replay em formato de aulas</p>
+      <p class="text-sm text-muted-foreground mt-1">Pronto em até 7 dias após o evento na Hotmart, com acesso por 1 ano.</p>
+    </div>
+
+    <!-- Perguntas Frequentes -->
+    <h2 class="text-xl font-bold text-foreground tracking-tight text-center">Perguntas Frequentes</h2>
+    <div class="w-8 h-[3px] bg-accent mx-auto mt-2 mb-6 rounded-full"></div>
+
+    <div class="space-y-3 mb-16">
+      <details class="bg-card border border-border rounded-2xl overflow-hidden group">
+        <summary class="flex items-center justify-between px-6 py-4 cursor-pointer">
+          <span class="font-medium text-foreground text-sm">Preciso ter experiência com IA?</span>
+          <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="chevron text-muted-foreground shrink-0"><path d="m6 9 6 6 6-6"/></svg>
+        </summary>
+        <div class="px-6 pb-4 text-sm text-muted-foreground">
+          Não. O workshop foi pensado para todos os níveis. Vamos do básico ao avançado.
+        </div>
+      </details>
+
+      <details class="bg-card border border-border rounded-2xl overflow-hidden group">
+        <summary class="flex items-center justify-between px-6 py-4 cursor-pointer">
+          <span class="font-medium text-foreground text-sm">É ao vivo ou gravado?</span>
+          <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="chevron text-muted-foreground shrink-0"><path d="m6 9 6 6 6-6"/></svg>
+        </summary>
+        <div class="px-6 pb-4 text-sm text-muted-foreground">
+          Ao vivo pelo Zoom. Após o evento, o replay fica disponível na Hotmart.
+        </div>
+      </details>
+
+      <details class="bg-card border border-border rounded-2xl overflow-hidden group">
+        <summary class="flex items-center justify-between px-6 py-4 cursor-pointer">
+          <span class="font-medium text-foreground text-sm">Posso desistir do ingresso?</span>
+          <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="chevron text-muted-foreground shrink-0"><path d="m6 9 6 6 6-6"/></svg>
+        </summary>
+        <div class="px-6 pb-4 text-sm text-muted-foreground">
+          Sim. Consulte as condições de reembolso diretamente na plataforma de compra.
+        </div>
+      </details>
+
+      <details class="bg-card border border-border rounded-2xl overflow-hidden group">
+        <summary class="flex items-center justify-between px-6 py-4 cursor-pointer">
+          <span class="font-medium text-foreground text-sm">Vai ficar gravado?</span>
+          <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="chevron text-muted-foreground shrink-0"><path d="m6 9 6 6 6-6"/></svg>
+        </summary>
+        <div class="px-6 pb-4 text-sm text-muted-foreground">
+          Sim. O replay em formato de aulas fica disponível em até 7 dias após o evento.
+        </div>
+      </details>
+    </div>
+
+    <!-- Footer -->
+    <footer class="py-6 text-center">
+      <p class="text-[11px] uppercase tracking-[0.2em] text-border mb-3">Workshop Projeto de Primeira + IA</p>
+      <p class="text-sm text-muted-foreground">Precisa de ajuda?</p>
+      <a href="#" class="text-sm text-foreground underline transition-all duration-200 hover:text-accent cursor-pointer">Fale com o suporte</a>
+    </footer>
+
+  </div>
+
+</body>
+</html>

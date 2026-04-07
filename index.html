@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Central de Links — Workshop Projeto de Primeira + IA</title>
+  <meta name="description" content="Central de links do Workshop Projeto de Primeira + IA">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: { sans: ['Inter', 'sans-serif'] },
+          colors: {
+            background: 'hsl(0 0% 98%)',
+            foreground: 'hsl(0 0% 0%)',
+            card: 'hsl(0 0% 100%)',
+            'card-foreground': 'hsl(0 0% 0%)',
+            secondary: 'hsl(0 0% 96%)',
+            muted: 'hsl(0 0% 96%)',
+            'muted-foreground': 'hsl(0 0% 60%)',
+            accent: 'hsl(348 82% 52%)',
+            'accent-foreground': 'hsl(0 0% 100%)',
+            border: 'hsl(0 0% 90%)',
+          },
+          borderRadius: { '2xl': '16px' },
+        }
+      }
+    }
+  </script>
+  <style>
+    body { font-family: 'Inter', sans-serif; }
+    .scrollbar-hide::-webkit-scrollbar { display: none; }
+    .scrollbar-hide { -ms-overflow-style: none; scrollbar-width: none; }
+  </style>
+</head>
+<body class="min-h-screen bg-background text-foreground">
+
+  <!-- Hero -->
+  <div class="mx-auto max-w-[680px] px-4 py-8">
+    <div class="w-full aspect-video rounded-2xl flex items-center justify-center mb-6 overflow-hidden bg-secondary">
+      <img
+        src="https://hfoutqzvtartsacbqjhg.supabase.co/storage/v1/object/public/workshop-images/banner.jpg?t=2026-03-13T17:51:20.232Z"
+        alt="Banner do Workshop"
+        class="w-full h-full object-cover"
+      >
+    </div>
+    <h1 class="text-[2rem] font-bold text-foreground text-center tracking-tight">
+      Workshop Projeto de Primeira + IA
+    </h1>
+    <p class="text-muted-foreground text-center mt-2">16 e 17 de maio de 2026</p>
+  </div>
+
+  <!-- Cards Section -->
+  <div class="mx-auto max-w-[680px] px-4">
+
+    <!-- Progress Bar -->
+    <div class="pt-16 mb-4">
+      <div class="flex items-center justify-between">
+        <span class="text-[11px] uppercase tracking-[0.12em] font-medium" style="color: #aaa;">Seu progresso</span>
+        <span class="text-[11px] font-semibold" style="color: rgb(233, 32, 79);">0%</span>
+      </div>
+      <div class="mt-1.5 w-full h-1 rounded-full" style="background-color: #f0f0f0;">
+        <div class="h-full rounded-full" style="width: 0%; background-color: rgb(233, 32, 79); transition: width 0.4s;"></div>
+      </div>
+    </div>
+
+    <!-- Cards Grid -->
+    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 pb-16">
+
+      <!-- Card: Pré-Evento (ATIVO) -->
+      <a href="pre-evento.html" class="relative bg-card border border-border rounded-2xl p-6 block hover:border-accent/30 hover:shadow-sm transition-all">
+        <span class="absolute top-3 right-3 flex items-center justify-center shrink-0" style="width: 22px; height: 22px; border-radius: 11px; border: 2px solid #ddd; background-color: #f0f0f0;"></span>
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-accent mb-2"><path d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z"/><path d="M14 2v4a2 2 0 0 0 2 2h4"/><path d="M10 9H8"/><path d="M16 13H8"/><path d="M16 17H8"/></svg>
+        <p class="font-bold mt-1 text-foreground">Pré-Evento</p>
+        <p class="text-sm text-muted-foreground">Tudo o que você precisa saber</p>
+      </a>
+
+      <!-- Card: Credenciamento (ATIVO) -->
+      <a href="https://www.rodrigorosar.com.br/wpdp-credenciamento" target="_blank" class="relative bg-card border border-border rounded-2xl p-6 block hover:border-accent/30 hover:shadow-sm transition-all">
+        <span class="absolute top-3 right-3 flex items-center justify-center shrink-0" style="width: 22px; height: 22px; border-radius: 11px; border: 2px solid #ddd; background-color: #f0f0f0;"></span>
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-accent mb-2"><rect width="8" height="4" x="8" y="2" rx="1" ry="1"/><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/><path d="m9 14 2 2 4-4"/></svg>
+        <p class="font-bold mt-1 text-foreground">Credenciamento</p>
+        <p class="text-sm text-muted-foreground">Faça aqui seu credenciamento</p>
+      </a>
+
+      <!-- Card: Grupo VIP (ATIVO) -->
+      <a href="https://sndflw.com/i/1jq6tK6TiDBwfzYCskJV" target="_blank" class="relative bg-card border border-border rounded-2xl p-6 block hover:border-accent/30 hover:shadow-sm transition-all">
+        <span class="absolute top-3 right-3 flex items-center justify-center shrink-0" style="width: 22px; height: 22px; border-radius: 11px; border: 2px solid #ddd; background-color: #f0f0f0;"></span>
+        <span class="text-accent">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+        </span>
+        <p class="font-bold mt-1 text-foreground">Grupo VIP</p>
+        <p class="text-sm text-muted-foreground">Entre no grupo exclusivo do evento</p>
+      </a>
+
+      <!-- Card: Central de Links -->
+      <div class="relative bg-card border border-border rounded-2xl p-6 opacity-60 cursor-not-allowed block">
+        <span class="absolute top-3 right-3 flex items-center justify-center shrink-0" style="width: 22px; height: 22px; border-radius: 11px; border: 2px solid #ddd; background-color: #f0f0f0;">
+          <svg xmlns="http://www.w3.org/2000/svg" width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-muted-foreground"><rect width="18" height="11" x="3" y="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+        </span>
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-muted-foreground/40 mb-2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" x2="12" y1="15" y2="3"/></svg>
+        <p class="font-bold mt-1 text-muted-foreground">Central de Links</p>
+        <p class="text-sm text-muted-foreground/60">Links e downloads do Workshop</p>
+        <span class="text-[10px] uppercase tracking-wider font-semibold text-muted-foreground/50 mt-2 inline-block">🔒 Em breve</span>
+      </div>
+
+    </div>
+
+    <!-- Separator -->
+    <hr class="border-border">
+
+    <!-- Programação -->
+    <div class="py-16">
+      <h2 class="text-xl font-bold text-foreground tracking-tight text-center">Programação</h2>
+      <div class="w-8 h-[3px] bg-accent mx-auto mt-2 mb-4 rounded-full"></div>
+      <p class="text-muted-foreground mb-6 text-center">16 e 17 de maio de 2026</p>
+      <div class="bg-card border border-border rounded-2xl overflow-hidden">
+        <table class="w-full text-sm">
+          <thead>
+            <tr class="border-b border-border">
+              <th class="text-left px-6 py-3 font-medium text-muted-foreground">Horário</th>
+              <th class="text-left px-6 py-3 font-medium text-muted-foreground">Momento</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr class="border-b border-border">
+              <td class="px-6 py-3 font-bold text-accent">09h00</td>
+              <td class="px-6 py-3 text-foreground">Início</td>
+            </tr>
+            <tr class="border-b border-border">
+              <td class="px-6 py-3 font-bold text-accent">12h00</td>
+              <td class="px-6 py-3 text-foreground">Almoço</td>
+            </tr>
+            <tr class="border-b border-border">
+              <td class="px-6 py-3 font-bold text-accent">13h30</td>
+              <td class="px-6 py-3 text-foreground">Retorno</td>
+            </tr>
+            <tr>
+              <td class="px-6 py-3 font-bold text-accent">17h00</td>
+              <td class="px-6 py-3 text-foreground">Encerramento</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <p class="text-sm text-muted-foreground mt-3">Ambos os dias seguem este cronograma.</p>
+    </div>
+
+    <!-- Separator -->
+    <hr class="border-border">
+
+    <!-- Depoimentos -->
+    <div class="py-16">
+      <h2 class="text-xl font-bold text-foreground tracking-tight text-center">O que acharam da nossa última edição…</h2>
+      <div class="w-8 h-[3px] bg-accent mx-auto mt-2 mb-2 rounded-full"></div>
+      <p class="text-muted-foreground mb-2 text-center">Quem viveu, não volta atrás.</p>
+      <p class="text-xs uppercase tracking-[0.15em] text-accent font-semibold text-center mb-6">Mais de 1.300 depoimentos</p>
+
+      <div class="relative" id="carousel-wrapper">
+        <div id="carousel" class="flex gap-4 overflow-x-auto pb-4 scrollbar-hide scroll-smooth snap-x snap-mandatory">
+          <div class="flex-shrink-0 w-[300px] h-[220px] sm:w-[360px] sm:h-[260px] rounded-xl overflow-hidden snap-start bg-[#F7F7F7]">
+            <img src="https://hfoutqzvtartsacbqjhg.supabase.co/storage/v1/object/public/workshop-images/testimonial-0.jpg?t=2026-03-13T17:51:28.359Z" alt="Depoimento 1" class="w-full h-full object-contain">
+          </div>
+          <div class="flex-shrink-0 w-[300px] h-[220px] sm:w-[360px] sm:h-[260px] rounded-xl overflow-hidden snap-start bg-[#F7F7F7]">
+            <img src="https://hfoutqzvtartsacbqjhg.supabase.co/storage/v1/object/public/workshop-images/testimonial-1.jpg?t=2026-03-13T17:51:30.208Z" alt="Depoimento 2" class="w-full h-full object-contain">
+          </div>
+          <div class="flex-shrink-0 w-[300px] h-[220px] sm:w-[360px] sm:h-[260px] rounded-xl overflow-hidden snap-start bg-[#F7F7F7]">
+            <img src="https://hfoutqzvtartsacbqjhg.supabase.co/storage/v1/object/public/workshop-images/testimonial-2.jpg?t=2026-03-13T17:51:32.233Z" alt="Depoimento 3" class="w-full h-full object-contain">
+          </div>
+          <div class="flex-shrink-0 w-[300px] h-[220px] sm:w-[360px] sm:h-[260px] rounded-xl overflow-hidden snap-start bg-[#F7F7F7]">
+            <img src="https://hfoutqzvtartsacbqjhg.supabase.co/storage/v1/object/public/workshop-images/testimonial-3.jpg?t=2026-03-13T17:51:35.224Z" alt="Depoimento 4" class="w-full h-full object-contain">
+          </div>
+          <div class="flex-shrink-0 w-[300px] h-[220px] sm:w-[360px] sm:h-[260px] rounded-xl overflow-hidden snap-start bg-[#F7F7F7]">
+            <img src="https://hfoutqzvtartsacbqjhg.supabase.co/storage/v1/object/public/workshop-images/testimonial-4.jpg?t=2026-03-13T17:51:38.167Z" alt="Depoimento 5" class="w-full h-full object-contain">
+          </div>
+          <div class="flex-shrink-0 w-[300px] h-[220px] sm:w-[360px] sm:h-[260px] rounded-xl overflow-hidden snap-start bg-[#F7F7F7]">
+            <img src="https://hfoutqzvtartsacbqjhg.supabase.co/storage/v1/object/public/workshop-images/testimonial-5.jpg?t=2026-03-13T17:51:41.255Z" alt="Depoimento 6" class="w-full h-full object-contain">
+          </div>
+          <div class="flex-shrink-0 w-[300px] h-[220px] sm:w-[360px] sm:h-[260px] rounded-xl overflow-hidden snap-start bg-[#F7F7F7]">
+            <img src="https://hfoutqzvtartsacbqjhg.supabase.co/storage/v1/object/public/workshop-images/testimonial-6.jpg?t=2026-03-13T17:51:55.368Z" alt="Depoimento 7" class="w-full h-full object-contain">
+          </div>
+          <div class="flex-shrink-0 w-[300px] h-[220px] sm:w-[360px] sm:h-[260px] rounded-xl overflow-hidden snap-start bg-[#F7F7F7]">
+            <img src="https://hfoutqzvtartsacbqjhg.supabase.co/storage/v1/object/public/workshop-images/testimonial-7.jpg?t=2026-03-13T17:52:02.696Z" alt="Depoimento 8" class="w-full h-full object-contain">
+          </div>
+          <div class="flex-shrink-0 w-[300px] h-[220px] sm:w-[360px] sm:h-[260px] rounded-xl overflow-hidden snap-start bg-[#F7F7F7]">
+            <img src="https://hfoutqzvtartsacbqjhg.supabase.co/storage/v1/object/public/workshop-images/testimonial-8.jpg?t=2026-03-13T17:52:09.829Z" alt="Depoimento 9" class="w-full h-full object-contain">
+          </div>
+          <div class="flex-shrink-0 w-[300px] h-[220px] sm:w-[360px] sm:h-[260px] rounded-xl overflow-hidden snap-start bg-[#F7F7F7]">
+            <img src="https://hfoutqzvtartsacbqjhg.supabase.co/storage/v1/object/public/workshop-images/testimonial-9.jpg?t=2026-03-13T17:52:17.802Z" alt="Depoimento 10" class="w-full h-full object-contain">
+          </div>
+          <div class="flex-shrink-0 w-[300px] h-[220px] sm:w-[360px] sm:h-[260px] rounded-xl overflow-hidden snap-start bg-[#F7F7F7]">
+            <img src="https://hfoutqzvtartsacbqjhg.supabase.co/storage/v1/object/public/workshop-images/testimonial-10.jpg?t=2026-03-13T17:52:22.714Z" alt="Depoimento 11" class="w-full h-full object-contain">
+          </div>
+          <div class="flex-shrink-0 w-[300px] h-[220px] sm:w-[360px] sm:h-[260px] rounded-xl overflow-hidden snap-start bg-[#F7F7F7]">
+            <img src="https://hfoutqzvtartsacbqjhg.supabase.co/storage/v1/object/public/workshop-images/testimonial-11.jpg?t=2026-03-13T17:52:26.041Z" alt="Depoimento 12" class="w-full h-full object-contain">
+          </div>
+        </div>
+
+        <!-- Carousel Buttons -->
+        <button onclick="scrollCarousel(-1)" class="absolute left-0 top-1/2 -translate-y-1/2 -translate-x-3 w-10 h-10 bg-card border border-border rounded-full flex items-center justify-center shadow-md text-foreground hover:text-accent transition-colors hidden sm:flex">
+          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m15 18-6-6 6-6"/></svg>
+        </button>
+        <button onclick="scrollCarousel(1)" class="absolute right-0 top-1/2 -translate-y-1/2 translate-x-3 w-10 h-10 bg-card border border-border rounded-full flex items-center justify-center shadow-md text-foreground hover:text-accent transition-colors hidden sm:flex">
+          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg>
+        </button>
+      </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="mt-16 py-6 text-center">
+      <p class="text-[11px] uppercase tracking-[0.2em] text-border mb-3">Workshop Projeto de Primeira + IA</p>
+      <p class="text-sm text-muted-foreground">Precisa de ajuda?</p>
+      <a href="#" class="text-sm text-foreground underline transition-all duration-200 hover:text-accent cursor-pointer">Fale com o suporte</a>
+    </footer>
+
+  </div>
+
+  <script>
+    function scrollCarousel(direction) {
+      const carousel = document.getElementById('carousel');
+      const scrollAmount = 380;
+      carousel.scrollBy({ left: direction * scrollAmount, behavior: 'smooth' });
+    }
+  </script>
+</body>
+</html>

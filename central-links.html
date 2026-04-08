@@ -148,7 +148,7 @@
     <p class="text-muted-foreground text-center mb-10">Todos os links e materiais do Workshop em um só lugar.</p>
 
     <!-- Transmissao ao vivo -->
-    <div class="bg-[#1a1a1a] rounded-2xl p-6 sm:p-8 mb-12">
+    <div id="transmissao" class="bg-[#1a1a1a] rounded-2xl p-6 sm:p-8 mb-12">
       <h2 class="text-white font-bold text-lg mb-4">Transmissão ao vivo</h2>
       <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
         <div>
@@ -839,6 +839,7 @@ O resultado final deve transmitir a sensação de um vídeo editorial de arquite
     </div>
 
     <!-- Links Rapidos -->
+    <div id="links-rapidos">
     <h2 class="text-xl font-bold text-foreground tracking-tight text-center">Links Rápidos</h2>
     <div class="w-8 h-[3px] bg-accent mx-auto mt-2 mb-6 rounded-full"></div>
 
@@ -875,6 +876,8 @@ O resultado final deve transmitir a sensação de um vídeo editorial de arquite
       </a>
     </div>
 
+    </div><!-- /links-rapidos -->
+
     <!-- Footer -->
     <footer class="py-6 text-center">
       <p class="text-[11px] uppercase tracking-[0.2em] text-border mb-3">Workshop Projeto de Primeira + IA</p>
@@ -885,6 +888,12 @@ O resultado final deve transmitir a sensação de um vídeo editorial de arquite
   </div>
 
   <script>
+    // Ocultar seções para alunos
+    if (new URLSearchParams(window.location.search).get('ref') === 'alunos') {
+      document.getElementById('transmissao').style.display = 'none';
+      document.getElementById('links-rapidos').style.display = 'none';
+    }
+
     function copyPrompt(id, btn) {
       const el = document.getElementById(id);
       const text = el.textContent.trim();

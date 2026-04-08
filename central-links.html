@@ -889,7 +889,7 @@ O resultado final deve transmitir a sensação de um vídeo editorial de arquite
 
   <script>
     // Ocultar seções para alunos
-    if (new URLSearchParams(window.location.search).get('ref') === 'alunos') {
+    if (window.location.hash === '#alunos') {
       document.getElementById('transmissao').style.display = 'none';
       document.getElementById('links-rapidos').style.display = 'none';
     }

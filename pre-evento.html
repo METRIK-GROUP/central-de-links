@@ -7,24 +7,28 @@
   <meta name="description" content="Tudo o que você precisa saber antes do Workshop">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
   <script src="https://cdn.tailwindcss.com"></script>
   <script>
     tailwind.config = {
       theme: {
         extend: {
-          fontFamily: { sans: ['Inter', 'sans-serif'] },
+          fontFamily: {
+            sans: ['Inter', 'sans-serif'],
+            ed: ['"DM Serif Display"', 'serif']
+          },
           colors: {
-            background: 'hsl(0 0% 98%)',
-            foreground: 'hsl(0 0% 0%)',
-            card: 'hsl(0 0% 100%)',
-            'card-foreground': 'hsl(0 0% 0%)',
-            secondary: 'hsl(0 0% 96%)',
-            muted: 'hsl(0 0% 96%)',
-            'muted-foreground': 'hsl(0 0% 60%)',
-            accent: 'hsl(348 82% 52%)',
-            'accent-foreground': 'hsl(0 0% 100%)',
-            border: 'hsl(0 0% 90%)',
+            background: '#FFFFFF',
+            foreground: '#1E1E1E',
+            card: '#FFFFFF',
+            'card-foreground': '#1E1E1E',
+            secondary: '#F5F4F0',
+            muted: '#F5F4F0',
+            'muted-foreground': '#5F5E5A',
+            accent: '#0F766E',
+            'accent-h': '#0D6B63',
+            'accent-foreground': '#FFFFFF',
+            border: '#E8E6DD',
           },
           borderRadius: { '2xl': '16px' },
         }
@@ -49,7 +53,7 @@
     </a>
 
     <!-- Título -->
-    <h1 class="text-3xl sm:text-4xl font-bold text-foreground text-center tracking-tight">Pré-Evento</h1>
+    <h1 class="font-ed text-[2.25rem] sm:text-[2.75rem] text-foreground text-center tracking-tight leading-[1.1]">Pré-Evento</h1>
     <div class="w-8 h-[3px] bg-accent mx-auto mt-3 mb-4 rounded-full"></div>
     <p class="text-muted-foreground text-center mb-10">Tudo o que você precisa saber antes do Workshop</p>
 
@@ -157,7 +161,7 @@
     <h2 class="text-xl font-bold text-foreground tracking-tight text-center">Prepare seu cantinho 🍵</h2>
     <div class="w-8 h-[3px] bg-accent mx-auto mt-2 mb-6 rounded-full"></div>
 
-    <div class="bg-[#FFF9F5] border border-border rounded-2xl p-6 sm:p-8 mb-16">
+    <div class="bg-secondary border border-border rounded-2xl p-6 sm:p-8 mb-16">
       <p class="text-sm text-muted-foreground italic mb-6 text-center">Pense nesse final de semana como um retiro para o seu escritório.</p>
 
       <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 text-sm">

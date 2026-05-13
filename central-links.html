@@ -153,25 +153,68 @@
     <p class="text-muted-foreground text-center mb-10">Todos os links e materiais do Workshop em um só lugar.</p>
 
     <!-- Transmissao ao vivo -->
-    <div id="transmissao" class="bg-[#1a1a1a] rounded-2xl p-6 sm:p-8 mb-12">
-      <h2 class="text-white font-bold text-lg mb-4">Transmissão ao vivo</h2>
-      <div class="flex items-start gap-4">
-        <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-accent shrink-0 mt-1"><polygon points="6 3 20 12 6 21 6 3"/></svg>
-        <div class="flex-1">
-          <p class="font-bold text-white">Aula ao vivo (Zoom)</p>
-          <p class="text-sm text-[#999] mt-1">Workshop Projeto de Primeira + IA — Dia 1</p>
+    <div id="transmissao" class="relative overflow-hidden rounded-2xl mb-12 bg-gradient-to-br from-[#1a1a1a] via-[#161616] to-[#0c0c0c] p-6 sm:p-8">
+      <!-- decorative glow -->
+      <div class="pointer-events-none absolute -top-16 -right-16 w-48 h-48 rounded-full bg-accent/15 blur-3xl"></div>
+      <div class="pointer-events-none absolute -bottom-20 -left-20 w-56 h-56 rounded-full bg-accent/5 blur-3xl"></div>
 
-          <!-- Estado: BLOQUEADO (antes de 16/05 08h BRT) -->
-          <div data-gate="stream-day1" data-gate-state="locked">
-            <span class="inline-flex items-center gap-2 mt-3 bg-[#2a2a2a] text-[#bbb] text-xs font-semibold px-4 py-2 rounded-full">
-              <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><rect width="18" height="11" x="3" y="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
-              Em breve
+      <div class="relative">
+        <!-- Header -->
+        <div class="flex items-center gap-3 mb-5">
+          <h2 class="text-white font-bold text-lg">Transmissão ao vivo</h2>
+          <span data-stream-live class="hidden inline-flex items-center gap-1.5 bg-red-500/15 text-red-400 text-[10px] font-bold uppercase tracking-[0.12em] px-2.5 py-1 rounded-full border border-red-500/20">
+            <span class="relative flex w-1.5 h-1.5">
+              <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-red-500 opacity-75"></span>
+              <span class="relative inline-flex rounded-full h-1.5 w-1.5 bg-red-500"></span>
             </span>
-          </div>
+            Ao vivo
+          </span>
+        </div>
 
-          <!-- Estado: LIBERADO (em/após 16/05 08h BRT) -->
-          <div data-gate="stream-day1" data-gate-state="unlocked" style="display:none">
-            <a data-gate-href="stream-day1" href="#" target="_blank" class="inline-flex items-center gap-2 mt-3 bg-accent text-white text-sm font-semibold px-5 py-2.5 rounded-full hover:opacity-90 transition-opacity">
+        <!-- Estado: BLOQUEADO (antes 16/05 08h BRT) -->
+        <div data-stream-state="locked">
+          <div class="flex items-center gap-4">
+            <span class="inline-flex items-center justify-center w-12 h-12 rounded-xl bg-[#2a2a2a] shrink-0">
+              <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-[#666]"><rect width="18" height="11" x="3" y="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+            </span>
+            <div class="flex-1">
+              <p class="font-bold text-white">Aula ao vivo (Zoom)</p>
+              <p class="text-sm text-[#999] mt-0.5">A sala abre durante o Workshop</p>
+            </div>
+            <span class="hidden sm:inline-flex items-center gap-1.5 bg-[#2a2a2a] text-[#bbb] text-xs font-semibold px-3 py-1.5 rounded-full">Em breve</span>
+          </div>
+        </div>
+
+        <!-- Estado: DIA 1 ao vivo (16/05 08h até 17/05 08h BRT) -->
+        <div data-stream-state="day1" style="display:none">
+          <div class="flex flex-col sm:flex-row sm:items-center gap-4">
+            <span class="inline-flex items-center justify-center w-12 h-12 rounded-xl bg-accent/15 ring-1 ring-accent/30 shrink-0">
+              <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-accent"><polygon points="6 3 20 12 6 21 6 3"/></svg>
+            </span>
+            <div class="flex-1">
+              <p class="text-[10px] uppercase tracking-[0.15em] font-bold text-accent mb-0.5">Dia 1 · 16 de maio</p>
+              <p class="font-bold text-white text-base">Aula ao vivo (Zoom)</p>
+              <p class="text-sm text-[#999] mt-0.5">Clique para entrar na sala</p>
+            </div>
+            <a data-stream-href="day1" href="#" target="_blank" class="inline-flex items-center justify-center gap-2 bg-accent text-white text-sm font-semibold px-5 py-3 rounded-full hover:bg-accent-h transition-colors shadow-lg shadow-accent/20">
+              <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polygon points="6 3 20 12 6 21 6 3"/></svg>
+              Entrar no Zoom
+            </a>
+          </div>
+        </div>
+
+        <!-- Estado: DIA 2 ao vivo (17/05 08h BRT em diante) -->
+        <div data-stream-state="day2" style="display:none">
+          <div class="flex flex-col sm:flex-row sm:items-center gap-4">
+            <span class="inline-flex items-center justify-center w-12 h-12 rounded-xl bg-accent/15 ring-1 ring-accent/30 shrink-0">
+              <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-accent"><polygon points="6 3 20 12 6 21 6 3"/></svg>
+            </span>
+            <div class="flex-1">
+              <p class="text-[10px] uppercase tracking-[0.15em] font-bold text-accent mb-0.5">Dia 2 · 17 de maio</p>
+              <p class="font-bold text-white text-base">Aula ao vivo (Zoom)</p>
+              <p class="text-sm text-[#999] mt-0.5">Clique para entrar na sala</p>
+            </div>
+            <a data-stream-href="day2" href="#" target="_blank" class="inline-flex items-center justify-center gap-2 bg-accent text-white text-sm font-semibold px-5 py-3 rounded-full hover:bg-accent-h transition-colors shadow-lg shadow-accent/20">
               <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polygon points="6 3 20 12 6 21 6 3"/></svg>
               Entrar no Zoom
             </a>
@@ -943,29 +986,49 @@ O resultado final deve transmitir a sensação de um vídeo editorial de arquite
 
     // ======== Time-gated releases (BRT = UTC-3) ========
     // 16/05/2026 08h BRT = 11:00 UTC | 12h BRT = 15:00 UTC
-    // 17/05/2026 12h BRT = 15:00 UTC
-    const RELEASES = {
-      'stream-day1':    { at: Date.UTC(2026, 4, 16, 11, 0, 0), href: 'https://rodrigorosar.com.br/workshop-dia1' },
-      'materials-day1': { at: Date.UTC(2026, 4, 16, 15, 0, 0) },
-      'materials-day2': { at: Date.UTC(2026, 4, 17, 15, 0, 0) }
+    // 17/05/2026 08h BRT = 11:00 UTC | 12h BRT = 15:00 UTC
+    const STREAM = {
+      day1: { at: Date.UTC(2026, 4, 16, 11, 0, 0), href: 'https://rodrigorosar.com.br/workshop-dia1' },
+      day2: { at: Date.UTC(2026, 4, 17, 11, 0, 0), href: 'https://www.rodrigorosar.com.br/workshop-dia2' }
+    };
+    const MATERIALS = {
+      'materials-day1': Date.UTC(2026, 4, 16, 15, 0, 0),
+      'materials-day2': Date.UTC(2026, 4, 17, 15, 0, 0)
     };
 
-    function applyGates() {
+    function applyStream() {
       const now = Date.now();
-      Object.entries(RELEASES).forEach(([key, cfg]) => {
-        const unlocked = now >= cfg.at;
+      let state = 'locked';
+      if (now >= STREAM.day2.at) state = 'day2';
+      else if (now >= STREAM.day1.at) state = 'day1';
+
+      document.querySelectorAll('[data-stream-state]').forEach(el => {
+        el.style.display = el.getAttribute('data-stream-state') === state ? '' : 'none';
+      });
+
+      if (state !== 'locked') {
+        const cfg = STREAM[state];
+        document.querySelectorAll('[data-stream-href="' + state + '"]').forEach(a => {
+          a.setAttribute('href', cfg.href);
+        });
+      }
+
+      const liveBadge = document.querySelector('[data-stream-live]');
+      if (liveBadge) liveBadge.classList.toggle('hidden', state === 'locked');
+    }
+
+    function applyMaterials() {
+      const now = Date.now();
+      Object.entries(MATERIALS).forEach(([key, at]) => {
+        const unlocked = now >= at;
         document.querySelectorAll('[data-gate="' + key + '"]').forEach(el => {
           const state = el.getAttribute('data-gate-state');
           el.style.display = (state === 'unlocked') === unlocked ? '' : 'none';
         });
-        if (unlocked && cfg.href) {
-          document.querySelectorAll('[data-gate-href="' + key + '"]').forEach(a => {
-            a.setAttribute('href', cfg.href);
-          });
-        }
       });
     }
 
+    function applyGates() { applyStream(); applyMaterials(); }
     applyGates();
     setInterval(applyGates, 30000);
   </script>

@@ -119,16 +119,25 @@
 
     </div>
 
-    <!-- CTA Gravação -->
-    <div class="bg-secondary border border-border rounded-2xl p-5 sm:p-6 mb-8 flex flex-col sm:flex-row items-start sm:items-center gap-4">
-      <span class="inline-flex items-center justify-center w-11 h-11 rounded-full bg-card border border-border shrink-0">
-        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-accent"><polygon points="23 7 16 12 23 17 23 7"/><rect width="15" height="14" x="1" y="5" rx="2" ry="2"/></svg>
-      </span>
-      <div class="flex-1">
-        <p class="font-bold text-foreground text-sm sm:text-base">Não vai conseguir acompanhar ao vivo?</p>
-        <p class="text-xs sm:text-sm text-muted-foreground mt-0.5">Garanta o acesso à gravação completa em formato de aulas, com 1 ano de acesso.</p>
+    <!-- CTA Gravação (sai automaticamente após 15/05 23h59 BRT) -->
+    <div id="cta-gravacao" class="bg-secondary border border-border rounded-2xl p-5 sm:p-6 mb-8">
+      <div class="flex flex-col sm:flex-row items-start sm:items-center gap-4">
+        <span class="inline-flex items-center justify-center w-11 h-11 rounded-full bg-card border border-border shrink-0">
+          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-accent"><polygon points="23 7 16 12 23 17 23 7"/><rect width="15" height="14" x="1" y="5" rx="2" ry="2"/></svg>
+        </span>
+        <div class="flex-1">
+          <div class="flex items-center gap-2 mb-1">
+            <span class="inline-flex items-center gap-1.5 bg-red-500/10 text-red-600 text-[10px] font-bold uppercase tracking-[0.1em] px-2 py-0.5 rounded-full border border-red-500/20">
+              <svg xmlns="http://www.w3.org/2000/svg" width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+              Última chance
+            </span>
+          </div>
+          <p class="font-bold text-foreground text-sm sm:text-base">Não vai conseguir acompanhar ao vivo?</p>
+          <p class="text-xs sm:text-sm text-muted-foreground mt-0.5">Garanta o acesso à gravação completa em formato de aulas, com 1 ano de acesso.</p>
+          <p class="text-xs sm:text-sm text-red-600 font-semibold mt-1.5">Vendas encerram sexta-feira, 15/05, às 23h59. Depois disso, o conteúdo não será mais vendido.</p>
+        </div>
+        <a href="https://www.rodrigorosar.com.br/wpdp-aulas" target="_blank" class="bg-accent text-white text-sm font-semibold px-5 py-2.5 rounded-full hover:opacity-90 transition-opacity whitespace-nowrap shrink-0">Quero a gravação</a>
       </div>
-      <a href="https://www.rodrigorosar.com.br/wpdp-aulas" target="_blank" class="bg-accent text-white text-sm font-semibold px-5 py-2.5 rounded-full hover:opacity-90 transition-opacity whitespace-nowrap shrink-0">Quero a gravação</a>
     </div>
 
     <!-- Separator -->
@@ -292,6 +301,33 @@
 
     // Init on load
     updateUI();
+
+    // ============================================================
+    // CTA Gravação — vendas encerram 15/05 23h59 BRT (= 16/05 02:59 UTC)
+    // Card some automaticamente após o boundary.
+    // ============================================================
+    const SALES_END_UTC = Date.UTC(2026, 4, 16, 2, 59, 0);
+
+    function applySalesGate() {
+      try {
+        const card = document.getElementById('cta-gravacao');
+        if (!card) return;
+        card.style.display = Date.now() >= SALES_END_UTC ? 'none' : '';
+      } catch (e) { console.error('[sales-gate]', e); }
+    }
+
+    function scheduleSalesEnd() {
+      const delay = SALES_END_UTC - Date.now() + 500;
+      if (delay <= 0 || delay > 2147483000) return;
+      setTimeout(applySalesGate, delay);
+    }
+
+    applySalesGate();
+    scheduleSalesEnd();
+    setInterval(applySalesGate, 15000);
+    document.addEventListener('visibilitychange', function () { if (!document.hidden) applySalesGate(); });
+    window.addEventListener('focus',    applySalesGate);
+    window.addEventListener('pageshow',  applySalesGate);
   </script>
 </body>
 </html>

@@ -948,6 +948,24 @@ O resultado final deve transmitir a sensação de um vídeo editorial de arquite
 
     </div><!-- /materials-day2 unlocked -->
 
+    <!-- Bonus liberado 17/05 15h30 BRT -->
+    <div data-gate="bonus-render" data-gate-state="unlocked" style="display:none" class="mb-12">
+      <div class="bg-secondary border border-accent/30 rounded-2xl p-6 flex flex-col sm:flex-row items-start gap-5">
+        <span class="inline-flex items-center justify-center w-12 h-12 rounded-xl bg-accent/15 border border-accent/30 shrink-0">
+          <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-accent"><path d="m21.64 3.64-1.28-1.28a1.21 1.21 0 0 0-1.72 0L2.36 18.64a1.21 1.21 0 0 0 0 1.72l1.28 1.28a1.2 1.2 0 0 0 1.72 0L21.64 5.36a1.2 1.2 0 0 0 0-1.72"/><path d="m14 7 3 3"/><path d="M5 6v4"/><path d="M19 14v4"/><path d="M10 2v2"/><path d="M7 8H3"/><path d="M21 16h-4"/><path d="M11 3H9"/></svg>
+        </span>
+        <div class="flex-1">
+          <p class="text-xs uppercase tracking-[0.12em] font-bold text-accent mb-1">Bônus liberado</p>
+          <p class="font-bold text-foreground mb-1">1 Click Render — Trial gratuito</p>
+          <p class="text-sm text-muted-foreground mb-4">Plugin que transforma seu render 3D em foto realista com 1 clique.</p>
+          <a href="https://pay.hotmart.com/G105640686S?off=aq94kpyi&checkoutMode=6&bid=1779015038583" target="_blank" rel="noopener" class="inline-flex items-center gap-2 bg-accent text-white font-semibold px-4 py-2 rounded-lg text-sm hover:opacity-90 transition-opacity">
+            Garantir trial gratuito
+            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+          </a>
+        </div>
+      </div>
+    </div>
+
     <!-- Links Rapidos -->
     <div id="links-rapidos">
     <h2 class="text-xl font-bold text-foreground tracking-tight text-center">Links Rápidos</h2>
@@ -1024,7 +1042,8 @@ O resultado final deve transmitir a sensação de um vídeo editorial de arquite
     };
     const MATERIALS = {
       'materials-day1': Date.UTC(2026, 4, 16, 15, 0, 0),
-      'materials-day2': Date.UTC(2026, 4, 17, 15, 0, 0)
+      'materials-day2': Date.UTC(2026, 4, 17, 15, 0, 0),
+      'bonus-render':   Date.UTC(2026, 4, 17, 18, 30, 0)
     };
 
     function computeDayStates(now) {
@@ -1071,7 +1090,8 @@ O resultado final deve transmitir a sensação de um vídeo editorial de arquite
       const now = Date.now();
       const boundaries = [
         STREAM.day1.at, STREAM.day2.at,
-        MATERIALS['materials-day1'], MATERIALS['materials-day2']
+        MATERIALS['materials-day1'], MATERIALS['materials-day2'],
+        MATERIALS['bonus-render']
       ].filter(function (b) { return b > now; }).sort(function (a, b) { return a - b; });
       if (!boundaries.length) return;
       const delay = Math.min(boundaries[0] - now + 500, 2147483000);

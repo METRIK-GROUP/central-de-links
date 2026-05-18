@@ -225,6 +225,7 @@
                 </span>
                 Ao vivo
               </span>
+              <span data-day-state="ended" style="display:none" class="text-[10px] uppercase tracking-wider font-semibold text-[#666]">Encerrado</span>
             </div>
 
             <p class="font-bold text-white text-base mb-1">Aula ao vivo · Dia 2</p>
@@ -245,6 +246,10 @@
                 Entrar no Zoom
                 <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
               </a>
+            </div>
+
+            <div data-day-state="ended" style="display:none">
+              <p class="text-sm text-[#666]">Esta aula já foi transmitida.</p>
             </div>
           </div>
 
@@ -1033,7 +1038,8 @@ O resultado final deve transmitir a sensação de um vídeo editorial de arquite
     // ============================================================
     const STREAM = {
       day1: { at: Date.UTC(2026, 4, 16, 11, 0, 0), href: 'https://rodrigorosar.com.br/workshop-dia1' },
-      day2: { at: Date.UTC(2026, 4, 17, 11, 0, 0), href: 'https://rodrigorosar.com.br/workshop-dia2' }
+      day2: { at: Date.UTC(2026, 4, 17, 11, 0, 0), href: 'https://rodrigorosar.com.br/workshop-dia2' },
+      endAt: Date.UTC(2026, 4, 17, 21, 0, 0)
     };
     const MATERIALS = {
       'materials-day1': Date.UTC(2026, 4, 16, 15, 0, 0),
@@ -1042,6 +1048,7 @@ O resultado final deve transmitir a sensação de um vídeo editorial de arquite
     };
 
     function computeDayStates(now) {
+      if (now >= STREAM.endAt)   return { day1: 'ended', day2: 'ended' };
       if (now >= STREAM.day2.at) return { day1: 'ended', day2: 'live' };
       if (now >= STREAM.day1.at) return { day1: 'live',  day2: 'upcoming' };
       return { day1: 'upcoming', day2: 'upcoming' };
@@ -1084,7 +1091,7 @@ O resultado final deve transmitir a sensação de um vídeo editorial de arquite
     function scheduleExact() {
       const now = Date.now();
       const boundaries = [
-        STREAM.day1.at, STREAM.day2.at,
+        STREAM.day1.at, STREAM.day2.at, STREAM.endAt,
         MATERIALS['materials-day1'], MATERIALS['materials-day2'],
         MATERIALS['bonus-render']
       ].filter(function (b) { return b > now; }).sort(function (a, b) { return a - b; });

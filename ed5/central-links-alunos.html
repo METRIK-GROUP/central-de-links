@@ -1,0 +1,839 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Central de Links — Workshop Projeto de Primeira + IA</title>
+  <meta name="description" content="Todos os links e materiais do Workshop em um só lugar.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: { sans: ['Inter', 'sans-serif'] },
+          colors: {
+            background: 'hsl(0 0% 98%)',
+            foreground: 'hsl(0 0% 0%)',
+            card: 'hsl(0 0% 100%)',
+            secondary: 'hsl(0 0% 96%)',
+            muted: 'hsl(0 0% 96%)',
+            'muted-foreground': 'hsl(0 0% 60%)',
+            accent: 'hsl(348 82% 52%)',
+            'accent-foreground': 'hsl(0 0% 100%)',
+            border: 'hsl(0 0% 90%)',
+          },
+          borderRadius: { '2xl': '16px' },
+        }
+      }
+    }
+  </script>
+  <style>
+    body { font-family: 'Inter', sans-serif; }
+    details summary::-webkit-details-marker { display: none; }
+    details summary { list-style: none; }
+    details[open] summary .chevron { transform: rotate(90deg); }
+    .chevron { transition: transform 0.2s ease; }
+
+    /* Prompt copiavel */
+    .prompt-wrapper {
+      position: relative;
+      margin-bottom: 12px;
+    }
+    .prompt-wrapper:last-child { margin-bottom: 0; }
+    .prompt-block {
+      background: #f9f9f9;
+      border: 1px solid #e5e5e5;
+      border-radius: 12px;
+      padding: 16px 48px 16px 16px;
+      font-size: 13px;
+      line-height: 1.7;
+      color: #333;
+      white-space: pre-wrap;
+      word-wrap: break-word;
+    }
+    .prompt-label {
+      font-size: 11px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: #999;
+      margin-bottom: 6px;
+    }
+    .copy-btn {
+      position: absolute;
+      top: 12px;
+      right: 12px;
+      background: white;
+      border: 1px solid #e5e5e5;
+      border-radius: 8px;
+      width: 32px;
+      height: 32px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: all 0.15s;
+    }
+    .copy-btn:hover { border-color: #ccc; background: #f5f5f5; }
+    .copy-btn.copied { border-color: #22c55e; background: #f0fdf4; }
+    .copy-btn .check-icon { display: none; }
+    .copy-btn.copied .copy-icon { display: none; }
+    .copy-btn.copied .check-icon { display: block; }
+
+    /* Glossario */
+    .glossary-item { border-bottom: 1px solid #f0f0f0; padding: 10px 0; }
+    .glossary-item:last-child { border-bottom: none; }
+    .glossary-num { color: #999; font-size: 11px; font-weight: 600; min-width: 28px; }
+    .glossary-term { font-weight: 600; color: #111; }
+    .glossary-def { color: #555; }
+    .glossary-sub { padding-left: 28px; border-bottom: 1px solid #f5f5f5; }
+
+    /* Diagrama estrutura */
+    .diagram-box {
+      border: 2px solid #222;
+      border-radius: 12px;
+      padding: 12px 20px;
+      text-align: center;
+      font-weight: 600;
+      font-size: 13px;
+    }
+    .diagram-box-dark {
+      background: #222;
+      color: white;
+      border-radius: 8px;
+      padding: 6px 14px;
+      font-size: 11px;
+      font-weight: 600;
+      text-align: center;
+    }
+    .diagram-arrow {
+      width: 2px;
+      height: 24px;
+      background: #222;
+      margin: 0 auto;
+      position: relative;
+    }
+    .diagram-arrow::after {
+      content: '';
+      position: absolute;
+      bottom: -4px;
+      left: 50%;
+      transform: translateX(-50%);
+      border-left: 5px solid transparent;
+      border-right: 5px solid transparent;
+      border-top: 6px solid #222;
+    }
+    .diagram-dashed {
+      border: 2px dashed #ccc;
+      border-radius: 12px;
+      padding: 16px;
+    }
+  </style>
+</head>
+<body class="min-h-screen bg-background text-foreground">
+
+  <div class="mx-auto max-w-[680px] px-4 py-8">
+
+    <!-- Titulo -->
+    <h1 class="text-3xl sm:text-4xl font-bold text-foreground text-center tracking-tight">Central de Links</h1>
+    <div class="w-8 h-[3px] bg-accent mx-auto mt-3 mb-4 rounded-full"></div>
+    <p class="text-muted-foreground text-center mb-10">Todos os links e materiais do Workshop em um só lugar.</p>
+
+    <!-- Materiais de Apoio -->
+    <h2 class="text-xl font-bold text-foreground tracking-tight text-center">Materiais de Apoio</h2>
+    <div class="w-8 h-[3px] bg-accent mx-auto mt-2 mb-4 rounded-full"></div>
+    <p class="text-sm text-muted-foreground italic text-center mb-8">Os materiais serão liberados durante o Workshop. Volte aqui para acessar.</p>
+
+    <!-- ==================== DIA 1 ==================== -->
+    <h3 class="font-bold text-foreground mb-3">Dia 1</h3>
+    <div class="space-y-2 mb-10">
+
+      <!-- 1. Dossie Exposed -->
+      <details class="bg-card border border-border rounded-xl overflow-hidden">
+        <summary class="flex items-center gap-3 px-5 py-4 cursor-pointer">
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="chevron text-muted-foreground shrink-0"><path d="m9 18 6-6-6-6"/></svg>
+          <span class="text-sm font-medium text-foreground">Dossiê Exposed</span>
+        </summary>
+        <div class="px-5 pb-4 pl-12">
+          <a href="https://drive.google.com/file/d/1_V3MlY7BALBpjegZye_el0MR1gp9ezRP/view?usp=sharing" target="_blank" class="inline-flex items-center gap-2 text-sm font-medium text-accent hover:underline">
+            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" x2="21" y1="14" y2="3"/></svg>
+            Dossiê Exposed 2025 | Rodrigo Rosar
+          </a>
+        </div>
+      </details>
+
+      <!-- 2. Template do Miro -->
+      <details class="bg-card border border-border rounded-xl overflow-hidden">
+        <summary class="flex items-center gap-3 px-5 py-4 cursor-pointer">
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="chevron text-muted-foreground shrink-0"><path d="m9 18 6-6-6-6"/></svg>
+          <span class="text-sm font-medium text-foreground">Template do Miro para mapear processos</span>
+        </summary>
+        <div class="px-5 pb-4 pl-12">
+          <a href="https://miro.com/app/board/uXjVLvC-NXk=/?share_link_id=312731915490" target="_blank" class="inline-flex items-center gap-2 text-sm font-medium text-accent hover:underline">
+            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" x2="21" y1="14" y2="3"/></svg>
+            Acessar Template do Miro
+          </a>
+        </div>
+      </details>
+
+      <!-- 3. Estrutura de documentacao profissional -->
+      <details class="bg-card border border-border rounded-xl overflow-hidden">
+        <summary class="flex items-center gap-3 px-5 py-4 cursor-pointer">
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="chevron text-muted-foreground shrink-0"><path d="m9 18 6-6-6-6"/></svg>
+          <span class="text-sm font-medium text-foreground">Estrutura de documentação profissional</span>
+        </summary>
+        <div class="px-5 pb-5 pl-8 pr-8">
+
+          <!-- Diagrama visual -->
+          <div class="mt-2 space-y-1">
+
+            <!-- PLAYBOOK -->
+            <div class="text-left mb-1">
+              <p class="text-[11px] uppercase tracking-wider font-bold text-muted-foreground mb-1">Playbook</p>
+              <p class="text-xs text-muted-foreground">Guia de como fazer — composto por um ou mais POP's. Deve ser revisado periodicamente com feedback da equipe.</p>
+            </div>
+            <div class="diagram-box bg-white max-w-[200px] mx-auto">📖 PLAYBOOK</div>
+            <div class="diagram-arrow"></div>
+
+            <!-- POPs -->
+            <div class="grid grid-cols-2 gap-4">
+              <div>
+                <div class="diagram-box bg-[#f5f5f5] text-sm">📁 POP A</div>
+                <div class="diagram-arrow"></div>
+                <div class="diagram-dashed mt-1">
+                  <p class="text-[10px] uppercase tracking-wider font-bold text-muted-foreground mb-2 text-center">Ferramentas</p>
+                  <div class="grid grid-cols-2 gap-1.5">
+                    <div class="diagram-box-dark text-[10px]">Fluxograma</div>
+                    <div class="diagram-box-dark text-[10px]">Documentação</div>
+                    <div class="diagram-box-dark text-[10px]">Checklists</div>
+                    <div class="diagram-box-dark text-[10px]">Templates</div>
+                  </div>
+                </div>
+              </div>
+              <div>
+                <div class="diagram-box bg-[#f5f5f5] text-sm">📁 POP B</div>
+                <div class="diagram-arrow"></div>
+                <div class="diagram-dashed mt-1">
+                  <p class="text-[10px] uppercase tracking-wider font-bold text-muted-foreground mb-2 text-center">Ferramentas</p>
+                  <div class="grid grid-cols-2 gap-1.5">
+                    <div class="diagram-box-dark text-[10px]">Fluxograma</div>
+                    <div class="diagram-box-dark text-[10px]">Documentação</div>
+                    <div class="diagram-box-dark text-[10px]">Checklists</div>
+                    <div class="diagram-box-dark text-[10px]">Templates</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Legenda -->
+            <div class="mt-4 pt-4 border-t border-border space-y-2 text-xs text-muted-foreground">
+              <p><strong class="text-foreground">POP</strong> — Procedimento Operacional Padrão</p>
+              <p><strong class="text-foreground">Ferramentas</strong> — Controle de qualidade (fluxogramas, documentação em texto/vídeo/imagem, checklists, templates)</p>
+              <p><strong class="text-foreground">Backlog</strong> — Lista organizada de tarefas e controle de atividades que precisam ser realizadas em um projeto</p>
+            </div>
+          </div>
+
+        </div>
+      </details>
+
+      <!-- 4. Prompts do Claude.ai -->
+      <details class="bg-card border border-border rounded-xl overflow-hidden">
+        <summary class="flex items-center gap-3 px-5 py-4 cursor-pointer">
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="chevron text-muted-foreground shrink-0"><path d="m9 18 6-6-6-6"/></svg>
+          <span class="text-sm font-medium text-foreground">Prompts do Claude.ai para documentar processos</span>
+        </summary>
+        <div class="px-5 pb-5 pl-8 pr-5 space-y-4">
+
+          <!-- PROMPT 1 -->
+          <div>
+            <p class="prompt-label">Prompt 1 — Mapeamento Inicial</p>
+            <div class="prompt-wrapper">
+              <div class="prompt-block" id="prompt-map">Vou te enviar a transcrição de um áudio com a explicação de um processo do meu escritório.
+
+Sua tarefa é transformar essa transcrição em um mapeamento inicial do processo, sem inventar etapas que não foram citadas.
+
+Organize a resposta assim:
+
+1. Nome sugerido do processo
+2. Objetivo do processo
+3. Início do processo
+4. Fim do processo
+5. Etapas intermediárias em ordem cronológica
+6. Pessoas, setores ou responsáveis mencionados
+7. Ferramentas, documentos, sistemas ou materiais citados
+8. Pontos que ficaram ambíguos, confusos ou incompletos
+9. Perguntas que eu deveria responder para completar o processo
+
+Regras importantes:
+- Use linguagem clara e objetiva
+- Não resuma demais
+- Preserve a lógica real do que foi explicado
+- Se algo estiver implícito, sinalize como "inferido" — não como fato
+- Se houver retrabalho, aprovação, espera, conferência ou decisão, destaque isso
+- No final, entregue uma versão em lista numerada simples das etapas do processo
+
+Agora vou colar a transcrição:
+
+[COLE A TRANSCRIÇÃO AQUI]</div>
+              <button class="copy-btn" onclick="copyPrompt('prompt-map', this)" title="Copiar prompt">
+                <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="copy-icon"><rect width="14" height="14" x="8" y="8" rx="2" ry="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/></svg>
+                <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#22c55e" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="check-icon"><polyline points="20 6 9 17 4 12"/></svg>
+              </button>
+            </div>
+          </div>
+
+          <!-- PROMPT 2 -->
+          <div>
+            <p class="prompt-label">Prompt 2 — Fluxograma</p>
+            <div class="prompt-wrapper">
+              <div class="prompt-block" id="prompt-fluxo">Com base no mapeamento abaixo, quero que você crie o fluxograma desse processo em duas versões:
+
+VERSÃO A — Fluxograma macro
+Apenas as grandes etapas em sequência linear, sem decisões. Uma linha do início ao fim.
+
+VERSÃO B — Fluxograma detalhado
+Todas as etapas, decisões, responsáveis, entradas e saídas.
+
+Para cada versão, entregue:
+1. Início e fim claramente marcados
+2. Etapas de execução com: código, nome, responsável, entrada e saída
+3. Pontos de decisão com lógica: "Se X, então Y — se não, então Z"
+4. Retornos de etapa (retrabalho) com origem e destino
+5. Entregas geradas em cada fase
+6. Gates de aprovação quando existirem
+
+Regras:
+- Escreva em ordem cronológica
+- Não invente automações nem melhorias — represente o processo atual
+- Use indentação para mostrar bifurcações do fluxo
+- Sempre que houver documento, checklist, aprovação ou envio, sinalize isso
+- Identifique cada etapa com código (E1, E2...) e cada gate com destaque visual
+
+Aqui está o mapeamento base:
+
+[COLE A SAÍDA DO PROMPT 1]</div>
+              <button class="copy-btn" onclick="copyPrompt('prompt-fluxo', this)" title="Copiar prompt">
+                <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="copy-icon"><rect width="14" height="14" x="8" y="8" rx="2" ry="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/></svg>
+                <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#22c55e" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="check-icon"><polyline points="20 6 9 17 4 12"/></svg>
+              </button>
+            </div>
+          </div>
+
+          <!-- PROMPT 3 -->
+          <div>
+            <p class="prompt-label">Prompt 3 — Diagnóstico</p>
+            <div class="prompt-wrapper">
+              <div class="prompt-block" id="prompt-diag">Analise o processo abaixo como especialista em organização de processos e melhoria operacional.
+
+Faça um diagnóstico completo identificando:
+1. Gargalos
+2. Retrabalhos
+3. Falhas de comunicação
+4. Etapas confusas ou mal definidas
+5. Dependências desnecessárias
+6. Riscos de erro
+7. Atividades que podem ser simplificadas
+8. Atividades redundantes
+9. Etapas que precisam de checklist, template, POP ou outro controle de qualidade
+10. O que falta para esse processo ficar claro, padronizado e escalável
+
+Depois, classifique cada etapa em:
+- Essencial
+- Simplificável
+- Redundante
+- Automatizável
+
+Por fim, entregue 3 blocos:
+A. Melhorias sugeridas no fluxo
+B. Nova versão otimizada do processo
+C. Recomendações de ferramentas de controle de qualidade por fase
+
+Regras:
+- Nenhuma sugestão genérica — relacione cada problema a uma etapa específica usando os códigos (E1, E2...)
+- Priorize simplicidade, clareza e redução de retrabalho
+- Explique o motivo de cada melhoria sugerida
+- Se um problema aparece em múltiplas etapas, aponte a causa raiz, não só os sintomas
+
+Aqui está o processo:
+
+[COLE A SAÍDA DO PROMPT 1]</div>
+              <button class="copy-btn" onclick="copyPrompt('prompt-diag', this)" title="Copiar prompt">
+                <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="copy-icon"><rect width="14" height="14" x="8" y="8" rx="2" ry="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/></svg>
+                <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#22c55e" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="check-icon"><polyline points="20 6 9 17 4 12"/></svg>
+              </button>
+            </div>
+          </div>
+
+          <!-- PROMPT 4 -->
+          <div>
+            <p class="prompt-label">Prompt 4 — Documentação Final em HTML</p>
+            <div class="prompt-wrapper">
+              <div class="prompt-block" id="prompt-html">Com base no processo e no diagnóstico abaixo, crie a versão final do processo em um arquivo HTML completo, estruturado e visual — pronto para abrir no navegador, compartilhar com a equipe e usar como documentação oficial.
+
+O HTML deve ter navegação por seções e conter:
+1. Nome final e objetivo do processo
+2. Fluxograma macro visual (SVG desenhado com boxes, setas e fases coloridas)
+3. Fluxograma detalhado interativo (expansível por fase, com decisões, gates e retornos visíveis)
+4. Etapas detalhadas — para cada etapa:
+   - Código e nome
+   - Objetivo
+   - Responsável
+   - Entrada necessária
+   - Ação executada
+   - Saída gerada
+   - Critério de qualidade
+   - Ferramentas e controles associados
+5. Lista de POPs a criar (com código, etapa, o que padroniza e prioridade)
+6. Lista de checklists, templates e logs necessários (com código, tipo, etapa e campos mínimos)
+7. Backlog de implementação com:
+   - Ação, responsável, prioridade, dependência e resultado esperado
+8. Estrutura para cadastro em software de gestão (Notion, Asana, ClickUp) com etapas macro e subtarefas por etapa
+
+Regras de design:
+- Tipografia limpa, profissional e legível
+- Cores distintas por fase do processo
+- Navegação sticky no topo com links para cada seção
+- Responsivo e funcional sem dependências externas além de Google Fonts
+- Nada de linguagem teórica — escreva como se isso fosse ser implantado amanhã
+- Sinalize claramente tudo que precisa ser validado antes de implantar
+
+Aqui estão os materiais base:
+
+[COLE A SAÍDA DO PROMPT 2]
+
+[COLE A SAÍDA DO PROMPT 3]</div>
+              <button class="copy-btn" onclick="copyPrompt('prompt-html', this)" title="Copiar prompt">
+                <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="copy-icon"><rect width="14" height="14" x="8" y="8" rx="2" ry="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/></svg>
+                <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#22c55e" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="check-icon"><polyline points="20 6 9 17 4 12"/></svg>
+              </button>
+            </div>
+          </div>
+
+        </div>
+      </details>
+
+      <!-- 5. Planejador automatico de orcamento -->
+      <details class="bg-card border border-border rounded-xl overflow-hidden">
+        <summary class="flex items-center gap-3 px-5 py-4 cursor-pointer">
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="chevron text-muted-foreground shrink-0"><path d="m9 18 6-6-6-6"/></svg>
+          <span class="text-sm font-medium text-foreground">Planejador automático de orçamento de obra</span>
+        </summary>
+        <div class="px-5 pb-5 pl-8 pr-5">
+          <p class="text-sm text-muted-foreground mb-3">Para evitar erros de fórmula e gráficos recomendo usar o Google Sheets.</p>
+          <p class="text-sm text-foreground mb-3">Com sua conta do Google logada, aperte para copiar:</p>
+          <a href="https://docs.google.com/spreadsheets/d/1kSTaDX_3sjpcUYO9gw5Seiw_DMFtj8KCQ6WXvP3ZXJI/copy" target="_blank" class="inline-flex items-center gap-2 text-sm font-medium text-accent hover:underline mb-2">
+            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" x2="21" y1="14" y2="3"/></svg>
+            Copiar planilha para minha conta
+          </a>
+          <p class="text-xs text-muted-foreground mt-2">Se não funcionar, tente o
+            <a href="https://docs.google.com/spreadsheets/d/1kSTaDX_3sjpcUYO9gw5Seiw_DMFtj8KCQ6WXvP3ZXJI/edit?usp=sharing" target="_blank" class="text-accent hover:underline">link alternativo</a>.
+          </p>
+        </div>
+      </details>
+
+      <!-- 6. Biblioteca e Fundamentos de IA -->
+      <details class="bg-card border border-border rounded-xl overflow-hidden">
+        <summary class="flex items-center gap-3 px-5 py-4 cursor-pointer">
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="chevron text-muted-foreground shrink-0"><path d="m9 18 6-6-6-6"/></svg>
+          <span class="text-sm font-medium text-foreground">Biblioteca e Fundamentos de IA — Glossário</span>
+        </summary>
+        <div class="px-5 pb-5 pl-8 pr-5">
+          <p class="text-xs text-muted-foreground mb-4">Introdução e conceitos fundamentais de Inteligência Artificial.</p>
+          <div class="space-y-0 text-sm">
+            <div class="glossary-item flex gap-2"><span class="glossary-num">1.</span><p><span class="glossary-term">AGI</span> <span class="text-muted-foreground">(Artificial General Intelligence)</span> — <span class="glossary-def">Inteligência Artificial Geral, refere-se a sistemas de IA com capacidade de entender, aprender e aplicar conhecimento em uma ampla gama de tarefas, semelhante à inteligência humana.</span></p></div>
+            <div class="glossary-item flex gap-2"><span class="glossary-num">2.</span><p><span class="glossary-term">AI</span> <span class="text-muted-foreground">(Inteligência Artificial)</span> — <span class="glossary-def">Campo da ciência da computação dedicado à criação de sistemas capazes de realizar tarefas que normalmente requerem inteligência humana.</span></p></div>
+            <div class="glossary-item flex gap-2"><span class="glossary-num">3.</span><p><span class="glossary-term">Alucinar</span> — <span class="glossary-def">Quando um modelo de linguagem gera informações incorretas, imprecisas ou fictícias que não estão baseadas em fatos reais ou no contexto fornecido.</span></p></div>
+            <div class="glossary-item flex gap-2"><span class="glossary-num">4.</span><p><span class="glossary-term">Algoritmo</span> — <span class="glossary-def">Conjunto de regras e instruções definidas para resolver problemas ou realizar tarefas específicas de forma automatizada.</span></p></div>
+            <div class="glossary-item flex gap-2"><span class="glossary-num">5.</span><p><span class="glossary-term">Análise de Sentimento</span> — <span class="glossary-def">Processo de determinar a atitude ou opinião expressa em um pedaço de texto, geralmente categorizando como positiva, negativa ou neutra.</span></p></div>
+            <div class="glossary-item flex gap-2"><span class="glossary-num">6.</span><p><span class="glossary-term">API</span> <span class="text-muted-foreground">(Interface de Programação de Aplicações)</span> — <span class="glossary-def">Conjunto de regras e definições que permite que diferentes softwares se comuniquem entre si.</span></p></div>
+            <div class="glossary-item flex gap-2"><span class="glossary-num">7.</span><p><span class="glossary-term">Backend</span> — <span class="glossary-def">Parte da arquitetura de software que lida com a lógica de negócios, o armazenamento e o processamento de dados, geralmente no servidor.</span></p></div>
+            <div class="glossary-item flex gap-2"><span class="glossary-num">8.</span><p><span class="glossary-term">Big Data</span> — <span class="glossary-def">Grandes volumes de dados — estruturados e não estruturados — processados e analisados para revelar padrões e tendências.</span></p></div>
+            <div class="glossary-item flex gap-2"><span class="glossary-num">9.</span><p><span class="glossary-term">BPM</span> <span class="text-muted-foreground">(Business Process Management)</span> — <span class="glossary-def">Abordagem disciplinada para identificar, desenhar, executar, documentar, medir e controlar processos de negócios.</span></p></div>
+            <div class="glossary-item flex gap-2"><span class="glossary-num">10.</span><p><span class="glossary-term">Classificação</span> — <span class="glossary-def">Processo de categorizar dados em classes pré-definidas. Ex: classificar e-mails como "spam" ou "não spam".</span></p></div>
+            <div class="glossary-item flex gap-2"><span class="glossary-num">11.</span><p><span class="glossary-term">Chatbot</span> — <span class="glossary-def">Programa de IA que interage com usuários através de conversas em linguagem natural, simulando uma conversa humana.</span></p></div>
+            <div class="glossary-item flex gap-2"><span class="glossary-num">12.</span><p><span class="glossary-term">Computação em Nuvem</span> — <span class="glossary-def">Uso de servidores remotos na internet para armazenar, gerenciar e processar dados, permitindo acesso a recursos computacionais escaláveis.</span></p></div>
+            <div class="glossary-item flex gap-2"><span class="glossary-num">13.</span><p><span class="glossary-term">ChatGPT</span> — <span class="glossary-def">Modelo de linguagem baseado em IA desenvolvido pela OpenAI. Capaz de gerar respostas textuais coerentes e relevantes.</span></p></div>
+            <div class="glossary-item flex gap-2"><span class="glossary-num">14.</span><p><span class="glossary-term">Context window</span> <span class="text-muted-foreground">(Janela de contexto)</span> — <span class="glossary-def">A quantidade de texto que um modelo de linguagem pode considerar ao gerar uma resposta.</span></p></div>
+            <div class="glossary-item flex gap-2"><span class="glossary-num">15.</span><p><span class="glossary-term">Dataset</span> <span class="text-muted-foreground">(Conjunto de Dados)</span> — <span class="glossary-def">Coleção de dados usada para treinar, validar e testar modelos de aprendizado de máquina.</span></p></div>
+            <div class="glossary-item flex gap-2"><span class="glossary-num">16.</span><p><span class="glossary-term">Deep Learning</span> <span class="text-muted-foreground">(Aprendizado Profundo)</span> — <span class="glossary-def">Subcampo do machine learning baseado em redes neurais artificiais com várias camadas.</span></p></div>
+            <div class="glossary-item flex gap-2"><span class="glossary-num">17.</span><p><span class="glossary-term">DNS</span> <span class="text-muted-foreground">(Domain Name System)</span> — <span class="glossary-def">Sistema que traduz nomes de domínio legíveis por humanos em endereços IP numéricos.</span></p></div>
+            <div class="glossary-item flex gap-2"><span class="glossary-num">18.</span><p><span class="glossary-term">Embed</span> — <span class="glossary-def">Prática de integrar conteúdo de uma fonte externa dentro de um site ou aplicativo usando código HTML específico.</span></p></div>
+            <div class="glossary-item flex gap-2"><span class="glossary-num">19.</span><p><span class="glossary-term">Engenharia de Prompt</span> — <span class="glossary-def">Prática de criar e ajustar instruções (prompts) para modelos de linguagem a fim de obter os melhores resultados possíveis.</span></p></div>
+            <div class="glossary-item flex gap-2"><span class="glossary-num">20.</span><p><span class="glossary-term">Extração de Entidades</span> <span class="text-muted-foreground">(NER)</span> — <span class="glossary-def">Processo de identificar e classificar entidades nomeadas (pessoas, lugares, organizações) em um texto.</span></p></div>
+            <div class="glossary-item flex gap-2"><span class="glossary-num">21.</span><p><span class="glossary-term">Fine-Tuning</span> — <span class="glossary-def">Ajuste de um modelo pré-treinado em um conjunto de dados específico para melhorar seu desempenho em uma tarefa particular.</span></p></div>
+            <div class="glossary-item flex gap-2"><span class="glossary-num">22.</span><p><span class="glossary-term">GPT</span> <span class="text-muted-foreground">(Generative Pre-trained Transformer)</span> — <span class="glossary-def">Família de modelos de linguagem de grande escala desenvolvidos pela OpenAI, conhecidos por gerar texto coerente e contextual.</span></p></div>
+            <div class="glossary-item flex gap-2"><span class="glossary-num">23.</span><p><span class="glossary-term">Inferência</span> — <span class="glossary-def">Processo de usar um modelo treinado para fazer previsões ou tomar decisões com base em novos dados.</span></p></div>
+            <div class="glossary-item flex gap-2"><span class="glossary-num">24.</span><p><span class="glossary-term">IoT</span> <span class="text-muted-foreground">(Internet of Things)</span> — <span class="glossary-def">Rede de dispositivos físicos conectados à internet, coletando e compartilhando dados.</span></p></div>
+            <div class="glossary-item flex gap-2"><span class="glossary-num">25.</span><p><span class="glossary-term">LGPD</span> <span class="text-muted-foreground">(Lei Geral de Proteção de Dados)</span> — <span class="glossary-def">Legislação brasileira que regula o tratamento de dados pessoais, similar ao GDPR europeu.</span></p></div>
+            <div class="glossary-item flex gap-2"><span class="glossary-num">26.</span><p><span class="glossary-term">Linguagem Natural</span> <span class="text-muted-foreground">(NLP)</span> — <span class="glossary-def">Campo da IA focado na interação entre computadores e linguagem humana.</span></p></div>
+            <div class="glossary-item flex gap-2"><span class="glossary-num">27.</span><p><span class="glossary-term">LLM</span> <span class="text-muted-foreground">(Large Language Models)</span> — <span class="glossary-def">Modelos de linguagem de grande escala, sistemas de IA avançados capazes de entender, gerar e interpretar linguagem humana com alto nível de proficiência.</span></p></div>
+            <div class="glossary-item flex gap-2"><span class="glossary-num">28.</span><p><span class="glossary-term">LMS</span> <span class="text-muted-foreground">(Learning Management System)</span> — <span class="glossary-def">Plataforma de software usada para fornecer, acompanhar e gerenciar cursos e treinamentos educacionais.</span></p></div>
+            <div class="glossary-item flex gap-2"><span class="glossary-num">29.</span><p><span class="glossary-term">ML</span> <span class="text-muted-foreground">(Machine Learning)</span> — <span class="glossary-def">Subcampo da IA que foca no desenvolvimento de sistemas capazes de aprender e melhorar a partir da experiência, sem serem explicitamente programados.</span></p></div>
+            <div class="glossary-item flex gap-2"><span class="glossary-num">30.</span><p><span class="glossary-term">Modelo</span> — <span class="glossary-def">Representação matemática de um problema de aprendizado de máquina, treinada em um conjunto de dados para fazer previsões ou decisões.</span></p></div>
+            <div class="glossary-item flex gap-2"><span class="glossary-num">31.</span><p><span class="glossary-term">Overfitting</span> <span class="text-muted-foreground">(Sobreajuste)</span> — <span class="glossary-def">Quando um modelo se ajusta muito bem aos dados de treinamento, mas falha em generalizar para novos dados.</span></p></div>
+            <div class="glossary-item flex gap-2"><span class="glossary-num">32.</span><p><span class="glossary-term">OCR</span> <span class="text-muted-foreground">(Optical Character Recognition)</span> — <span class="glossary-def">Tecnologia que converte imagens de texto impresso ou manuscrito em dados de texto editáveis e pesquisáveis.</span></p></div>
+            <div class="glossary-item flex gap-2"><span class="glossary-num">33.</span><p><span class="glossary-term">Open Code</span> <span class="text-muted-foreground">(Código aberto)</span> — <span class="glossary-def">Modelo de desenvolvimento onde o código-fonte é disponibilizado publicamente para qualquer pessoa estudar, modificar e distribuir.</span></p></div>
+            <div class="glossary-item flex gap-2"><span class="glossary-num">34.</span><p><span class="glossary-term">Pré-processamento de Dados</span> — <span class="glossary-def">Etapa inicial onde os dados brutos são limpos e transformados em um formato adequado para treinamento de modelos.</span></p></div>
+            <div class="glossary-item flex gap-2"><span class="glossary-num">35.</span><p><span class="glossary-term">Prompt</span> — <span class="glossary-def">Instrução fornecida a um modelo de linguagem para gerar uma resposta. A qualidade depende da clareza e especificidade.</span></p></div>
+            <div class="glossary-item glossary-sub flex gap-2"><span class="glossary-num">35a.</span><p><span class="glossary-term">Zero-Shot Prompting</span> — <span class="glossary-def">O modelo recebe uma tarefa sem exemplos prévios.</span></p></div>
+            <div class="glossary-item glossary-sub flex gap-2"><span class="glossary-num">35b.</span><p><span class="glossary-term">One-Shot Prompting</span> — <span class="glossary-def">O modelo recebe um exemplo para orientar sua resposta.</span></p></div>
+            <div class="glossary-item glossary-sub flex gap-2"><span class="glossary-num">35c.</span><p><span class="glossary-term">Few-Shot Prompting</span> — <span class="glossary-def">O modelo recebe vários exemplos antes de gerar uma resposta.</span></p></div>
+            <div class="glossary-item glossary-sub flex gap-2"><span class="glossary-num">35d.</span><p><span class="glossary-term">Chain-of-Thought Prompting</span> <span class="text-muted-foreground">(CoT)</span> — <span class="glossary-def">O modelo é orientado a seguir um raciocínio passo a passo para chegar a uma conclusão.</span></p></div>
+            <div class="glossary-item glossary-sub flex gap-2"><span class="glossary-num">35e.</span><p><span class="glossary-term">Tree of Thoughts</span> <span class="text-muted-foreground">(ToT)</span> — <span class="glossary-def">O modelo explora diferentes caminhos antes de chegar a uma conclusão, semelhante a um brainstorming.</span></p></div>
+            <div class="glossary-item flex gap-2"><span class="glossary-num">36.</span><p><span class="glossary-term">Prompt Engineering</span> — <span class="glossary-def">A arte e a ciência de criar prompts eficazes para obter resultados desejados dos modelos de linguagem.</span></p></div>
+            <div class="glossary-item flex gap-2"><span class="glossary-num">37.</span><p><span class="glossary-term">RAG</span> <span class="text-muted-foreground">(Retrieval Augmented Generation)</span> — <span class="glossary-def">Técnica que combina recuperação de informações com geração de modelos de linguagem para melhorar a precisão e relevância do texto gerado.</span></p></div>
+            <div class="glossary-item flex gap-2"><span class="glossary-num">38.</span><p><span class="glossary-term">RLHF</span> <span class="text-muted-foreground">(Reinforcement Learning from Human Feedback)</span> — <span class="glossary-def">Técnica usada para treinar modelos de linguagem para se comportar de acordo com as preferências humanas.</span></p></div>
+            <div class="glossary-item flex gap-2"><span class="glossary-num">39.</span><p><span class="glossary-term">RPA</span> <span class="text-muted-foreground">(Robotic Process Automation)</span> — <span class="glossary-def">Tecnologia que permite a automação de processos empresariais por meio de "robôs" de software, realizando tarefas repetitivas.</span></p></div>
+            <div class="glossary-item flex gap-2"><span class="glossary-num">40.</span><p><span class="glossary-term">Sandbox</span> — <span class="glossary-def">Ambiente de teste isolado que imita o ambiente de produção, onde desenvolvedores podem experimentar sem afetar o sistema principal.</span></p></div>
+            <div class="glossary-item flex gap-2"><span class="glossary-num">41.</span><p><span class="glossary-term">Text-to-Speech</span> — <span class="glossary-def">Tecnologia de IA que converte texto em fala falada. Usada em assistentes virtuais e leitores de tela.</span></p></div>
+            <div class="glossary-item flex gap-2"><span class="glossary-num">42.</span><p><span class="glossary-term">Temperature</span> <span class="text-muted-foreground">(Temperatura)</span> — <span class="glossary-def">Parâmetro que controla a aleatoriedade das previsões do modelo durante a geração de texto.</span></p></div>
+            <div class="glossary-item flex gap-2"><span class="glossary-num">43.</span><p><span class="glossary-term">Token</span> — <span class="glossary-def">As menores unidades de texto (palavras, subpalavras ou caracteres) com as quais os modelos de linguagem trabalham.</span></p></div>
+            <div class="glossary-item flex gap-2"><span class="glossary-num">44.</span><p><span class="glossary-term">UI</span> <span class="text-muted-foreground">(User Interface)</span> — <span class="glossary-def">Interface através da qual um usuário interage com um dispositivo ou aplicativo.</span></p></div>
+            <div class="glossary-item flex gap-2"><span class="glossary-num">45.</span><p><span class="glossary-term">UX</span> <span class="text-muted-foreground">(User Experience)</span> — <span class="glossary-def">Processo de criação de produtos que proporcionam experiências significativas e relevantes aos usuários.</span></p></div>
+            <div class="glossary-item flex gap-2"><span class="glossary-num">46.</span><p><span class="glossary-term">VPN</span> <span class="text-muted-foreground">(Virtual Private Network)</span> — <span class="glossary-def">Tecnologia que cria uma conexão segura e criptografada sobre uma rede menos segura, como a internet.</span></p></div>
+          </div>
+        </div>
+      </details>
+
+    </div>
+
+    <!-- ==================== DIA 2 ==================== -->
+    <h3 class="font-bold text-foreground mb-1 text-center flex items-center justify-center gap-2">
+      <span>📅</span> Dia 2
+    </h3>
+    <div class="w-8 h-[3px] bg-accent mx-auto mt-2 mb-6 rounded-full"></div>
+
+    <!-- Prompts do Flora -->
+    <h4 class="font-bold text-foreground mb-3 flex items-center gap-2">
+      <span>🧠</span> Prompts do Flora (pt-br + en)
+    </h4>
+    <div class="space-y-2 mb-8">
+
+      <!-- Passo 1 — Prompt para gerar imagens realistas -->
+      <details class="bg-card border border-border rounded-xl overflow-hidden">
+        <summary class="flex items-center gap-3 px-5 py-4 cursor-pointer">
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="chevron text-muted-foreground shrink-0"><path d="m9 18 6-6-6-6"/></svg>
+          <span class="text-sm font-medium text-foreground">Passo 1 — Prompt para gerar imagens realistas</span>
+        </summary>
+        <div class="px-5 pb-5 pl-8 pr-5 space-y-4">
+          <div>
+            <p class="prompt-label">English</p>
+            <div class="prompt-wrapper">
+              <div class="prompt-block" id="prompt-flora-1-en">Transform this 3D project rendering into a realistic interior photograph, without altering any element of the original design.
+
+Maintain exactly the same framing and proportions of the provided image, without cropping, enlarging, distorting, or adding/removing anything at the edges. All visible elements must remain exactly as they are — even if only partially visible (such as the corner of a refrigerator or the handle of a cabinet).
+
+Do not alter lines, volumes, thicknesses, shapes, or the positioning of furniture, objects, countertops, cabinets, lighting, doors, windows, or any other component. The project's lines, material thicknesses, and proportions must be preserved with absolute precision.
+
+The goal is only to enhance the visual quality, making the image more realistic and photographic. To achieve this:
+
+Soften and balance the lighting, with subtle natural light (like late afternoon) and realistic, well-distributed shadows.
+
+Improve the texture and finish of the existing materials: fabrics should look more natural and voluminous, wood grains with light satin shine, stone with subtle relief, and surfaces with discreet reflections.
+
+Enhance overall realism with color correction, warm white balance, soft contrast, and an editorial photography look.
+
+Do not add new elements (such as decorative objects, plants, lamps, or accessories) and do not remove anything from the original image.</div>
+              <button class="copy-btn" onclick="copyPrompt('prompt-flora-1-en', this)" title="Copiar prompt">
+                <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="copy-icon"><rect width="14" height="14" x="8" y="8" rx="2" ry="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/></svg>
+                <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#22c55e" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="check-icon"><polyline points="20 6 9 17 4 12"/></svg>
+              </button>
+            </div>
+          </div>
+          <div>
+            <p class="prompt-label">Português</p>
+            <div class="prompt-wrapper">
+              <div class="prompt-block" id="prompt-flora-1-pt">Transforme esta imagem de projeto 3D em uma fotografia realista de interiores, mas sem alterar nenhum elemento do projeto original. Mantenha exatamente o mesmo enquadramento e proporção da imagem enviada, sem cortar, ampliar, distorcer ou adicionar/remover nada nas extremidades da imagem. Todos os elementos visíveis devem permanecer exatamente como estão — mesmo que apenas uma parte deles esteja aparecendo (como o canto de uma geladeira ou o puxador de um armário). Não altere linhas, volumes, espessuras, formatos ou posicionamento de móveis, objetos, tampos, armários, iluminação, portas, janelas ou qualquer outro componente. As linhas do projeto, espessura dos tampos e dos materiais devem ser mantidas com precisão absoluta. O objetivo é melhorar apenas a qualidade visual, tornando a imagem mais realista e fotográfica. Para isso:
+• Suavize e equilibre a iluminação, com entrada de luz natural suave (como de fim de tarde) e sombras realistas e bem distribuídas.
+• Melhore a textura e o acabamento dos materiais existentes na imagem: tecidos mais naturais e com volume, madeiras com veios e leve brilho acetinado, pedras com relevo sutil e superfícies com reflexos discretos.
+• Aumente o realismo geral com correção de cores, balanço de brancos quente, contraste suave, e aparência de fotografia editorial. Não adicione elementos novos (como objetos decorativos, plantas, luminárias ou acessórios) e não remova nada que já está na imagem original.</div>
+              <button class="copy-btn" onclick="copyPrompt('prompt-flora-1-pt', this)" title="Copiar prompt">
+                <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="copy-icon"><rect width="14" height="14" x="8" y="8" rx="2" ry="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/></svg>
+                <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#22c55e" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="check-icon"><polyline points="20 6 9 17 4 12"/></svg>
+              </button>
+            </div>
+          </div>
+        </div>
+      </details>
+
+      <!-- Passo 2 — Diretor de Arte -->
+      <details class="bg-card border border-border rounded-xl overflow-hidden">
+        <summary class="flex items-center gap-3 px-5 py-4 cursor-pointer">
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="chevron text-muted-foreground shrink-0"><path d="m9 18 6-6-6-6"/></svg>
+          <span class="text-sm font-medium text-foreground">Passo 2 — Diretor de Arte</span>
+        </summary>
+        <div class="px-5 pb-5 pl-8 pr-5 space-y-4">
+          <div>
+            <p class="prompt-label">English</p>
+            <div class="prompt-wrapper">
+              <div class="prompt-block" id="prompt-flora-2-en">Art Director Prompt – Minimal Detail Scene Extractor
+
+System Instructions:
+
+You are an Art Director specializing in cinematic photography. Your task is to analyze any input image and propose 5 new photographic detail scenes that can be extracted from it.
+
+Guidelines:
+
+Always output in the format: Prompt 1, Prompt 2, Prompt 3, Prompt 4, Prompt 5.
+
+Each prompt must begin with: "Make a new point of view of [specific object/material/texture]…"
+
+After that, only include lens, camera angle, depth of field, lighting, and focus instructions.
+
+Do not describe object placement, composition, or distribution.
+
+Stay faithful to the original image: do not invent, move, or add objects.
+
+Keep the text short, precise, and cinematic.
+
+📌 Example Output:
+
+Prompt 1: Make a new point of view of the wooden floorboards, using a 50mm macro lens at f/5.6, side light highlighting texture, shallow focus on the grain.
+
+Prompt 2: Make a new point of view of the ceramic vase, captured with an 85mm lens at f/2.8, warm daylight reflections on the surface, background softly blurred.
+
+Prompt 3: Make a new point of view of the fabric cushion, photographed with a 50mm lens at f/2, soft daylight enhancing weave texture, stitching line in sharp focus.
+
+Prompt 4: Make a new point of view of the wooden console joint, using a 35mm lens at f/4, golden side light revealing material junctions, precise edges in focus.
+
+Prompt 5: Make a new point of view of the brick lattice wall, shot with a 50mm lens at f/5.6, dramatic shadow play across the texture, sharp surface detail captured.</div>
+              <button class="copy-btn" onclick="copyPrompt('prompt-flora-2-en', this)" title="Copiar prompt">
+                <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="copy-icon"><rect width="14" height="14" x="8" y="8" rx="2" ry="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/></svg>
+                <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#22c55e" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="check-icon"><polyline points="20 6 9 17 4 12"/></svg>
+              </button>
+            </div>
+          </div>
+          <div>
+            <p class="prompt-label">Português</p>
+            <div class="prompt-wrapper">
+              <div class="prompt-block" id="prompt-flora-2-pt">🎥 Prompt de Diretor de Arte – Extrator de Cenas de Detalhe Minimalista
+
+Instruções do Sistema:
+
+Você é um Diretor de Arte especializado em fotografia cinematográfica. Sua tarefa é analisar qualquer imagem fornecida e propor 5 novas cenas fotográficas de detalhe que podem ser extraídas dela.
+
+Diretrizes:
+
+Sempre responda no formato: Prompt 1, Prompt 2, Prompt 3, Prompt 4, Prompt 5.
+
+Cada prompt deve começar com: "Faça um novo ponto de vista do [objeto/material/textura específico]…"
+
+Depois disso, inclua apenas instruções sobre lente, ângulo de câmera, profundidade de campo, iluminação e foco.
+
+Não descreva posicionamento de objetos, composição ou distribuição.
+
+Mantenha-se fiel à imagem original: não invente, mova ou adicione objetos.
+
+Mantenha o texto curto, preciso e cinematográfico.
+
+📌 Exemplo de Saída:
+
+Prompt 1: Faça um novo ponto de vista do assoalho de madeira, usando lente macro 50mm em f/5.6, luz lateral destacando a textura, foco raso no veio da madeira.
+
+Prompt 2: Faça um novo ponto de vista do vaso cerâmico, capturado com lente 85mm em f/2.8, reflexos de luz natural quente na superfície, fundo suavemente desfocado.
+
+Prompt 3: Faça um novo ponto de vista da almofada de tecido, fotografada com lente 50mm em f/2, luz suave do dia realçando a trama, linha de costura em foco nítido.
+
+Prompt 4: Faça um novo ponto de vista da junção do aparador de madeira, usando lente 35mm em f/4, luz dourada lateral revelando as uniões do material, bordas precisas em foco.
+
+Prompt 5: Faça um novo ponto de vista do cobogó de tijolos, capturado com lente 50mm em f/5.6, sombras dramáticas cruzando a textura, superfície em foco detalhado.</div>
+              <button class="copy-btn" onclick="copyPrompt('prompt-flora-2-pt', this)" title="Copiar prompt">
+                <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="copy-icon"><rect width="14" height="14" x="8" y="8" rx="2" ry="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/></svg>
+                <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#22c55e" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="check-icon"><polyline points="20 6 9 17 4 12"/></svg>
+              </button>
+            </div>
+          </div>
+        </div>
+      </details>
+
+      <!-- Passo 3 — Distribuir Prompts do Diretor -->
+      <details class="bg-card border border-border rounded-xl overflow-hidden">
+        <summary class="flex items-center gap-3 px-5 py-4 cursor-pointer">
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="chevron text-muted-foreground shrink-0"><path d="m9 18 6-6-6-6"/></svg>
+          <span class="text-sm font-medium text-foreground">Passo 3 — Distribuir Prompts do Diretor</span>
+        </summary>
+        <div class="px-5 pb-5 pl-8 pr-5">
+          <div class="prompt-wrapper">
+            <div class="prompt-block" id="prompt-flora-3">Add here the exact prompt X written on the previews node. Dont change any charactere.</div>
+            <button class="copy-btn" onclick="copyPrompt('prompt-flora-3', this)" title="Copiar prompt">
+              <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="copy-icon"><rect width="14" height="14" x="8" y="8" rx="2" ry="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/></svg>
+              <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#22c55e" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="check-icon"><polyline points="20 6 9 17 4 12"/></svg>
+            </button>
+          </div>
+        </div>
+      </details>
+
+      <!-- Passo 4 — Gerar vídeos a partir das imagens do Diretor -->
+      <details class="bg-card border border-border rounded-xl overflow-hidden">
+        <summary class="flex items-center gap-3 px-5 py-4 cursor-pointer">
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="chevron text-muted-foreground shrink-0"><path d="m9 18 6-6-6-6"/></svg>
+          <span class="text-sm font-medium text-foreground">Passo 4 — Gerar vídeos a partir das imagens do Diretor</span>
+        </summary>
+        <div class="px-5 pb-5 pl-8 pr-5 space-y-4">
+          <div>
+            <p class="prompt-label">English</p>
+            <div class="prompt-wrapper">
+              <div class="prompt-block" id="prompt-flora-4-en">Transform this image into a cinematic editorial video of architecture and interiors. Maintain full fidelity to the original design: do not move, add, or remove any furniture, objects, or architectural elements. The video must feel like an editorial photoshoot, enhancing the realism and elegance of the space.
+
+Use slow cinematic camera movements (dolly in, tilt, pan, arc) to explore the scene with grace.
+
+Keep the same proportions and framing of the original image, gradually revealing details without distortion or cropping.
+
+Emphasize materials, textures, and craftsmanship: fabric weaves, wood grain, stone relief, polished surfaces.
+
+Lighting should be soft and balanced, simulating natural golden hour light with realistic shadows.
+
+Depth of field should be subtle and photographic, shifting focus gently between architectural details.
+
+Final look must feel like a high-end architectural editorial video, with smooth motion, warm tones, and refined contrast.</div>
+              <button class="copy-btn" onclick="copyPrompt('prompt-flora-4-en', this)" title="Copiar prompt">
+                <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="copy-icon"><rect width="14" height="14" x="8" y="8" rx="2" ry="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/></svg>
+                <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#22c55e" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="check-icon"><polyline points="20 6 9 17 4 12"/></svg>
+              </button>
+            </div>
+          </div>
+          <div>
+            <p class="prompt-label">Português</p>
+            <div class="prompt-wrapper">
+              <div class="prompt-block" id="prompt-flora-4-pt">Transforme esta imagem em um vídeo editorial cinematográfico de arquitetura e interiores.
+
+Mantenha total fidelidade ao design original: não mova, adicione ou remova nenhum móvel, objeto ou elemento arquitetônico.
+
+O vídeo deve transmitir a sensação de um ensaio fotográfico editorial, valorizando o realismo e a elegância do espaço.
+
+Use movimentos de câmera cinematográficos lentos (dolly in, tilt, pan, arc) para explorar a cena com suavidade.
+
+Mantenha as mesmas proporções e enquadramento da imagem original, revelando os detalhes gradualmente sem distorção ou corte.
+
+Dê ênfase aos materiais, texturas e acabamentos: tramas de tecidos, veios da madeira, relevos da pedra, superfícies polidas.
+
+A iluminação deve ser suave e equilibrada, simulando a luz natural da "golden hour", com sombras realistas.
+
+A profundidade de campo deve ser sutil e fotográfica, alternando o foco de forma suave entre os detalhes arquitetônicos.
+
+O resultado final deve transmitir a sensação de um vídeo editorial de arquitetura de alto padrão, com movimentos fluidos, tons quentes e contraste refinado.</div>
+              <button class="copy-btn" onclick="copyPrompt('prompt-flora-4-pt', this)" title="Copiar prompt">
+                <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="copy-icon"><rect width="14" height="14" x="8" y="8" rx="2" ry="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/></svg>
+                <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#22c55e" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="check-icon"><polyline points="20 6 9 17 4 12"/></svg>
+              </button>
+            </div>
+          </div>
+        </div>
+      </details>
+
+    </div>
+
+    <!-- Exportar dados do GPT -->
+    <h4 class="font-bold text-foreground mb-3 flex items-center gap-2">
+      <span>🔄</span> Exportar dados do GPT para outra IA
+    </h4>
+    <div class="space-y-2 mb-8">
+
+      <!-- Exportar do ChatGPT -->
+      <details class="bg-card border border-border rounded-xl overflow-hidden">
+        <summary class="flex items-center gap-3 px-5 py-4 cursor-pointer">
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="chevron text-muted-foreground shrink-0"><path d="m9 18 6-6-6-6"/></svg>
+          <span class="text-sm font-medium text-foreground">Passo a passo — Exportar do ChatGPT</span>
+        </summary>
+        <div class="px-5 pb-5 pl-12">
+          <ol class="text-sm text-foreground space-y-3 list-decimal list-outside pl-4">
+            <li><strong>Acesse as Configurações:</strong> <span class="text-muted-foreground">No ChatGPT, clique no seu perfil e vá em "Configurações".</span></li>
+            <li><strong>Gerencie a Memória:</strong> <span class="text-muted-foreground">Entre em "Personalização" e selecione "Memória". Clique em "Gerenciar" para revisar o que a IA sabe sobre você.</span></li>
+            <li><strong>Copie as informações:</strong> <span class="text-muted-foreground">Copie o texto das memórias mais relevantes para um documento externo.</span></li>
+            <li><strong>Exporte o histórico completo:</strong> <span class="text-muted-foreground">Em "Controle de Dados", selecione "Exportar Dados". O sistema enviará um arquivo JSON ou texto para o seu e-mail com todas as suas conversas antigas.</span></li>
+          </ol>
+        </div>
+      </details>
+
+      <!-- Importar no Claude -->
+      <details class="bg-card border border-border rounded-xl overflow-hidden">
+        <summary class="flex items-center gap-3 px-5 py-4 cursor-pointer">
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="chevron text-muted-foreground shrink-0"><path d="m9 18 6-6-6-6"/></svg>
+          <span class="text-sm font-medium text-foreground">Passo a passo — Importar no Claude</span>
+        </summary>
+        <div class="px-5 pb-5 pl-12">
+          <p class="text-sm text-muted-foreground mb-3">Com os dados em mãos, o próximo passo é "ensinar" o Claude a ser o seu novo assistente pessoal.</p>
+          <ol class="text-sm text-foreground space-y-3 list-decimal list-outside pl-4">
+            <li><strong>Ative a função Memória:</strong> <span class="text-muted-foreground">No Claude, vá em "Configurações" > "Capacidades" e certifique-se de que a opção Memória está ativada.</span></li>
+            <li><strong>Faça a importação:</strong> <span class="text-muted-foreground">Depois, toque no botão "Iniciar importação". Você deverá copiar o prompt preparado pela IA (deixe em inglês mesmo) e colar em uma nova conversa.</span></li>
+            <li><strong>Cole a resposta:</strong> <span class="text-muted-foreground">Cole a resposta da conversa com o chatbot na janela de importação do passo anterior. Por fim, selecione "Adicionar à memória".</span></li>
+            <li><strong>Verifique a gravação:</strong> <span class="text-muted-foreground">Pergunte ao Claude o que ele sabe sobre você para confirmar se os dados foram salvos corretamente.</span></li>
+          </ol>
+        </div>
+      </details>
+
+    </div>
+
+    <!-- Leitura Recomendada -->
+    <h4 class="font-bold text-foreground mb-3 flex items-center gap-2">
+      <span>📚</span> Leitura Recomendada — Dia 2
+    </h4>
+    <div class="bg-card border border-border rounded-2xl p-6 mb-4">
+      <span class="text-2xl mb-3 block">🧠</span>
+      <p class="font-bold text-foreground">When Using AI Leads to "Brain Fry" — Harvard Business Review</p>
+      <p class="text-sm text-muted-foreground mt-2">Um novo estudo mostra que certos padrões de uso de IA causam fadiga cognitiva — e outros podem ajudar a reduzir o burnout. Leitura rápida e essencial para quem está mergulhando em IA.</p>
+      <a href="https://hbr.org/2026/03/when-using-ai-leads-to-brain-fry" target="_blank" class="inline-flex items-center gap-1.5 mt-4 bg-accent text-white text-sm font-semibold px-5 py-2.5 rounded-full hover:opacity-90 transition-opacity">
+        <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" x2="21" y1="14" y2="3"/></svg>
+        Ler artigo no HBR
+      </a>
+    </div>
+
+    <div class="space-y-2 mb-12">
+
+      <!-- Flora — Template de Projeto -->
+      <details class="bg-card border border-border rounded-xl overflow-hidden">
+        <summary class="flex items-center gap-3 px-5 py-4 cursor-pointer">
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="chevron text-muted-foreground shrink-0"><path d="m9 18 6-6-6-6"/></svg>
+          <span class="text-sm font-medium text-foreground">🌿 Flora — Template de Projeto</span>
+        </summary>
+        <div class="px-5 pb-5 pl-12">
+          <p class="text-sm text-muted-foreground mb-3">Acesse o template do Flora, clique nos 3 pontinhos e escolha "Duplicate" ou "Clone" para usar no seu projeto.</p>
+          <a href="https://app.flora.ai/join-project/10203a49-c493-4369-8620-a50878491a82" target="_blank" class="inline-flex items-center gap-2 text-sm font-medium text-accent hover:underline">
+            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" x2="21" y1="14" y2="3"/></svg>
+            Acessar template no Flora
+          </a>
+        </div>
+      </details>
+
+      <!-- Planilha de otimização — 100 Erros -->
+      <details class="bg-card border border-border rounded-xl overflow-hidden">
+        <summary class="flex items-center gap-3 px-5 py-4 cursor-pointer">
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="chevron text-muted-foreground shrink-0"><path d="m9 18 6-6-6-6"/></svg>
+          <span class="text-sm font-medium text-foreground">Planilha de otimização — 100 Erros</span>
+        </summary>
+        <div class="px-5 pb-5 pl-12">
+          <p class="text-sm text-muted-foreground mb-3">Primeiro passo para criar um processo de projeto de primeira.</p>
+          <a href="https://docs.google.com/spreadsheets/d/1qmcHiXpzcVG4MLg9eYyGGxgwc9ss5na8/edit?gid=1404374620#gid=1404374620" target="_blank" class="inline-flex items-center gap-2 text-sm font-medium text-accent hover:underline">
+            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" x2="21" y1="14" y2="3"/></svg>
+            Acessar Planilha de otimização — 100 Erros
+          </a>
+        </div>
+      </details>
+
+    </div>
+
+    <!-- Footer -->
+    <footer class="py-6 text-center">
+      <p class="text-[11px] uppercase tracking-[0.2em] text-border mb-3">Workshop Projeto de Primeira + IA</p>
+      <p class="text-sm text-muted-foreground">Precisa de ajuda?</p>
+      <a href="https://www.rodrigorosar.com.br/suporte" target="_blank" class="text-sm text-foreground underline transition-all duration-200 hover:text-accent cursor-pointer">Fale com o suporte</a>
+    </footer>
+
+  </div>
+
+  <script>
+    function copyPrompt(id, btn) {
+      const el = document.getElementById(id);
+      const text = el.textContent.trim();
+      navigator.clipboard.writeText(text).then(() => {
+        btn.classList.add('copied');
+        setTimeout(() => { btn.classList.remove('copied'); }, 2000);
+      });
+    }
+  </script>
+
+</body>
+</html>

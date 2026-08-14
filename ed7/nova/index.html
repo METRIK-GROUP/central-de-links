@@ -303,20 +303,6 @@
       </details>
 
       <div class="flex items-center gap-3 pt-7 pb-1">
-        <span class="inline-flex items-center justify-center text-[11px] font-bold tracking-[0.12em] text-accent bg-accent/10 border border-accent/25 rounded-full px-2.5 py-1 shrink-0">/02</span>
-        <span class="text-[11px] uppercase tracking-[0.14em] font-bold text-muted-foreground">Os 4 pilares e o diagnóstico</span>
-        <span class="flex-1 h-px bg-border"></span>
-      </div>
-      <div class="bg-secondary/60 border border-dashed border-border rounded-xl px-5 py-4 flex items-start gap-3">
-        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-muted-foreground shrink-0 mt-0.5"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
-        <div>
-          <p class="text-sm font-medium text-foreground">Folha do diagnóstico para imprimir</p>
-          <p class="text-sm text-muted-foreground mt-0.5">As cinco folhas do teste relâmpago, uma por pilar mais a fundação, para anotar a sua pontuação e refazer daqui a noventa dias.</p>
-          <p class="text-[11px] uppercase tracking-[0.14em] font-bold text-muted-foreground/70 mt-2">Publicado durante a aula</p>
-        </div>
-      </div>
-
-      <div class="flex items-center gap-3 pt-7 pb-1">
         <span class="inline-flex items-center justify-center text-[11px] font-bold tracking-[0.12em] text-accent bg-accent/10 border border-accent/25 rounded-full px-2.5 py-1 shrink-0">/04</span>
         <span class="text-[11px] uppercase tracking-[0.14em] font-bold text-muted-foreground">Documentação profissional</span>
         <span class="flex-1 h-px bg-border"></span>
@@ -465,6 +451,16 @@
           </div>
         </div>
       </details>
+      <div class="pt-1"></div>
+      <div class="bg-card border border-border rounded-2xl p-6 mb-4">
+        <span class="text-2xl mb-3 block">🧠</span>
+        <p class="font-bold text-foreground">When Using AI Leads to "Brain Fry" — Harvard Business Review</p>
+        <p class="text-sm text-muted-foreground mt-2">Um novo estudo mostra que certos padrões de uso de IA causam fadiga cognitiva — e outros podem ajudar a reduzir o burnout. Leitura rápida e essencial para quem está mergulhando em IA.</p>
+        <a href="https://hbr.org/2026/03/when-using-ai-leads-to-brain-fry" target="_blank" class="inline-flex items-center gap-1.5 mt-4 bg-accent text-white text-sm font-semibold px-5 py-2.5 rounded-full hover:opacity-90 transition-opacity">
+          <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" x2="21" y1="14" y2="3"/></svg>
+          Ler artigo no HBR
+        </a>
+      </div>
 
       <div class="flex items-center gap-3 pt-7 pb-1">
         <span class="inline-flex items-center justify-center text-[11px] font-bold tracking-[0.12em] text-accent bg-accent/10 border border-accent/25 rounded-full px-2.5 py-1 shrink-0">/07</span>
@@ -509,92 +505,109 @@
       <details class="bg-card border border-border rounded-xl overflow-hidden">
         <summary class="flex items-center gap-3 px-5 py-4 cursor-pointer">
           <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="chevron text-muted-foreground shrink-0"><path d="m9 18 6-6-6-6"/></svg>
-          <span class="text-sm font-medium text-foreground">Prompts do Claude.ai para documentar processos</span>
+          <span class="text-sm font-medium text-foreground">Os 5 prompts para documentar um processo falando</span>
         </summary>
-        <div class="px-5 pb-5 pl-8 pr-5 space-y-4">
+        <div class="px-5 pb-5 pl-8 pr-5 space-y-5">
 
-          <!-- PROMPT 1 -->
+          <div class="bg-secondary/60 border border-border rounded-xl px-4 py-3">
+            <p class="text-sm text-foreground leading-relaxed"><b class="font-semibold">Você não vai colar transcrição nenhuma.</b> Você manda o prompt, aperta o microfone e explica o processo falando, do jeito que sair. O Claude fica quieto até você dizer que terminou, e é aí que ele começa a trabalhar.</p>
+            <p class="text-sm text-muted-foreground leading-relaxed mt-2">Do prompt 2 em diante também não se cola nada: ele usa o que já está na conversa. E toda pergunta que ele fizer vem numerada, com opções por letra, para você responder pelo microfone só falando o número.</p>
+          </div>
+
           <div>
-            <p class="prompt-label">Prompt 1 — Mapeamento Inicial</p>
+            <p class="prompt-label">Prompt 1 · Você fala, ele espera</p>
+            <p class="text-sm text-muted-foreground leading-relaxed mb-2">Mande este prompt e só depois comece a falar. Ele fica ouvindo até você dizer que terminou.</p>
             <div class="prompt-wrapper">
-              <div class="prompt-block" id="prompt-map">Vou te enviar a transcrição de um áudio com a explicação de um processo do meu escritório.
+              <div class="prompt-block" id="prompt-map">Você vai me ajudar a documentar um processo do meu escritório.
 
-Sua tarefa é transformar essa transcrição em um mapeamento inicial do processo, sem inventar etapas que não foram citadas.
+COMO ISSO VAI FUNCIONAR
+Eu vou explicar o processo falando pelo microfone, em uma ou em várias mensagens seguidas. Pode ser que eu me perca, volte atrás, corrija o que já falei ou lembre de uma etapa fora de ordem. Isso é esperado e você não precisa me interromper.
 
-Organize a resposta assim:
+A REGRA MAIS IMPORTANTE
+Não comece a trabalhar enquanto eu estiver falando. Enquanto eu não disser expressamente que terminei de explicar o processo, responda apenas com uma linha curta confirmando que está acompanhando. Sem resumir, sem organizar, sem perguntar, sem opinar. Só quando eu disser que terminei é que você executa a tarefa abaixo.
 
+A TAREFA, DEPOIS QUE EU DISSER QUE TERMINEI
+Transforme tudo o que eu falei em um mapeamento inicial do processo, sem inventar etapa que eu não tenha citado. Organize assim:
 1. Nome sugerido do processo
 2. Objetivo do processo
-3. Início do processo
-4. Fim do processo
+3. Onde ele começa
+4. Onde ele termina
 5. Etapas intermediárias em ordem cronológica
 6. Pessoas, setores ou responsáveis mencionados
 7. Ferramentas, documentos, sistemas ou materiais citados
 8. Pontos que ficaram ambíguos, confusos ou incompletos
-9. Perguntas que eu deveria responder para completar o processo
+9. O que ainda falta para o processo ficar completo
 
-Regras importantes:
-- Use linguagem clara e objetiva
-- Não resuma demais
-- Preserve a lógica real do que foi explicado
-- Se algo estiver implícito, sinalize como "inferido" — não como fato
-- Se houver retrabalho, aprovação, espera, conferência ou decisão, destaque isso
-- No final, entregue uma versão em lista numerada simples das etapas do processo
+REGRAS DE CONTEÚDO
+- Linguagem clara e objetiva, sem resumir demais
+- Preserve a lógica real do que eu expliquei, mesmo que eu tenha falado fora de ordem
+- Se algo estiver implícito, marque como inferido, nunca como fato
+- Destaque todo ponto de retrabalho, aprovação, espera, conferência ou decisão
+- Numere as etapas como E1, E2, E3 e mantenha esses códigos até o fim da conversa
+- Termine com a lista numerada simples das etapas, do início ao fim
 
-Agora vou colar a transcrição:
-
-[COLE A TRANSCRIÇÃO AQUI]</div>
+COMO ME FAZER PERGUNTAS
+Depois de entregar o mapeamento você vai ter dúvidas. Então:
+- Faça uma pergunta por vez, nunca um bloco de dez perguntas
+- Numere a pergunta e ofereça as respostas possíveis como opções rotuladas por letra, sempre com uma alternativa &quot;outra, eu explico&quot;
+- Se o chat tiver botão ou lista de escolha, use esse recurso
+- Eu respondo falando, então preciso conseguir responder só com o número e a letra</div>
               <button class="copy-btn" onclick="copyPrompt('prompt-map', this)" title="Copiar prompt">
                 <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="copy-icon"><rect width="14" height="14" x="8" y="8" rx="2" ry="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/></svg>
                 <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#22c55e" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="check-icon"><polyline points="20 6 9 17 4 12"/></svg>
               </button>
             </div>
           </div>
-
-          <!-- PROMPT 2 -->
           <div>
-            <p class="prompt-label">Prompt 2 — Fluxograma</p>
+            <p class="prompt-label">Prompt 2 · Fluxograma</p>
+            <p class="text-sm text-muted-foreground leading-relaxed mb-2">Sem colar nada. Ele já tem o mapeamento no contexto desta mesma conversa.</p>
             <div class="prompt-wrapper">
-              <div class="prompt-block" id="prompt-fluxo">Com base no mapeamento abaixo, quero que você crie o fluxograma desse processo em duas versões:
+              <div class="prompt-block" id="prompt-fluxo">Agora, com base no mapeamento que você acabou de fazer nesta conversa, monte o fluxograma do processo em duas versões.
 
-VERSÃO A — Fluxograma macro
-Apenas as grandes etapas em sequência linear, sem decisões. Uma linha do início ao fim.
+Antes de montar, se ainda faltar informação, me pergunte seguindo a mesma regra: uma pergunta por vez, numerada, com opções rotuladas por letra. Só monte o fluxograma depois que eu disser que pode seguir.
 
-VERSÃO B — Fluxograma detalhado
+VERSÃO A, fluxograma macro
+Só as grandes etapas em sequência linear, sem decisões, uma linha do início ao fim.
+
+VERSÃO B, fluxograma detalhado
 Todas as etapas, decisões, responsáveis, entradas e saídas.
 
-Para cada versão, entregue:
+Em cada versão mostre:
 1. Início e fim claramente marcados
-2. Etapas de execução com: código, nome, responsável, entrada e saída
-3. Pontos de decisão com lógica: "Se X, então Y — se não, então Z"
-4. Retornos de etapa (retrabalho) com origem e destino
+2. Etapas com código (E1, E2), nome, responsável, entrada e saída
+3. Pontos de decisão com a lógica escrita: se X então Y, se não então Z
+4. Retornos de etapa por retrabalho, com origem e destino
 5. Entregas geradas em cada fase
-6. Gates de aprovação quando existirem
+6. Gates de aprovação, quando existirem
 
-Regras:
-- Escreva em ordem cronológica
-- Não invente automações nem melhorias — represente o processo atual
-- Use indentação para mostrar bifurcações do fluxo
-- Sempre que houver documento, checklist, aprovação ou envio, sinalize isso
-- Identifique cada etapa com código (E1, E2...) e cada gate com destaque visual
+PADRÃO VISUAL, siga exatamente
+Entregue o fluxograma como um artefato visual, não como texto indentado.
+- Fundo branco
+- Traço fino, cinza escuro, cantos arredondados
+- Uma única cor de destaque, verde petróleo #028980, usada só em início, fim, gates de aprovação e pontos de decisão
+- Todo o resto em escala de cinza: texto #1E1E1E, apoio #5F5E5A, linhas #DCDAD0
+- Tipografia sem serifa, limpa, sem sombra, sem gradiente, sem ícone decorativo
+- Legenda no rodapé explicando cada símbolo usado
+Nada de paleta colorida nem fundo escuro. O resultado tem que ficar leve, limpo e legível mesmo impresso em preto e branco.
 
-Aqui está o mapeamento base:
-
-[COLE A SAÍDA DO PROMPT 1]</div>
+REGRAS
+- Ordem cronológica
+- Não invente automação nem melhoria, represente o processo como ele é hoje
+- Sinalize todo documento, checklist, aprovação ou envio</div>
               <button class="copy-btn" onclick="copyPrompt('prompt-fluxo', this)" title="Copiar prompt">
                 <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="copy-icon"><rect width="14" height="14" x="8" y="8" rx="2" ry="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/></svg>
                 <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#22c55e" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="check-icon"><polyline points="20 6 9 17 4 12"/></svg>
               </button>
             </div>
           </div>
-
-          <!-- PROMPT 3 -->
           <div>
-            <p class="prompt-label">Prompt 3 — Diagnóstico</p>
+            <p class="prompt-label">Prompt 3 · Diagnóstico</p>
             <div class="prompt-wrapper">
-              <div class="prompt-block" id="prompt-diag">Analise o processo abaixo como especialista em organização de processos e melhoria operacional.
+              <div class="prompt-block" id="prompt-diag">Agora analise o processo desta conversa como especialista em organização de processos e melhoria operacional de escritórios de projeto.
 
-Faça um diagnóstico completo identificando:
+Se faltar informação para o diagnóstico, pergunte antes: uma pergunta por vez, numerada, com opções rotuladas por letra. Só siga quando eu disser que pode.
+
+Identifique:
 1. Gargalos
 2. Retrabalhos
 3. Falhas de comunicação
@@ -606,72 +619,77 @@ Faça um diagnóstico completo identificando:
 9. Etapas que precisam de checklist, template, POP ou outro controle de qualidade
 10. O que falta para esse processo ficar claro, padronizado e escalável
 
-Depois, classifique cada etapa em:
-- Essencial
-- Simplificável
-- Redundante
-- Automatizável
+Depois classifique cada etapa em essencial, simplificável, redundante ou automatizável.
 
-Por fim, entregue 3 blocos:
+Por fim entregue três blocos:
 A. Melhorias sugeridas no fluxo
 B. Nova versão otimizada do processo
-C. Recomendações de ferramentas de controle de qualidade por fase
+C. Controles de qualidade recomendados por fase
 
-Regras:
-- Nenhuma sugestão genérica — relacione cada problema a uma etapa específica usando os códigos (E1, E2...)
+REGRAS
+- Nenhuma sugestão genérica: ligue cada problema a uma etapa específica pelo código (E1, E2)
 - Priorize simplicidade, clareza e redução de retrabalho
-- Explique o motivo de cada melhoria sugerida
-- Se um problema aparece em múltiplas etapas, aponte a causa raiz, não só os sintomas
-
-Aqui está o processo:
-
-[COLE A SAÍDA DO PROMPT 1]</div>
+- Explique o motivo de cada melhoria
+- Se o mesmo problema aparece em várias etapas, aponte a causa raiz, não os sintomas</div>
               <button class="copy-btn" onclick="copyPrompt('prompt-diag', this)" title="Copiar prompt">
                 <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="copy-icon"><rect width="14" height="14" x="8" y="8" rx="2" ry="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/></svg>
                 <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#22c55e" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="check-icon"><polyline points="20 6 9 17 4 12"/></svg>
               </button>
             </div>
           </div>
-
-          <!-- PROMPT 4 -->
           <div>
-            <p class="prompt-label">Prompt 4 — Documentação Final em HTML</p>
+            <p class="prompt-label">Prompt 4 · Documentação final em HTML</p>
             <div class="prompt-wrapper">
-              <div class="prompt-block" id="prompt-html">Com base no processo e no diagnóstico abaixo, crie a versão final do processo em um arquivo HTML completo, estruturado e visual — pronto para abrir no navegador, compartilhar com a equipe e usar como documentação oficial.
+              <div class="prompt-block" id="prompt-html">Agora feche tudo o que a gente construiu nesta conversa em um único arquivo HTML, pronto para abrir no navegador, compartilhar com a equipe e usar como documentação oficial do processo.
 
-O HTML deve ter navegação por seções e conter:
+Antes de gerar, me pergunte em uma pergunta única e numerada: o nome final do processo, quem é o responsável e a data. Só gere depois que eu responder.
+
+O DOCUMENTO PRECISA TER
 1. Nome final e objetivo do processo
-2. Fluxograma macro visual (SVG desenhado com boxes, setas e fases coloridas)
-3. Fluxograma detalhado interativo (expansível por fase, com decisões, gates e retornos visíveis)
-4. Etapas detalhadas — para cada etapa:
-   - Código e nome
-   - Objetivo
-   - Responsável
-   - Entrada necessária
-   - Ação executada
-   - Saída gerada
-   - Critério de qualidade
-   - Ferramentas e controles associados
-5. Lista de POPs a criar (com código, etapa, o que padroniza e prioridade)
-6. Lista de checklists, templates e logs necessários (com código, tipo, etapa e campos mínimos)
-7. Backlog de implementação com:
-   - Ação, responsável, prioridade, dependência e resultado esperado
-8. Estrutura para cadastro em software de gestão (Notion, Asana, ClickUp) com etapas macro e subtarefas por etapa
+2. Fluxograma macro visual em SVG
+3. Fluxograma detalhado, expansível por fase, com decisões, gates e retornos visíveis
+4. Etapas detalhadas, e para cada uma: código, nome, objetivo, responsável, entrada, ação, saída, critério de qualidade, ferramentas e controles
+5. Lista de POPs a criar, com código, etapa, o que padroniza e prioridade
+6. Lista de checklists, templates e registros necessários, com os campos mínimos de cada um
+7. Backlog de implementação: ação, responsável, prioridade, dependência e resultado esperado
+8. Estrutura pronta para cadastrar em software de gestão (Notion, Asana, ClickUp), com etapas macro e subtarefas
 
-Regras de design:
-- Tipografia limpa, profissional e legível
-- Cores distintas por fase do processo
-- Navegação sticky no topo com links para cada seção
-- Responsivo e funcional sem dependências externas além de Google Fonts
-- Nada de linguagem teórica — escreva como se isso fosse ser implantado amanhã
-- Sinalize claramente tudo que precisa ser validado antes de implantar
+IDENTIDADE VISUAL, use esta por padrão
+- Fundo claro #F5F4F0, caixas em branco, cantos arredondados de 8px e sombra suave
+- Texto principal #1E1E1E, apoio #5F5E5A, linhas #DCDAD0
+- Uma única cor de destaque, verde petróleo #028980, com parcimônia, em título de seção, gate e numeração
+- Tipografia sem serifa, título pesado, corpo leve, muito espaço em branco
+- Navegação fixa no topo com link para cada seção
+- Responsivo, funciona no celular, sem depender de nada externo além do Google Fonts
+- Nada de fundo escuro, gradiente colorido ou ícone decorativo
 
-Aqui estão os materiais base:
+Se em algum momento eu pedir para trocar pela identidade do meu escritório, refaça só as cores e a tipografia e mantenha a estrutura.
 
-[COLE A SAÍDA DO PROMPT 2]
-
-[COLE A SAÍDA DO PROMPT 3]</div>
+REGRAS
+- Nada de linguagem teórica: escreva como se isso fosse implantado amanhã
+- Marque com destaque tudo o que precisa ser validado antes de implantar</div>
               <button class="copy-btn" onclick="copyPrompt('prompt-html', this)" title="Copiar prompt">
+                <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="copy-icon"><rect width="14" height="14" x="8" y="8" rx="2" ry="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/></svg>
+                <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#22c55e" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="check-icon"><polyline points="20 6 9 17 4 12"/></svg>
+              </button>
+            </div>
+          </div>
+          <div>
+            <p class="prompt-label">Prompt 5 · Virar uma Skill</p>
+            <p class="text-sm text-muted-foreground leading-relaxed mb-2">O bônus: o próprio chat empacota o que você acabou de fazer para você repetir em qualquer processo.</p>
+            <div class="prompt-wrapper">
+              <div class="prompt-block" id="prompt-skill">Fechamos a documentação. Agora eu quero transformar este mesmo caminho numa Skill do Claude, para repetir isso em qualquer outro processo do meu escritório sem colar prompt nenhum de novo.
+
+Olhe para tudo o que a gente fez nesta conversa: eu ditando o processo por voz, você esperando eu dizer que terminei, o mapeamento, o fluxograma, o diagnóstico e a documentação final em HTML.
+
+Gere a Skill com:
+1. Um nome curto, em minúsculas e com hífen
+2. Uma descrição de uma linha dizendo quando ela deve ser usada
+3. As instruções completas, na ordem das quatro etapas que a gente percorreu, incluindo a regra de esperar a minha validação antes de avançar, o formato das perguntas numeradas e os padrões visuais do fluxograma e do HTML
+4. O arquivo pronto, no formato que o Claude aceita, para eu subir em Configurações e usar em qualquer conversa
+
+Antes de gerar, me pergunte em uma pergunta numerada se eu quero a Skill genérica, que serve para qualquer processo, ou específica deste processo.</div>
+              <button class="copy-btn" onclick="copyPrompt('prompt-skill', this)" title="Copiar prompt">
                 <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="copy-icon"><rect width="14" height="14" x="8" y="8" rx="2" ry="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/></svg>
                 <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#22c55e" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="check-icon"><polyline points="20 6 9 17 4 12"/></svg>
               </button>
@@ -722,28 +740,21 @@ Aqui estão os materiais base:
         <span class="text-[11px] uppercase tracking-[0.14em] font-bold text-muted-foreground">O método Projeto de Primeira</span>
         <span class="flex-1 h-px bg-border"></span>
       </div>
-      <div class="bg-secondary/60 border border-dashed border-border rounded-xl px-5 py-4 flex items-start gap-3">
-        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-muted-foreground shrink-0 mt-0.5"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
-        <div>
-          <p class="text-sm font-medium text-foreground">O mapa do processo, do primeiro contato à entrega da chave</p>
-          <p class="text-sm text-muted-foreground mt-0.5">As etapas macro do método com o que acontece dentro de cada uma. É o mesmo mapa que aparece na tela.</p>
-          <p class="text-[11px] uppercase tracking-[0.14em] font-bold text-muted-foreground/70 mt-2">Publicado durante a aula</p>
+      <details class="bg-card border border-border rounded-xl overflow-hidden">
+        <summary class="flex items-center gap-3 px-5 py-4 cursor-pointer">
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="chevron text-muted-foreground shrink-0"><path d="m9 18 6-6-6-6"/></svg>
+          <span class="text-sm font-medium text-foreground">O mapa do método, do primeiro contato à chave na mão</span>
+        </summary>
+        <div class="px-5 pb-5 pl-12 space-y-3">
+          <p class="text-sm text-muted-foreground leading-relaxed">As seis etapas macro na ordem em que elas acontecem, em uma folha só, para você imprimir e deixar na parede. É o mapa de superfície: o desdobramento de cada etapa não cabe aqui.</p>
+          <a href="/ed7/arquivos/mapa-metodo-projeto-de-primeira.pdf" target="_blank" rel="noopener" class="inline-flex items-center gap-2 text-sm font-medium text-accent hover:underline">
+            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" x2="21" y1="14" y2="3"/></svg>
+            Baixar o mapa do método (PDF, uma página)
+          </a>
         </div>
-      </div>
+      </details>
 
-      <div class="flex items-center gap-3 pt-7 pb-1">
-        <span class="inline-flex items-center justify-center text-[11px] font-bold tracking-[0.12em] text-accent bg-accent/10 border border-accent/25 rounded-full px-2.5 py-1 shrink-0">/02</span>
-        <span class="text-[11px] uppercase tracking-[0.14em] font-bold text-muted-foreground">O que a IA já faz dentro deste processo</span>
-        <span class="flex-1 h-px bg-border"></span>
-      </div>
-      <div class="bg-secondary/60 border border-dashed border-border rounded-xl px-5 py-4 flex items-start gap-3">
-        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-muted-foreground shrink-0 mt-0.5"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
-        <div>
-          <p class="text-sm font-medium text-foreground">O quadro dos 98 passos, um a um</p>
-          <p class="text-sm text-muted-foreground mt-0.5">Quantos passos são automatizáveis, quantos são assistidos e quais continuam sendo cem por cento humanos.</p>
-          <p class="text-[11px] uppercase tracking-[0.14em] font-bold text-muted-foreground/70 mt-2">Publicado durante a aula</p>
-        </div>
-      </div>
+      
 
       <div class="flex items-center gap-3 pt-7 pb-1">
         <span class="inline-flex items-center justify-center text-[11px] font-bold tracking-[0.12em] text-accent bg-accent/10 border border-accent/25 rounded-full px-2.5 py-1 shrink-0">/07</span>
@@ -767,19 +778,7 @@ Aqui estão os materiais base:
           </p>
         </div>
       </details>
-      <details class="bg-card border border-border rounded-xl overflow-hidden">
-        <summary class="flex items-center gap-3 px-5 py-4 cursor-pointer">
-          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="chevron text-muted-foreground shrink-0"><path d="m9 18 6-6-6-6"/></svg>
-          <span class="text-sm font-medium text-foreground">Planilha de otimização — 100 Erros</span>
-        </summary>
-        <div class="px-5 pb-5 pl-12">
-          <p class="text-sm text-muted-foreground mb-3">Primeiro passo para criar um processo de projeto de primeira.</p>
-          <a href="https://docs.google.com/spreadsheets/d/1qmcHiXpzcVG4MLg9eYyGGxgwc9ss5na8/edit?gid=1404374620#gid=1404374620" target="_blank" class="inline-flex items-center gap-2 text-sm font-medium text-accent hover:underline">
-            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" x2="21" y1="14" y2="3"/></svg>
-            Acessar Planilha de otimização — 100 Erros
-          </a>
-        </div>
-      </details>
+      
 
       <div class="flex items-center gap-3 pt-7 pb-1">
         <span class="inline-flex items-center justify-center text-[11px] font-bold tracking-[0.12em] text-accent bg-accent/10 border border-accent/25 rounded-full px-2.5 py-1 shrink-0">/08</span>
@@ -1020,79 +1019,79 @@ O resultado final deve transmitir a sensação de um vídeo editorial de arquite
         <span class="text-[11px] uppercase tracking-[0.14em] font-bold text-muted-foreground">Render em um clique</span>
         <span class="flex-1 h-px bg-border"></span>
       </div>
-      <div class="bg-secondary/60 border border-dashed border-border rounded-xl px-5 py-4 flex items-start gap-3">
-        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-muted-foreground shrink-0 mt-0.5"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
-        <div>
-          <p class="text-sm font-medium text-foreground">Viewport de Primeira: o que fazer antes de renderizar</p>
-          <p class="text-sm text-muted-foreground mt-0.5">Os fundamentos que valem para qualquer IA de imagem: arestas, transparência, sombra e oclusão, uniformidade de textura e perspectiva de dois pontos.</p>
-          <p class="text-[11px] uppercase tracking-[0.14em] font-bold text-muted-foreground/70 mt-2">Publicado durante a aula</p>
-        </div>
-      </div>
       <details class="bg-card border border-border rounded-xl overflow-hidden">
         <summary class="flex items-center gap-3 px-5 py-4 cursor-pointer">
           <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="chevron text-muted-foreground shrink-0"><path d="m9 18 6-6-6-6"/></svg>
-          <span class="text-sm font-medium text-foreground">Testar o plugin 1 Click Render</span>
+          <span class="text-sm font-medium text-foreground">Viewport de Primeira: o que fazer antes de renderizar</span>
         </summary>
-        <div class="px-5 pb-5 pl-12 space-y-3">
-          <p class="text-sm text-muted-foreground leading-relaxed">Sete dias de trial para você renderizar as suas próprias cenas, no seu computador, com o seu modelo.</p>
-          <a href="https://pay.hotmart.com/G105640686S?off=sekres9c&checkoutMode=6" target="_blank" rel="noopener" class="inline-flex items-center gap-2 text-sm font-medium text-accent hover:underline">
+        <div class="px-5 pb-5 pl-12 space-y-4">
+          <p class="text-sm text-muted-foreground leading-relaxed">A IA precisa enxergar volume e profundidade na sua cena. Se a viewport estiver plana, ela inventa forma. Estes ajustes valem para qualquer IA de imagem, não só para o plugin.</p>
+
+          <div>
+            <p class="text-[11px] uppercase tracking-[0.14em] font-bold text-foreground mb-2">Os três ajustes que não podem faltar</p>
+            <ol class="text-sm text-muted-foreground leading-relaxed space-y-1.5 list-decimal pl-5">
+              <li><b class="text-foreground font-semibold">Sombras ativadas.</b> Janela, Sombras. É o que dá profundidade para a cena.</li>
+              <li><b class="text-foreground font-semibold">Arestas visíveis.</b> Estilo em padrão arquitetônico. Nada de monocromático nem raio-X.</li>
+              <li><b class="text-foreground font-semibold">Faces sólidas.</b> Wireframe não serve, a IA não tem o que ler.</li>
+            </ol>
+          </div>
+
+          <div>
+            <p class="text-[11px] uppercase tracking-[0.14em] font-bold text-foreground mb-2">O estilo que eu uso</p>
+            <ul class="text-sm text-muted-foreground leading-relaxed space-y-1.5 list-disc pl-5">
+              <li>Sombra às onze da manhã, intensidade média</li>
+              <li>Linhas pretas, espessura 1</li>
+              <li>Faces na cor sólida do material</li>
+              <li>Fundo branco ou azul claro</li>
+              <li>Perspectiva de dois pontos, com as verticais em pé</li>
+              <li>Textura uniforme, sem material esticado ou repetido fora de escala</li>
+            </ul>
+          </div>
+
+          <a href="https://metrik-group.github.io/1clickrender-help/" target="_blank" rel="noopener" class="inline-flex items-center gap-2 text-sm font-medium text-accent hover:underline">
             <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" x2="21" y1="14" y2="3"/></svg>
-            Garantir o trial de 7 dias
+            Tirar dúvida no assistente do 1 Click Render
           </a>
         </div>
       </details>
+      
 
-      <div class="flex items-center gap-3 pt-7 pb-1">
-        <span class="text-[11px] uppercase tracking-[0.14em] font-bold text-muted-foreground">Leitura recomendada</span>
-        <span class="flex-1 h-px bg-border"></span>
-      </div>
-      <div class="bg-card border border-border rounded-2xl p-6 mb-4">
-      <span class="text-2xl mb-3 block">🧠</span>
-      <p class="font-bold text-foreground">When Using AI Leads to "Brain Fry" — Harvard Business Review</p>
-      <p class="text-sm text-muted-foreground mt-2">Um novo estudo mostra que certos padrões de uso de IA causam fadiga cognitiva — e outros podem ajudar a reduzir o burnout. Leitura rápida e essencial para quem está mergulhando em IA.</p>
-      <a href="https://hbr.org/2026/03/when-using-ai-leads-to-brain-fry" target="_blank" class="inline-flex items-center gap-1.5 mt-4 bg-accent text-white text-sm font-semibold px-5 py-2.5 rounded-full hover:opacity-90 transition-opacity">
-        <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" x2="21" y1="14" y2="3"/></svg>
-        Ler artigo no HBR
-      </a>
-    </div>
+      
 
     </div>
 
     <!-- ==================== BÔNUS ==================== -->
     <div data-gate="bonus-render" data-gate-state="unlocked" style="display:none" class="mb-12">
-      <h3 class="font-bold text-foreground text-center text-lg">Bônus</h3>
-      <p class="text-sm text-muted-foreground text-center mt-1">O presente de quem esteve nos dois dias.</p>
+      <h3 class="font-bold text-foreground text-center text-lg">O presente</h3>
+      <p class="text-sm text-muted-foreground text-center mt-1">Para quem esteve nos dois dias.</p>
       <div class="w-8 h-[3px] bg-accent mx-auto mt-3 mb-6 rounded-full"></div>
-      <div class="space-y-2">
-      <details class="bg-card border border-border rounded-xl overflow-hidden">
-        <summary class="flex items-center gap-3 px-5 py-4 cursor-pointer">
-          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="chevron text-muted-foreground shrink-0"><path d="m9 18 6-6-6-6"/></svg>
-          <span class="text-sm font-medium text-foreground">Ativar o seu mês de 1 Click Render</span>
-        </summary>
-        <div class="px-5 pb-5 pl-12 space-y-3">
-          <p class="text-sm text-muted-foreground leading-relaxed">A licença é cortesia minha, liberada para quem esteve nos dois dias. As imagens saem a preço de custo, na sua própria chave do Google, sem intermediário.</p>
-          <a href="https://pay.hotmart.com/G105640686S?off=sekres9c&checkoutMode=6&bid=1779045544267" target="_blank" rel="noopener" class="inline-flex items-center gap-2 text-sm font-medium text-accent hover:underline">
-            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" x2="21" y1="14" y2="3"/></svg>
-            Ativar a minha licença
-          </a>
-        </div>
-      </details>
-      <details class="bg-card border border-border rounded-xl overflow-hidden">
-        <summary class="flex items-center gap-3 px-5 py-4 cursor-pointer">
-          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="chevron text-muted-foreground shrink-0"><path d="m9 18 6-6-6-6"/></svg>
-          <span class="text-sm font-medium text-foreground">Criar a sua chave do Google (BYOK) em três passos</span>
-        </summary>
-        <div class="px-5 pb-5 pl-12 space-y-3">
-          <p class="text-sm text-muted-foreground leading-relaxed"><b class="text-foreground font-semibold">1.</b> Abra o Google AI Studio com o mesmo e-mail que você já usa no Google.</p>
-          <p class="text-sm text-muted-foreground leading-relaxed"><b class="text-foreground font-semibold">2.</b> Clique em criar chave de API e copie o código que aparece na tela.</p>
-          <p class="text-sm text-muted-foreground leading-relaxed"><b class="text-foreground font-semibold">3.</b> Cole no campo de configurações do plugin e salve. Pronto, é uma vez só.</p>
-          <a href="https://aistudio.google.com/apikey" target="_blank" rel="noopener" class="inline-flex items-center gap-2 text-sm font-medium text-accent hover:underline">
-            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" x2="21" y1="14" y2="3"/></svg>
-            Abrir o Google AI Studio
-          </a>
-        </div>
-      </details>
 
+      <div class="bg-accent/10 border border-accent/30 rounded-2xl p-6">
+        <div class="flex items-start gap-4">
+          <span class="inline-flex items-center justify-center w-11 h-11 rounded-lg bg-accent/15 border border-accent/30 shrink-0 text-accent">
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m21.64 3.64-1.28-1.28a1.21 1.21 0 0 0-1.72 0L2.36 18.64a1.21 1.21 0 0 0 0 1.72l1.28 1.28a1.2 1.2 0 0 0 1.72 0L21.64 5.36a1.2 1.2 0 0 0 0-1.72"/><path d="m14 7 3 3"/><path d="M5 6v4"/><path d="M19 14v4"/><path d="M10 2v2"/><path d="M7 8H3"/><path d="M21 16h-4"/><path d="M11 3H9"/></svg>
+          </span>
+          <div class="flex-1">
+            <p class="text-[11px] uppercase tracking-[0.14em] font-bold text-accent">30 dias gratuitos</p>
+            <p class="font-bold text-foreground text-lg mt-1 leading-snug">O plugin 1 Click Render, um mês inteiro por minha conta</p>
+            <p class="text-sm text-muted-foreground mt-2 leading-relaxed">São trinta dias completos, não sete. Vale só por este link, que é exclusivo de quem esteve no workshop.</p>
+          </div>
+        </div>
+
+        <a href="https://pay.hotmart.com/G105640686S?off=sekres9c&amp;checkoutMode=6&amp;bid=1779045544267" target="_blank" rel="noopener" class="mt-5 flex items-center justify-center gap-2 bg-accent text-white text-sm font-semibold px-6 py-3.5 rounded-full hover:opacity-90 transition-opacity">
+          Ativar os meus 30 dias
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+        </a>
+
+        <div class="mt-4 pt-4 border-t border-accent/20">
+          <p class="text-[11px] uppercase tracking-[0.14em] font-bold text-muted-foreground mb-2">Como funciona, sem letra miúda</p>
+          <ul class="text-sm text-muted-foreground leading-relaxed space-y-1.5 list-disc pl-5">
+            <li>O cadastro pede o seu cartão, mas nada é debitado agora</li>
+            <li>A primeira cobrança só acontece depois dos trinta dias</li>
+            <li>Se não fizer sentido, você cancela antes e não paga nada</li>
+            <li>E mesmo se a cobrança já tiver caído, você tem sete dias para pedir o dinheiro de volta</li>
+          </ul>
+        </div>
       </div>
     </div>
 

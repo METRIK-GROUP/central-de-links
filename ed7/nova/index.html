@@ -147,15 +147,14 @@
       ← Voltar
     </a>
 
-    <!-- PREVIEW-ONLY-INICIO — remover ao publicar na URL definitiva -->
+        <!-- PREVIEW-ONLY-INICIO -->
     <div class="bg-accent/10 border border-accent/30 rounded-2xl px-5 py-4 mb-8">
-      <p class="text-[11px] uppercase tracking-[0.14em] font-bold text-accent">Versão para aprovação</p>
-      <p class="text-sm text-foreground mt-1.5 leading-relaxed">Esta é a nova central, já reordenada pelos blocos numerados da apresentação. Abra com <span class="font-mono text-[13px] bg-card border border-border rounded px-1.5 py-0.5">?preview=1</span> no fim do endereço para ver os materiais dos dois dias e o bônus de uma vez, sem esperar o horário de liberação.</p>
-      <p class="text-sm text-muted-foreground mt-2 leading-relaxed">Os cartões pontilhados são os materiais que ainda precisam do arquivo final. Assim que você aprovar, isto substitui a central atual no mesmo endereço, sem que ninguém perca o acesso.</p>
+      <p class="text-[11px] uppercase tracking-[0.14em] font-bold text-accent">Versão de teste</p>
+      <p class="text-sm text-foreground mt-1.5 leading-relaxed">Abra com <span class="font-mono text-[13px]">?preview=1</span> no fim do endereço para ver tudo liberado.</p>
     </div>
     <!-- PREVIEW-ONLY-FIM -->
 
-    <!-- Titulo -->
+<!-- Titulo -->
     <h1 class="font-ed text-[2.25rem] sm:text-[2.75rem] text-foreground text-center tracking-tight leading-[1.1]">Central de Links</h1>
     <div class="w-8 h-[3px] bg-accent mx-auto mt-3 mb-4 rounded-full"></div>
     <p class="text-muted-foreground text-center mb-10">Todos os links e materiais do Workshop em um só lugar.</p>
@@ -760,6 +759,31 @@ Antes de gerar, me pergunte em uma pergunta numerada se eu quero a Skill genéri
         <span class="text-sm">Libera na aula, sábado, 15h45</span>
       </div>
       <div data-gate="d1-10" data-gate-state="unlocked" style="display:none" class="space-y-2">
+      <div class="bg-accent/10 border border-accent/30 rounded-2xl p-5 mb-2">
+        <p class="text-[10px] uppercase tracking-[0.16em] font-bold text-accent">Conector do workshop</p>
+        <p class="font-bold text-foreground mt-1 leading-snug">Todo o conteúdo destes dois dias, dentro do seu Claude</p>
+        <p class="text-sm text-muted-foreground mt-1.5 leading-relaxed">Conecte uma vez e depois é só perguntar em português. Os blocos, os prompts, o glossário, os materiais e o que foi dito ao vivo na aula.</p>
+
+        <div class="mt-4 bg-card border border-border rounded-xl px-4 py-3">
+          <p class="text-[10px] uppercase tracking-[0.16em] font-bold text-muted-foreground">Endereço do conector</p>
+          <p class="font-mono text-[13px] sm:text-sm text-accent font-semibold mt-1 break-all select-all">https://wpdp07.vercel.app/mcp</p>
+        </div>
+
+        <ol class="text-sm text-muted-foreground leading-relaxed mt-4 space-y-1.5 list-decimal pl-5">
+          <li>No Claude do computador, abra <b class="text-foreground font-semibold">Configurações</b></li>
+          <li>Entre em <b class="text-foreground font-semibold">Conectores</b></li>
+          <li>Clique em <b class="text-foreground font-semibold">Adicionar conector personalizado</b></li>
+          <li>Dê o nome de <b class="text-foreground font-semibold">Workshop</b> e cole o endereço acima, <b class="text-foreground font-semibold">com o https:// na frente</b></li>
+          <li>Salve, abra uma conversa nova e pergunte alguma coisa da aula</li>
+        </ol>
+
+        <p class="text-sm text-muted-foreground mt-3 leading-relaxed">Funciona em qualquer plano, inclusive no gratuito, que dá direito a um conector personalizado.</p>
+
+        <a href="https://wpdp07.vercel.app" target="_blank" rel="noopener" class="inline-flex items-center gap-2 text-sm font-semibold text-accent mt-4">
+          Abrir a página com o passo a passo
+          <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+        </a>
+      </div>
       <details class="bg-card border border-border rounded-xl overflow-hidden">
         <summary class="flex items-center gap-3 px-5 py-4 cursor-pointer">
           <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="chevron text-muted-foreground shrink-0"><path d="m9 18 6-6-6-6"/></svg>
@@ -1299,11 +1323,12 @@ O resultado final deve transmitir a sensação de um vídeo editorial de arquite
 
     function applyMaterials() {
       const now = Date.now();
-      /* PREVIEW-ONLY-INICIO — remover ao publicar na URL definitiva */
+
+      Object.keys(MATERIALS).forEach(function (key) {
+        /* PREVIEW-ONLY-INICIO */
       const previewAberto = /(?:^|[?&])preview=1(?:&|$)/.test(location.search);
       /* PREVIEW-ONLY-FIM */
-      Object.keys(MATERIALS).forEach(function (key) {
-        const unlocked = previewAberto || now >= MATERIALS[key];
+      const unlocked = previewAberto || now >= MATERIALS[key];
         document.querySelectorAll('[data-gate="' + key + '"]').forEach(function (el) {
           const state = el.getAttribute('data-gate-state');
           el.style.display = (state === 'unlocked') === unlocked ? '' : 'none';

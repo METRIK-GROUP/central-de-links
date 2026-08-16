@@ -38,14 +38,34 @@ Pelo menos dois destes:
 
 ## As disciplinas que ela varre
 
-1. **Civil e estrutura.** Demolição, alvenaria nova, viga e pilar que não podem ser tocados, impermeabilização, nível de contrapiso, rebaixo de forro.
-2. **Elétrica e automação.** Ponto onde vai ter bancada, tomada em ilha, carga de chuveiro e forno, quadro que não comporta, interruptor no lado errado da porta, ponto de dado e de TV.
-3. **Hidráulica.** Prumada existente contra ponto novo, caimento, esgoto de máquina, ponto de água quente, registro acessível.
-4. **Climatização e exaustão.** Dreno da condensadora, posição da evaporadora contra viga e cortineiro, exaustão de cooktop, ventilação de banheiro sem janela.
-5. **Marcenaria e bancadas.** Folga de instalação, porta que bate em porta, gaveta que não abre por causa de rodapé, altura de bancada contra usuário, apoio de cuba, vão de eletrodoméstico.
-6. **Acabamentos e paginação.** Início de paginação, recorte em ralo e em ponto, junta, transição de piso, arremate de forro.
-7. **Circulação e uso.** Largura de passagem, giro de porta, área de aproximação, altura de guarda-corpo, uso por criança, idoso ou pet quando o briefing indicar.
-8. **Prazo e sequência.** O que precisa ser decidido antes do quê, e o que tem prazo de fornecedor maior que o prazo de obra.
+Esta versão cobre **a fase 1 do executivo**, que é a fase que prepara a obra para começar certo: civil, instalações e acabamentos.
+
+A fase 1 se separa **por disciplina, não por ambiente**. Cada disciplina atravessa a casa inteira, e é assim que a skill varre.
+
+**Levantamento e layout vêm antes.** São pré-requisito da fase 1, não fazem parte dela: entram como material de entrada, já resolvidos, e a análise parte deles.
+
+A fase 2, que resolve marcenaria, louças e metais, mobiliário e arremates, não entra nesta versão.
+
+### As disciplinas da fase 1, na ordem oficial do método
+
+É a ordem em que as pranchas são feitas no escritório, uma dependendo da anterior.
+
+1. **Construir e demolir.** O que sai, o que entra e o que muda de posição no perímetro dos ambientes.
+2. **Climatização.** Onde o equipamento fica, por onde o ar e o dreno atravessam e o que isso ocupa do projeto.
+3. **Elétrica e dados.** Onde vai precisar de ponto, de comando e de sinal, e o que a instalação existente suporta.
+4. **Hidráulico e gás.** Por onde a água e o gás chegam, por onde a água sai e o quanto os pontos novos dependem do que já existe.
+5. **Paginação de revestimentos.** Como o revestimento começa, encontra e termina em cada superfície.
+6. **Forro.** O que precisa caber acima dele e como ele conversa com esquadria, cortina e equipamento.
+7. **Luminotécnico.** Onde a luz nasce, o que ela ilumina e como cada ambiente é acionado.
+8. **Som e imagem.** Onde o equipamento fica, o que ele exige de infraestrutura e o que ele pede da superfície que o recebe.
+9. **Pintura e texturas.** Onde cada tratamento de superfície começa e termina, e o que ele exige de base pronta.
+
+### Disciplinas transversais
+
+Não são pranchas próprias: são varridas junto com as demais, em qualquer modo de execução.
+
+10. **Circulação e uso.** Como as pessoas atravessam, alcançam e usam os ambientes, incluindo os perfis de morador que o briefing indicar.
+11. **Prazo e sequência.** O que precisa ser decidido antes do quê, e onde o prazo de fornecedor conflita com o prazo de obra.
 
 ## Como cada bandeira é escrita
 
@@ -74,7 +94,7 @@ Ela também nunca ensina o fornecedor a executar. A bandeira diz **o que precisa
 
 **3. As bandeiras críticas.** Primeiro as que param a obra, cada uma com os quatro campos.
 
-**4. As demais, por disciplina.** Importantes e de atenção, agrupadas.
+**4. As demais, por disciplina.** Importantes e de atenção, agrupadas na ordem das disciplinas e, por fim, nas transversais.
 
 **5. A ordem de decisão.** O que precisa ser decidido antes do quê, considerando prazo de fornecedor. É a seção que evita o executivo travar esperando uma escolha.
 
@@ -85,6 +105,18 @@ Ela também nunca ensina o fornecedor a executar. A bandeira diz **o que precisa
 ## Como a skill se comporta
 
 Antes de gerar, faz **uma pergunta por vez**, numerada, com opções rotuladas por letra e sempre a alternativa "outra, eu explico", para permitir resposta por voz. No máximo cinco perguntas, e só sobre o que muda o resultado.
+
+### A primeira pergunta é sempre esta
+
+Ela pergunta se a análise deve ser calibrada pelo material de apoio da própria pessoa: o padrão de executivo do escritório, os checklists, os detalhamentos e os workbooks que ela já usa. As alternativas são:
+
+> **(a)** sim, e a pasta é esta (a pessoa indica o caminho)
+> **(b)** sim, mas não sei onde está, me ajuda a achar
+> **(c)** não tenho, pode rodar sem
+
+**Não ter material de apoio está tudo bem.** A skill roda do mesmo jeito e entrega a análise geral, sem travar e sem ficar cobrando. Ela só fica mais profunda e mais alinhada ao jeito do escritório quando recebe esse material, porque aí passa a usar os critérios da pessoa em vez de critérios gerais. Quando não recebe, avisa uma vez só, no relatório, o que a análise ganharia se tivesse.
+
+Se a resposta for (b), ela ajuda a procurar antes de seguir. Se for (a), lê o material e usa como referência de padrão. Se for (c), segue direto para as demais perguntas.
 
 Se o material for suficiente, entrega direto.
 
@@ -108,6 +140,6 @@ Se o material for suficiente, entrega direto.
 
 ## Nota
 
-Esta é a versão do Workshop Projeto de Primeira com IA. Ela roda com o que estiver na mão e cobre as oito disciplinas acima.
+Esta é a versão do Workshop Projeto de Primeira com IA. Ela roda com o que estiver na mão e cobre as nove disciplinas da fase 1 mais as transversais.
 
-A versão completa, que cruza cada achado contra a Biblioteca Técnica do escritório e contra os checklists próprios da pessoa, emenda na revisão do executivo desenhado e vira plano de ação priorizado com aceite item a item, faz parte do programa de Implementação.
+A versão completa, que avança também sobre a fase 2, cruza cada achado contra a Biblioteca Técnica do escritório e contra os checklists próprios da pessoa, emenda na revisão do executivo desenhado e vira plano de ação priorizado com aceite item a item, faz parte do programa de Implementação.

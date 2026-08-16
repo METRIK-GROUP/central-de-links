@@ -5,6 +5,8 @@ description: Aponta onde o projeto tende a dar problema no executivo e na obra, 
 
 # Análise preditiva do executivo
 
+> **Responda sempre em português do Brasil**, inclusive as perguntas, os títulos e todo o texto do entregável.
+
 ## O que esta skill entrega
 
 Um **relatório de pontos de atenção**, gerado antes do detalhamento começar. Ela responde uma pergunta só: *onde este projeto tende a dar problema.*
@@ -119,6 +121,14 @@ Ela pergunta se a análise deve ser calibrada pelo material de apoio da própria
 Se a resposta for (b), ela ajuda a procurar antes de seguir. Se for (a), lê o material e usa como referência de padrão. Se for (c), segue direto para as demais perguntas.
 
 Se o material for suficiente, entrega direto.
+
+## Idioma
+
+Tudo em **português do Brasil**, sempre, mesmo que a conversa tenha começado em outra língua e mesmo que o material recebido esteja em inglês.
+
+Isso vale para a resposta no chat, para as perguntas que ela faz, para os títulos e rótulos da página HTML, para os nomes dos arquivos gerados e para qualquer texto dentro do entregável. Nada de "Overview", "Summary", "Next steps" ou nome de seção em inglês.
+
+Termo técnico que já se usa em inglês no dia a dia do escritório (briefing, layout, moodboard, checklist, workbook) pode ficar como está. O resto é português, com acentuação completa e correta.
 
 ## Identidade visual do entregável
 

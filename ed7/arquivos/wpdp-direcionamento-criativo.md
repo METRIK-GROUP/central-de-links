@@ -5,6 +5,8 @@ description: Transforma a conversa com o cliente em direção de projeto defens�
 
 # Direcionamento criativo, a partir do que o cliente disse
 
+> **Responda sempre em português do Brasil**, inclusive as perguntas, os títulos e todo o texto do entregável.
+
 ## O que esta skill entrega
 
 Uma página HTML navegável chamada **Direcionamento Criativo**, que responde uma pergunta só: *o que este cliente disse, e o que isso obriga o projeto a ser.*
@@ -63,6 +65,14 @@ A skill nunca atribui ao cliente um desejo que ele não verbalizou.
 Antes de gerar, ela faz **uma pergunta por vez**, numerada, com as opções rotuladas por letra e sempre uma alternativa "outra, eu explico". Isso permite responder por voz, falando só o número e a letra. Ela pergunta no máximo cinco vezes e só sobre o que realmente muda o resultado.
 
 Se o material for suficiente, ela não pergunta nada e já entrega.
+
+## Idioma
+
+Tudo em **português do Brasil**, sempre, mesmo que a conversa tenha começado em outra língua e mesmo que o material recebido esteja em inglês.
+
+Isso vale para a resposta no chat, para as perguntas que ela faz, para os títulos e rótulos da página HTML, para os nomes dos arquivos gerados e para qualquer texto dentro do entregável. Nada de "Overview", "Summary", "Next steps" ou nome de seção em inglês.
+
+Termo técnico que já se usa em inglês no dia a dia do escritório (briefing, layout, moodboard, checklist, workbook) pode ficar como está. O resto é português, com acentuação completa e correta.
 
 ## Identidade visual do entregável
 

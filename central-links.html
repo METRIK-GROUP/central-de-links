@@ -139,6 +139,19 @@
   </style>
 </head>
 <body class="min-h-screen bg-background text-foreground">
+  <!-- ====== BARRA FIXA DE CONVITE ====== -->
+  <div id="barra-impl" class="sticky top-0 z-50 border-b border-accent/25 bg-[#0c1817]/95 backdrop-blur">
+    <div class="mx-auto max-w-[680px] px-4 py-2.5 flex items-center gap-3">
+      <p class="text-[13px] text-[#cfd8d7] leading-tight flex-1 min-w-0">
+        <span class="text-white font-semibold">Matrículas abertas</span><span class="hidden sm:inline"> na Implementação PDP + IA</span>
+        <span class="block sm:inline text-[#8fa09e]">encerra domingo, 23h59</span>
+      </p>
+      <span id="cd-barra" class="font-bold text-white text-[13px] tabular-nums whitespace-nowrap shrink-0"></span>
+      <a href="https://implementacao.rodrigorosar.com.br" target="_blank" rel="noopener"
+         class="shrink-0 rounded-full bg-accent px-3.5 py-1.5 text-[12px] font-bold text-white hover:opacity-90 transition-opacity whitespace-nowrap">Quero conhecer</a>
+    </div>
+  </div>
+
 
   <div class="mx-auto max-w-[680px] px-4 py-8">
 
@@ -151,44 +164,6 @@
     <h1 class="font-ed text-[2.25rem] sm:text-[2.75rem] text-foreground text-center tracking-tight leading-[1.1]">Central de Links</h1>
     <div class="w-8 h-[3px] bg-accent mx-auto mt-3 mb-4 rounded-full"></div>
     <p class="text-muted-foreground text-center mb-10">Todos os links e materiais do Workshop em um só lugar.</p>
-
-    <!-- ====== CONVITE IMPLEMENTAÇÃO + CONTAGEM REGRESSIVA ====== -->
-    <div id="convite-impl" class="relative overflow-hidden rounded-2xl mb-10 border border-accent/30 bg-gradient-to-br from-[#0f1f1e] via-[#0d1a19] to-[#0a1413] p-6 sm:p-8">
-      <div class="pointer-events-none absolute -top-24 -left-16 w-64 h-64 rounded-full bg-accent/15 blur-3xl"></div>
-      <div class="relative">
-        <img src="/ed7/img/logo-implementacao.png" alt="Implementação Projeto de Primeira + IA" class="h-9 w-auto mb-4">
-        <p class="text-[10px] uppercase tracking-[0.18em] font-bold text-accent mb-3">As matrículas ainda estão abertas</p>
-        <h2 class="text-white font-bold text-xl sm:text-2xl leading-snug">Vamos continuar nos desenvolvendo juntos?</h2>
-        <p class="text-sm text-[#a9b3b2] mt-2 mb-5 leading-relaxed">A <span class="text-white font-semibold">Implementação Projeto de Primeira + IA</span> é o programa de seis semanas para colocar a casa em ordem: os dois cursos completos, com todos os POPs, checklists, templates e workbooks, mais o acompanhamento semanal comigo, que é o que faz você terminar.</p>
-        <div id="cd-box" class="flex items-center gap-3 mb-5">
-          <div class="flex gap-2" id="cd-nums"></div>
-          <span class="text-[11px] uppercase tracking-[0.14em] text-[#7e8b8a] leading-tight">encerra <span class="text-white font-bold">domingo,<br>23h59</span></span>
-        </div>
-        <a href="https://implementacao.rodrigorosar.com.br" target="_blank" rel="noopener" class="inline-flex items-center gap-2 rounded-full bg-accent px-5 py-3 text-sm font-bold text-white hover:opacity-90 transition-opacity">Quero conhecer a Implementação PDP + IA
-          <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
-        </a>
-        <p class="text-sm text-[#a9b3b2] mt-4">A turma começa <span class="text-white font-semibold">segunda-feira, às 9h</span>, com o primeiro encontro ao vivo em grupo.</p>
-        <p class="text-xs text-[#7e8b8a] mt-2">Está com alguma dúvida? <a href="https://rodrigorosar.com.br/comercial" target="_blank" rel="noopener" class="text-accent hover:underline">Chame o comercial</a>.</p>
-      </div>
-    </div>
-    <script>
-    (function () {
-      var FIM = Date.UTC(2026, 7, 24, 2, 59, 0);   // domingo 23/08/2026, 23h59 BRT
-      var nums = document.getElementById('cd-nums'), caixa = document.getElementById('cd-box'), bloco = document.getElementById('convite-impl'), t;
-      function cel(v, r) {
-        return '<div class="flex flex-col items-center rounded-lg bg-black/35 border border-white/10 px-3 py-2 min-w-[54px]">' +
-               '<span class="text-white font-bold text-lg leading-none tabular-nums">' + String(v).padStart(2, '0') + '</span>' +
-               '<span class="text-[9px] uppercase tracking-[0.12em] text-[#7e8b8a] mt-1">' + r + '</span></div>';
-      }
-      function tick() {
-        var falta = FIM - Date.now();
-        if (falta <= 0) { caixa.innerHTML = '<span class="text-sm font-semibold text-[#a9b3b2]">As inscrições desta turma foram encerradas.</span>'; bloco.classList.add('opacity-70'); clearInterval(t); return; }
-        var s = Math.floor(falta / 1000);
-        nums.innerHTML = cel(Math.floor(s / 86400), 'dias') + cel(Math.floor(s / 3600) % 24, 'horas') + cel(Math.floor(s / 60) % 60, 'min') + cel(s % 60, 'seg');
-      }
-      tick(); t = setInterval(tick, 1000);
-    })();
-    </script>
 
     <!-- Transmissao ao vivo -->
     <div id="transmissao" class="relative overflow-hidden rounded-2xl mb-12 bg-gradient-to-br from-[#1a1a1a] via-[#141414] to-[#0a0a0a] p-6 sm:p-8">
@@ -1364,6 +1339,46 @@ O resultado final deve transmitir a sensação de um vídeo editorial de arquite
     </div>
 
     </div><!-- /links-rapidos -->
+
+    <!-- ====== CONVITE IMPLEMENTAÇÃO + CONTAGEM REGRESSIVA ====== -->
+    <div id="convite-impl" class="relative overflow-hidden rounded-2xl mt-14 mb-10 border border-accent/30 bg-gradient-to-br from-[#0f1f1e] via-[#0d1a19] to-[#0a1413] p-6 sm:p-8">
+      <div class="pointer-events-none absolute -top-24 -left-16 w-64 h-64 rounded-full bg-accent/15 blur-3xl"></div>
+      <div class="relative">
+        <img src="/ed7/img/logo-implementacao.png" alt="Implementação Projeto de Primeira + IA" class="h-9 w-auto mb-4">
+        <p class="text-[10px] uppercase tracking-[0.18em] font-bold text-accent mb-3">As matrículas ainda estão abertas</p>
+        <h2 class="text-white font-bold text-xl sm:text-2xl leading-snug">Vamos continuar nos desenvolvendo juntos?</h2>
+        <p class="text-sm text-[#a9b3b2] mt-2 mb-5 leading-relaxed">A <span class="text-white font-semibold">Implementação Projeto de Primeira + IA</span> é o programa de seis semanas para ir do caos à ordem no seu escritório, com acompanhamento semanal, treinamento e documentação pronta para usar. Não é mais um curso para pegar pó, é ação real para sair da inércia que a rotina criou no seu crescimento.</p>
+        <div id="cd-box" class="flex items-center gap-3 mb-5">
+          <div class="flex gap-2" id="cd-nums"></div>
+          <span class="text-[11px] uppercase tracking-[0.14em] text-[#7e8b8a] leading-tight">encerra <span class="text-white font-bold">domingo,<br>23h59</span></span>
+        </div>
+        <a href="https://implementacao.rodrigorosar.com.br" target="_blank" rel="noopener" class="inline-flex items-center gap-2 rounded-full bg-accent px-5 py-3 text-sm font-bold text-white hover:opacity-90 transition-opacity">Quero conhecer a Implementação PDP + IA
+          <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+        </a>
+        <p class="text-sm text-[#a9b3b2] mt-4">A turma começa <span class="text-white font-semibold">segunda-feira, às 9h</span>, com o primeiro encontro ao vivo em grupo.</p>
+        <p class="text-xs text-[#7e8b8a] mt-2">Está com alguma dúvida? <a href="https://rodrigorosar.com.br/comercial" target="_blank" rel="noopener" class="text-accent hover:underline">Chame o comercial</a>.</p>
+      </div>
+    </div>
+    <script>
+    (function () {
+      var FIM = Date.UTC(2026, 7, 24, 2, 59, 0);   // domingo 23/08/2026, 23h59 BRT
+      var nums = document.getElementById('cd-nums'), caixa = document.getElementById('cd-box'), bloco = document.getElementById('convite-impl'), barra = document.getElementById('cd-barra'), bimpl = document.getElementById('barra-impl'), t;
+      function cel(v, r) {
+        return '<div class="flex flex-col items-center rounded-lg bg-black/35 border border-white/10 px-3 py-2 min-w-[54px]">' +
+               '<span class="text-white font-bold text-lg leading-none tabular-nums">' + String(v).padStart(2, '0') + '</span>' +
+               '<span class="text-[9px] uppercase tracking-[0.12em] text-[#7e8b8a] mt-1">' + r + '</span></div>';
+      }
+      function tick() {
+        var falta = FIM - Date.now();
+        if (falta <= 0) { caixa.innerHTML = '<span class="text-sm font-semibold text-[#a9b3b2]">As inscrições desta turma foram encerradas.</span>'; bloco.classList.add('opacity-70'); bimpl.style.display = 'none'; clearInterval(t); return; }
+        var s = Math.floor(falta / 1000);
+        var d = Math.floor(s / 86400), hh = Math.floor(s / 3600) % 24, mm = Math.floor(s / 60) % 60, ss = s % 60;
+        nums.innerHTML = cel(d, 'dias') + cel(hh, 'horas') + cel(mm, 'min') + cel(ss, 'seg');
+        barra.textContent = d + 'd ' + String(hh).padStart(2,'0') + ':' + String(mm).padStart(2,'0') + ':' + String(ss).padStart(2,'0');
+      }
+      tick(); t = setInterval(tick, 1000);
+    })();
+    </script>
 
     <!-- Footer -->
     <footer class="py-6 text-center">

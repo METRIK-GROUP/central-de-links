@@ -152,6 +152,42 @@
     <div class="w-8 h-[3px] bg-accent mx-auto mt-3 mb-4 rounded-full"></div>
     <p class="text-muted-foreground text-center mb-10">Todos os links e materiais do Workshop em um só lugar.</p>
 
+    <!-- ====== CONVITE IMPLEMENTAÇÃO + CONTAGEM REGRESSIVA ====== -->
+    <div id="convite-impl" class="relative overflow-hidden rounded-2xl mb-10 border border-accent/30 bg-gradient-to-br from-[#0f1f1e] via-[#0d1a19] to-[#0a1413] p-6 sm:p-8">
+      <div class="pointer-events-none absolute -top-24 -left-16 w-64 h-64 rounded-full bg-accent/15 blur-3xl"></div>
+      <div class="relative">
+        <p class="text-[10px] uppercase tracking-[0.18em] font-bold text-accent mb-3">As matrículas ainda estão abertas</p>
+        <h2 class="text-white font-bold text-xl sm:text-2xl leading-snug">Vamos continuar nos desenvolvendo juntos?</h2>
+        <p class="text-sm text-[#a9b3b2] mt-2 mb-5 leading-relaxed">A <span class="text-white font-semibold">Implementação Projeto de Primeira + IA</span> é o programa de seis semanas para colocar a casa em ordem: os dois cursos completos, com todos os POPs, checklists, templates e workbooks, mais o acompanhamento semanal comigo, que é o que faz você terminar.</p>
+        <div id="cd-box" class="flex items-center gap-3 mb-5">
+          <div class="flex gap-2" id="cd-nums"></div>
+          <span class="text-[11px] uppercase tracking-[0.14em] text-[#7e8b8a] leading-tight">para as inscrições<br>encerrarem</span>
+        </div>
+        <a href="https://implementacao.rodrigorosar.com.br" target="_blank" rel="noopener" class="inline-flex items-center gap-2 rounded-full bg-accent px-5 py-3 text-sm font-bold text-[#08110f] hover:opacity-90 transition-opacity">Quero garantir a minha vaga
+          <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+        </a>
+        <p class="text-xs text-[#7e8b8a] mt-3">Está com alguma dúvida? <a href="https://rodrigorosar.com.br/comercial" target="_blank" rel="noopener" class="text-accent hover:underline">Chame o comercial</a>.</p>
+      </div>
+    </div>
+    <script>
+    (function () {
+      var FIM = Date.UTC(2026, 7, 24, 2, 59, 0);   // domingo 23/08/2026, 23h59 BRT
+      var nums = document.getElementById('cd-nums'), caixa = document.getElementById('cd-box'), bloco = document.getElementById('convite-impl'), t;
+      function cel(v, r) {
+        return '<div class="flex flex-col items-center rounded-lg bg-black/35 border border-white/10 px-3 py-2 min-w-[54px]">' +
+               '<span class="text-white font-bold text-lg leading-none tabular-nums">' + String(v).padStart(2, '0') + '</span>' +
+               '<span class="text-[9px] uppercase tracking-[0.12em] text-[#7e8b8a] mt-1">' + r + '</span></div>';
+      }
+      function tick() {
+        var falta = FIM - Date.now();
+        if (falta <= 0) { caixa.innerHTML = '<span class="text-sm font-semibold text-[#a9b3b2]">As inscrições desta turma foram encerradas.</span>'; bloco.classList.add('opacity-70'); clearInterval(t); return; }
+        var s = Math.floor(falta / 1000);
+        nums.innerHTML = cel(Math.floor(s / 86400), 'dias') + cel(Math.floor(s / 3600) % 24, 'horas') + cel(Math.floor(s / 60) % 60, 'min') + cel(s % 60, 'seg');
+      }
+      tick(); t = setInterval(tick, 1000);
+    })();
+    </script>
+
     <!-- Transmissao ao vivo -->
     <div id="transmissao" class="relative overflow-hidden rounded-2xl mb-12 bg-gradient-to-br from-[#1a1a1a] via-[#141414] to-[#0a0a0a] p-6 sm:p-8">
       <div class="pointer-events-none absolute -top-20 -right-20 w-56 h-56 rounded-full bg-accent/10 blur-3xl"></div>
@@ -819,19 +855,7 @@ Antes de gerar, me pergunte em uma pergunta numerada se eu quero a Skill genéri
         <span class="text-sm">Libera na aula, domingo, 8h50</span>
       </div>
       <div data-gate="d2-01" data-gate-state="unlocked" style="display:none" class="space-y-2">
-      <details class="bg-card border border-border rounded-xl overflow-hidden">
-        <summary class="flex items-center gap-3 px-5 py-4 cursor-pointer">
-          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="chevron text-muted-foreground shrink-0"><path d="m9 18 6-6-6-6"/></svg>
-          <span class="text-sm font-medium text-foreground">O mapa do método, do primeiro contato à chave na mão</span>
-        </summary>
-        <div class="px-5 pb-5 pl-12 space-y-3">
-          <p class="text-sm text-muted-foreground leading-relaxed">As seis etapas macro na ordem em que elas acontecem, em uma folha só, para imprimir e deixar na parede. É o mapa de superfície: o desdobramento de cada etapa fica na aula.</p>
-          <a href="/ed7/arquivos/mapa-metodo-6-etapas.pdf" target="_blank" rel="noopener" class="inline-flex items-center gap-2 text-sm font-medium text-accent hover:underline">
-            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" x2="21" y1="14" y2="3"/></svg>
-            Baixar o mapa do método (PDF, uma página)
-          </a>
-        </div>
-      </details>
+      <!-- card do mapa em PDF removido: o Rodrigo vai entregar o fluxograma oficial dele -->
       </div>
       <div class="flex items-center gap-3 pt-7 pb-1">
         <span class="inline-flex items-center justify-center text-[11px] font-bold tracking-[0.12em] text-accent bg-accent/10 border border-accent/25 rounded-full px-2.5 py-1 shrink-0">/03</span>
@@ -933,6 +957,9 @@ Antes de gerar, me pergunte em uma pergunta numerada se eu quero a Skill genéri
             <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" x2="21" y1="14" y2="3"/></svg>
             Copiar planilha para minha conta
           </a>
+          <p class="text-xs text-muted-foreground mt-2">Se não funcionar, tente o
+            <a href="https://docs.google.com/spreadsheets/d/1kSTaDX_3sjpcUYO9gw5Seiw_DMFtj8KCQ6WXvP3ZXJI/edit?usp=sharing" target="_blank" class="text-accent hover:underline">link alternativo</a>.
+          </p>
 
           <p class="text-sm text-muted-foreground leading-relaxed mt-4">Não usa Google Sheets? Baixe a versão em Excel:</p>
           <a href="/ed7/arquivos/planejador-orcamento-obra.xlsx" download class="inline-flex items-center gap-2 text-sm font-medium text-accent hover:underline mt-1">
@@ -948,9 +975,7 @@ Antes de gerar, me pergunte em uma pergunta numerada se eu quero a Skill genéri
               Abrir o planejador cocriado
             </a>
           </div>
-          <p class="text-xs text-muted-foreground mt-2">Se não funcionar, tente o
-            <a href="https://docs.google.com/spreadsheets/d/1kSTaDX_3sjpcUYO9gw5Seiw_DMFtj8KCQ6WXvP3ZXJI/edit?usp=sharing" target="_blank" class="text-accent hover:underline">link alternativo</a>.
-          </p>
+          
         </div>
       </details>
       </div>

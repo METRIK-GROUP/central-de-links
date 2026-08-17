@@ -1,0 +1,1144 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Planejador de orçamento de obra · Antes e depois do projeto</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&family=Inter:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{
+  --ink:#14171a;--paper:#f3f2ef;--card:#ffffff;--rule:#e0ded8;--rule-strong:#c9c6be;--muted:#6e7278;
+  --serv:#1e4b57;--f1:#b07a34;--f2:#3e7a6e;--alert:#a63d2f;--ok:#3e7a6e;--warn:#8a6420;--r:4px;
+}
+*{box-sizing:border-box}
+html,body{margin:0;padding:0}
+body{background:var(--paper);color:var(--ink);font-family:'Inter',system-ui,sans-serif;font-size:14px;line-height:1.5;-webkit-font-smoothing:antialiased}
+h1,h2,h3{font-family:'Archivo',system-ui,sans-serif}
+.mono,input.num,.val,.pct{font-family:'IBM Plex Mono',ui-monospace,monospace;font-variant-numeric:tabular-nums}
+.wrap{max-width:1240px;margin:0 auto;padding:26px 22px 80px}
+
+.top{display:flex;align-items:flex-end;justify-content:space-between;gap:24px;flex-wrap:wrap;margin-bottom:18px}
+.eyebrow{font-family:'IBM Plex Mono',monospace;font-size:10.5px;letter-spacing:.18em;text-transform:uppercase;color:var(--muted)}
+h1{font-size:29px;line-height:1.05;letter-spacing:-.025em;font-weight:700;margin:6px 0 0}
+h1 span{color:var(--muted);font-weight:500}
+.topactions{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+button{font-family:'Archivo',sans-serif;font-size:12px;font-weight:600;cursor:pointer;border:1px solid var(--rule-strong);
+  background:var(--card);color:var(--ink);padding:8px 12px;border-radius:var(--r);transition:.14s}
+button:hover{border-color:var(--ink)}
+button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-visible{outline:2px solid var(--serv);outline-offset:1px}
+button.ghost{background:transparent;border-color:transparent;color:var(--muted);padding:6px 8px;font-weight:500}
+button.ghost:hover{color:var(--ink);border-color:var(--rule-strong)}
+.tabs{display:inline-flex;border:1px solid var(--rule-strong);border-radius:var(--r);overflow:hidden}
+.tabs button{border:0;border-radius:0;background:transparent;color:var(--muted);padding:8px 13px}
+.tabs button.on{background:var(--ink);color:#fff}
+
+.grid{display:grid;grid-template-columns:308px 1fr;gap:18px;align-items:start}
+@media(max-width:940px){.grid{grid-template-columns:1fr}}
+.card{background:var(--card);border:1px solid var(--rule);border-radius:var(--r)}
+.card + .card{margin-top:14px}
+.card h2{font-size:11px;letter-spacing:.16em;text-transform:uppercase;font-weight:600;margin:0;padding:13px 16px;border-bottom:1px solid var(--rule);color:var(--muted);display:flex;justify-content:space-between;gap:10px;align-items:center}
+.pad{padding:14px 16px}
+aside{position:sticky;top:18px}
+@media(max-width:940px){aside{position:static}}
+
+.field{margin-bottom:11px}
+.field:last-child{margin-bottom:0}
+label{display:block;font-size:10.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin-bottom:4px;font-weight:500}
+input,select,textarea{width:100%;font-size:14px;font-family:'Inter',sans-serif;color:var(--ink);background:#fdfcfa;
+  border:1px solid var(--rule-strong);border-radius:var(--r);padding:7px 9px}
+input.num{text-align:right}
+select{appearance:none;background-image:linear-gradient(45deg,transparent 50%,var(--muted) 50%),linear-gradient(135deg,var(--muted) 50%,transparent 50%);
+  background-position:calc(100% - 15px) 15px,calc(100% - 10px) 15px;background-size:5px 5px,5px 5px;background-repeat:no-repeat;padding-right:28px}
+.duo{display:grid;grid-template-columns:1fr 1fr;gap:9px}
+.orc{border-top:1px solid var(--rule);margin-top:14px;padding-top:14px}
+.orc input{font-family:'IBM Plex Mono',monospace;font-size:19px;font-weight:600;padding:9px 10px;text-align:right;background:#fff}
+.seg4{display:grid;grid-template-columns:repeat(4,1fr);border:1px solid var(--rule-strong);border-radius:var(--r);overflow:hidden}
+.seg4 button{border:0;border-radius:0;border-right:1px solid var(--rule-strong);padding:7px 2px;font-size:11px;font-weight:500;background:#fdfcfa;color:var(--muted)}
+.seg4 button:last-child{border-right:0}
+.seg4 button.on{background:var(--ink);color:#fff}
+.mini{font-size:11px;color:var(--muted);line-height:1.55;margin-top:8px}
+.mini b{color:var(--ink);font-weight:600}
+.mini a{color:var(--serv)}
+
+.ind{display:grid;grid-template-columns:repeat(5,1fr)}
+.ind.q4{grid-template-columns:repeat(4,1fr)}
+@media(max-width:760px){.ind,.ind.q4{grid-template-columns:repeat(2,1fr)}}
+.ind div{padding:13px 15px;border-right:1px solid var(--rule)}
+.ind div:last-child{border-right:0}
+@media(max-width:760px){.ind div{border-bottom:1px solid var(--rule)}}
+.ind .k{font-size:10px;letter-spacing:.09em;text-transform:uppercase;color:var(--muted);margin-bottom:3px}
+.ind .v{font-family:'IBM Plex Mono',monospace;font-size:17px;font-weight:500;letter-spacing:-.02em}
+.ind .s{font-size:10.5px;color:var(--muted);margin-top:2px}
+
+.faixa{padding:16px 16px 14px}
+.ruler{position:relative;height:13px;margin-bottom:5px}
+.ruler i{position:absolute;top:0;width:1px;height:5px;background:var(--rule-strong)}
+.ruler i.maj{height:9px;background:var(--muted)}
+.ruler b{position:absolute;top:-1px;font-family:'IBM Plex Mono',monospace;font-size:9px;color:var(--muted);font-weight:400}
+.strip{display:flex;height:42px;width:100%;border:1px solid var(--rule-strong);border-radius:2px;overflow:hidden;
+  background:repeating-linear-gradient(-45deg,#fff,#fff 5px,#eceae4 5px,#eceae4 10px)}
+.seg{height:100%;transition:width .18s ease}
+.seg:hover{filter:brightness(1.12)}
+.striptot{display:flex;justify-content:space-between;align-items:baseline;margin-top:9px;gap:14px;flex-wrap:wrap}
+.striptot .l{font-size:12px;color:var(--muted)}
+.striptot .r{font-family:'IBM Plex Mono',monospace;font-size:13px;font-weight:600}
+.st-ok{color:var(--ok)}.st-bad{color:var(--alert)}
+.legend{display:flex;gap:16px;flex-wrap:wrap;margin-top:11px;padding-top:11px;border-top:1px solid var(--rule);align-items:center}
+.legend div{display:flex;align-items:center;gap:7px;font-size:11.5px;color:var(--muted)}
+.legend s{width:10px;height:10px;border-radius:2px;display:block;text-decoration:none}
+
+.thead,.row,.tfoot{display:grid;grid-template-columns:14px 1fr 92px 132px 26px;gap:10px;align-items:center}
+.thead{padding:9px 16px;border-bottom:1px solid var(--rule);font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted)}
+.thead .a{text-align:right}
+.grp{padding:13px 16px 5px;display:flex;align-items:baseline;justify-content:space-between;gap:12px}
+.grp .t{font-family:'Archivo';font-size:12px;font-weight:700;letter-spacing:.09em;text-transform:uppercase}
+.grp .s{font-family:'IBM Plex Mono',monospace;font-size:12px;color:var(--muted)}
+.grp .s b{color:var(--ink);font-weight:600}
+.row{padding:3px 16px}
+.row:hover{background:#faf9f7}
+.sw{width:11px;height:11px;border-radius:2px}
+.row input.nm{border-color:transparent;background:transparent;padding:6px 4px}
+.row:hover input.nm{border-color:var(--rule)}
+.row input.nm:focus{border-color:var(--rule-strong);background:#fff}
+.pctwrap,.valwrap{position:relative}
+.pctwrap:after{content:'%';position:absolute;right:8px;top:50%;transform:translateY(-50%);font-family:'IBM Plex Mono',monospace;font-size:11px;color:var(--muted);pointer-events:none}
+.row input.pct{padding-right:20px}
+.valwrap:before{content:'R$';position:absolute;left:8px;top:50%;transform:translateY(-50%);font-family:'IBM Plex Mono',monospace;font-size:11px;color:var(--muted);pointer-events:none}
+.row input.val{padding-left:26px}
+.del{border:0;background:transparent;color:var(--rule-strong);font-size:15px;padding:2px 5px;line-height:1}
+.row:hover .del{color:var(--muted)}
+.del:hover{color:var(--alert)!important}
+.addrow{padding:6px 16px 14px}
+.tfoot{padding:13px 16px;border-top:1px solid var(--ink);margin-top:6px}
+.tfoot .t{font-family:'Archivo';font-weight:700;font-size:12px;letter-spacing:.09em;text-transform:uppercase}
+.tfoot .n{font-family:'IBM Plex Mono',monospace;font-weight:600;text-align:right;font-size:13px}
+.note{padding:0 16px 15px;font-size:11.5px;color:var(--muted);line-height:1.55}
+
+.charts{display:grid;grid-template-columns:230px 1fr}
+@media(max-width:760px){.charts{grid-template-columns:1fr}}
+.donut{padding:18px;display:flex;align-items:center;justify-content:center;border-right:1px solid var(--rule);position:relative}
+@media(max-width:760px){.donut{border-right:0;border-bottom:1px solid var(--rule)}}
+.dctr{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);text-align:center;pointer-events:none}
+.dctr .a{font-family:'IBM Plex Mono',monospace;font-size:15px;font-weight:600}
+.dctr .b{font-size:9.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin-top:1px}
+.bars{padding:16px 18px}
+.bar{margin-bottom:13px}
+.bar:last-child{margin-bottom:0}
+.bar .hd{display:flex;justify-content:space-between;align-items:baseline;font-size:12px;margin-bottom:5px;gap:10px}
+.bar .hd .fig{font-family:'IBM Plex Mono',monospace;color:var(--muted);font-size:11.5px}
+.bar .hd .fig b{color:var(--ink);font-weight:600;font-size:12.5px}
+.track{height:7px;background:#eceae4;border-radius:2px;overflow:hidden}
+.track i{display:block;height:100%;border-radius:2px;transition:width .18s}
+
+.presets{display:flex;gap:7px;flex-wrap:wrap;padding:12px 16px 10px}
+.presets button{font-size:11.5px;padding:6px 10px;font-weight:500}
+.hint{padding:0 16px 14px;font-size:11px;color:var(--muted);line-height:1.5}
+
+.dir{padding:6px 16px 16px}
+.dir ul{margin:0;padding:0}
+.dir li{list-style:none;display:flex;gap:10px;padding:9px 0;border-bottom:1px dashed var(--rule);font-size:13px;line-height:1.55}
+.dir li:last-child{border-bottom:0}
+.tag{font-family:'IBM Plex Mono',monospace;font-size:9.5px;letter-spacing:.08em;text-transform:uppercase;padding:2px 6px;border-radius:2px;height:fit-content;white-space:nowrap;margin-top:3px}
+.t-crit{background:#f7e7e4;color:var(--alert)}
+.t-aten{background:#f7efdd;color:var(--warn)}
+.t-ok{background:#e4efeb;color:var(--ok)}
+.t-info{background:#e9ebec;color:var(--muted)}
+.rsv{display:flex;gap:8px;align-items:flex-start;padding:5px 0;border-bottom:1px dashed var(--rule)}
+.rsv:last-child{border-bottom:0}
+.rsv textarea{border-color:transparent;background:transparent;resize:vertical;font-size:13px;line-height:1.55;padding:5px 6px;overflow:hidden}
+.rsv:hover textarea{border-color:var(--rule)}
+.rsv textarea:focus{border-color:var(--rule-strong);background:#fff}
+
+/* execucao */
+#viewExec,#viewApre{display:none}
+body.exec #viewPlan,body.apre #viewPlan{display:none}
+body.exec #viewExec{display:block}
+body.apre #viewApre{display:block}
+.ehead,.erow{display:grid;grid-template-columns:12px 1.5fr 118px 128px 118px 1fr 74px;gap:9px;align-items:center}
+@media(max-width:1080px){.ehead{display:none}.erow{grid-template-columns:12px 1fr 1fr;grid-auto-rows:auto;row-gap:4px}}
+.ehead{padding:9px 16px;border-bottom:1px solid var(--rule);font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted)}
+.ehead .a{text-align:right}
+.erow{padding:3px 16px}
+.erow:hover{background:#faf9f7}
+.erow .prev{font-family:'IBM Plex Mono',monospace;font-size:12.5px;text-align:right;color:var(--muted)}
+.erow .nm{font-size:13px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.erow input{padding:6px 8px;font-size:13px}
+.erow input.forn{border-color:transparent;background:transparent}
+.erow:hover input.forn{border-color:var(--rule)}
+.dv{font-family:'IBM Plex Mono',monospace;font-size:12px;text-align:right;padding:3px 6px;border-radius:2px;white-space:nowrap}
+.dv-ok{color:var(--ok)}.dv-at{background:#f7efdd;color:var(--warn)}.dv-cr{background:#f7e7e4;color:var(--alert)}
+.dv-nd{color:var(--rule-strong)}
+.cmp{padding:16px}
+.cmpbar{display:flex;height:26px;border-radius:2px;overflow:hidden;background:#eceae4;margin-bottom:6px}
+.cmpbar i{display:block;height:100%}
+.cmplab{display:flex;justify-content:space-between;font-size:11.5px;color:var(--muted);margin-bottom:14px}
+.cmplab b{font-family:'IBM Plex Mono',monospace;color:var(--ink)}
+
+/* gantt */
+.gwrap{overflow-x:auto;padding:0 0 6px}
+.gantt{min-width:720px;padding:4px 16px 16px}
+.gaxis{display:grid;gap:0;font-family:'IBM Plex Mono',monospace;font-size:9.5px;color:var(--muted);border-bottom:1px solid var(--rule);padding-bottom:4px;margin-bottom:8px}
+.gaxis span{border-left:1px solid var(--rule);padding-left:3px}
+.grow{display:grid;grid-template-columns:210px 96px 1fr;gap:10px;align-items:center;padding:2px 0;font-size:12.5px}
+.grow:hover{background:#faf9f7}
+.grow .n{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.grow .p{font-family:'IBM Plex Mono',monospace;font-size:11px;text-align:right}
+.gtrack{position:relative;height:16px;background:repeating-linear-gradient(90deg,transparent,transparent calc(var(--w) - 1px),var(--rule) calc(var(--w) - 1px),var(--rule) var(--w))}
+.gbar{position:absolute;height:14px;top:1px;border-radius:2px;font-size:9.5px;color:#fff;font-family:'IBM Plex Mono',monospace;padding:0 4px;overflow:hidden;line-height:14px}
+.ghoje{position:absolute;top:-2px;bottom:-2px;width:1px;background:var(--alert)}
+.gsub{padding:0 16px 14px;font-size:11px;color:var(--muted)}
+
+.fin{padding:16px;overflow-x:auto}
+.fin svg{display:block}
+.cmpline{display:flex;justify-content:space-between;align-items:baseline;gap:12px;font-size:11.5px;color:var(--muted);margin-bottom:5px}
+.cmpline b{font-family:'IBM Plex Mono',monospace;font-size:14px;color:var(--ink);font-weight:600}
+.cmpwrap{position:relative;margin-bottom:8px}
+.teto{position:absolute;top:-7px;height:40px;width:1px;background:var(--ink)}
+.teto span{position:absolute;top:-13px;left:5px;font-family:'IBM Plex Mono',monospace;font-size:9px;color:var(--muted);white-space:nowrap}
+.teto.esq span{left:auto;right:5px}
+.bignum.b4{grid-template-columns:repeat(4,1fr)}
+@media(max-width:860px){.bignum.b4{grid-template-columns:repeat(2,1fr)}}
+.cmpfase{width:100%;border-collapse:collapse;font-size:12.5px}
+.cmpfase th{font-family:'IBM Plex Mono',monospace;font-size:9.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);font-weight:400;text-align:right;padding:0 0 7px}
+.cmpfase th:first-child{text-align:left}
+.cmpfase td{padding:8px 0;border-top:1px solid var(--rule);text-align:right;font-family:'IBM Plex Mono',monospace}
+.cmpfase td:first-child{text-align:left;font-family:'Inter',sans-serif}
+.cmpfase td s{display:inline-block;width:9px;height:9px;border-radius:2px;text-decoration:none;margin-right:7px}
+.prox{width:100%;border-collapse:collapse;font-size:12.5px}
+.prox td{padding:7px 0;border-top:1px solid var(--rule)}
+.prox td+td{text-align:right;font-family:'IBM Plex Mono',monospace;white-space:nowrap}
+
+.ta{margin:0 16px 14px;font-size:12.5px;font-family:'IBM Plex Mono',monospace;min-height:78px}
+
+.capa{padding:34px 34px 30px;border-bottom:1px solid var(--rule)}
+.capa .eyebrow{margin-bottom:12px}
+.capa h2{font-size:34px;letter-spacing:-.03em;font-weight:700;padding:0;border:0;color:var(--ink);text-transform:none;margin:0 0 8px;display:block}
+.capa .meta{font-size:13px;color:var(--muted)}
+.bignum{display:grid;grid-template-columns:1.4fr 1fr 1fr;border-bottom:1px solid var(--rule)}
+@media(max-width:700px){.bignum{grid-template-columns:1fr}}
+.bignum div{padding:22px 24px;border-right:1px solid var(--rule)}
+.bignum div:last-child{border-right:0}
+.bignum .k{font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);margin-bottom:6px}
+.bignum .v{font-family:'IBM Plex Mono',monospace;font-size:30px;font-weight:600;letter-spacing:-.03em;line-height:1}
+.bignum .v.sm{font-size:21px}
+.fases{display:grid;grid-template-columns:repeat(3,1fr)}
+@media(max-width:860px){.fases{grid-template-columns:1fr}}
+.fase{padding:22px 24px;border-right:1px solid var(--rule)}
+.fase:last-child{border-right:0}
+@media(max-width:860px){.fase{border-right:0;border-bottom:1px solid var(--rule)}}
+.fase .h{display:flex;align-items:center;gap:8px;margin-bottom:3px}
+.fase .h s{width:9px;height:9px;border-radius:2px;text-decoration:none}
+.fase .h .n{font-family:'Archivo';font-size:12.5px;font-weight:700;letter-spacing:.06em;text-transform:uppercase}
+.fase .q{font-size:12px;color:var(--muted);margin-bottom:14px;line-height:1.5;min-height:36px}
+.fase .tot{font-family:'IBM Plex Mono',monospace;font-size:23px;font-weight:600;letter-spacing:-.02em}
+.fase .pc{font-size:11.5px;color:var(--muted);margin-bottom:14px}
+.fase ul{margin:0;padding:0;border-top:1px solid var(--rule)}
+.fase li{list-style:none;display:flex;justify-content:space-between;gap:12px;padding:6px 0;border-bottom:1px solid #f0eee9;font-size:12.5px}
+.fase li b{font-family:'IBM Plex Mono',monospace;font-weight:500;color:var(--muted);white-space:nowrap}
+.linha{display:flex;padding:20px 24px;border-top:1px solid var(--rule);flex-wrap:wrap;gap:20px 0}
+.etapa{flex:1;min-width:170px;padding-right:18px;position:relative}
+.etapa .n{font-family:'IBM Plex Mono',monospace;font-size:10px;color:var(--muted);letter-spacing:.1em}
+.etapa .t{font-family:'Archivo';font-weight:600;font-size:13px;margin:3px 0}
+.etapa .d{font-size:11.5px;color:var(--muted);line-height:1.45}
+.etapa:after{content:'';position:absolute;left:0;top:-12px;width:calc(100% - 18px);height:3px;background:var(--rule)}
+.etapa.e1:after{background:var(--serv)}.etapa.e2:after{background:var(--f1)}.etapa.e3:after{background:var(--f2)}
+.bloco{padding:20px 24px;border-top:1px solid var(--rule)}
+.bloco h3{font-family:'Archivo';font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--muted);margin:0 0 10px}
+.bloco ol{margin:0;padding-left:18px;columns:2;column-gap:28px}
+@media(max-width:760px){.bloco ol{columns:1}}
+.bloco li{font-size:12.5px;line-height:1.55;margin-bottom:9px;break-inside:avoid}
+.assin{padding:18px 24px;border-top:1px solid var(--rule);font-size:11px;color:var(--muted);display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
+
+@media print{
+  body{background:#fff}
+  .wrap{max-width:none;padding:0}
+  .hide-print{display:none!important}
+  .card{border-color:#ccc;break-inside:avoid}
+  .grid{grid-template-columns:250px 1fr;gap:12px}
+  aside{position:static}
+  input,select,textarea{border-color:transparent!important;background:transparent!important;padding-left:0}
+  .row{padding:1px 10px}
+  .gwrap{overflow:visible}
+  .gantt{min-width:0}
+  .capa{padding:0 0 20px}
+  .bignum div,.fase,.bloco,.linha,.assin{padding-left:0;padding-right:14px}
+  @page{margin:12mm}
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <div class="top">
+    <div>
+      <div class="eyebrow" id="hdEyebrow">Antes de criar · Baliza do processo criativo</div>
+      <h1>Planejador de orçamento de obra <span id="hdNome"></span></h1>
+    </div>
+    <div class="topactions hide-print">
+      <div class="tabs">
+        <button id="tbPlan" class="on">Antes · Planejamento</button>
+        <button id="tbExec">Depois · Execução</button>
+        <button id="tbApre">Apresentação</button>
+      </div>
+      <button onclick="window.print()">Imprimir / PDF</button>
+      <button id="btCsv">CSV</button>
+      <button id="btSave">Salvar</button>
+      <button id="btLoad">Abrir</button>
+      <input type="file" id="fileIn" accept=".json" style="display:none">
+    </div>
+  </div>
+
+  <!-- ================= ANTES ================= -->
+  <div id="viewPlan">
+  <div class="grid">
+    <aside>
+      <div class="card">
+        <h2>Escopo</h2>
+        <div class="pad">
+          <div class="field"><label>Nome do projeto / cliente</label><input id="nome" placeholder="Ex.: Apto Vieira Souza"></div>
+          <div class="field"><label>Projeto de</label>
+            <select id="tipo"><option>Interiores</option><option>Arquitetura</option><option>Arquitetura + Interiores</option><option>Consultoria</option></select></div>
+          <div class="field"><label>Categoria</label>
+            <select id="categoria"><option>Residencial</option><option>Comercial</option><option>Corporativo</option><option>Hospitalidade</option><option>Institucional</option></select></div>
+          <div class="field"><label>Tipo de obra</label>
+            <select id="obra"><option>Apartamento</option><option>Casa</option><option>Cobertura</option><option>Sala comercial</option><option>Loja</option><option>Restaurante</option><option>Galpão</option></select></div>
+          <div class="field"><label>Status da obra</label>
+            <select id="status"><option>Recém entregue</option><option>Na planta</option><option>Em construção</option><option>Do zero</option><option>Reforma</option></select></div>
+          <div class="duo">
+            <div class="field"><label>Área (m²)</label><input class="num" id="area" value="150"></div>
+            <div class="field"><label>Ambientes</label><input class="num" id="ambientes" value="14"></div>
+          </div>
+          <div class="orc"><label>Orçamento definido no briefing</label><input id="orcamento" value="R$ 600.000"></div>
+        </div>
+      </div>
+
+      <div class="card">
+        <h2>Padrão construtivo</h2>
+        <div class="pad">
+          <div class="seg4" id="padrao">
+            <button data-p="B">Baixo</button><button data-p="N" class="on">Médio</button>
+            <button data-p="A">Alto</button><button data-p="L">Luxo</button>
+          </div>
+          <div class="mini" id="padraoMini"></div>
+          <button class="ghost hide-print" id="btPadrao" style="margin-top:8px;padding:6px 0">Aplicar padrão à distribuição →</button>
+        </div>
+      </div>
+
+      <div class="card">
+        <h2>Referência regional · CUB</h2>
+        <div class="pad">
+          <div class="duo">
+            <div class="field"><label>Estado</label>
+              <select id="uf"><option value="SC">SC</option><option value="RS">RS</option><option value="SP">SP</option><option value="MG">MG</option><option value="RJ">RJ</option><option value="XX">Outro</option></select></div>
+            <div class="field"><label>CUB (R$/m²)</label><input class="num" id="cub"></div>
+          </div>
+          <div class="mini" id="cubMini"></div>
+        </div>
+      </div>
+
+      <div class="card hide-print">
+        <h2>Perfis de partida</h2>
+        <div class="presets" id="presets"></div>
+        <div class="hint">Ponto de partida, não verdade. Calibre os percentuais com os orçamentos das suas próprias obras.</div>
+      </div>
+    </aside>
+
+    <main>
+      <div class="card"><div class="ind" id="ind"></div></div>
+
+      <div class="card">
+        <h2>Distribuição do orçamento</h2>
+        <div class="faixa">
+          <div class="ruler" id="ruler"></div>
+          <div class="strip" id="strip"></div>
+          <div class="striptot"><div class="l" id="stMsg"></div><div class="r" id="stPct"></div></div>
+          <div class="legend" id="legend"></div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="thead"><div></div><div>Serviço</div><div class="a">% da obra</div><div class="a">Valor</div><div></div></div>
+        <div id="tabela"></div>
+        <div class="tfoot"><div></div><div class="t">Total geral</div><div class="n" id="ftPct"></div><div class="n" id="ftVal"></div><div></div></div>
+        <div class="note">Todos os produtos já são considerados instalados. Material interno de desenvolvimento: serve para o time de criação projetar dentro do orçamento do cliente, não é orçamento executivo.</div>
+      </div>
+
+      <div class="card">
+        <h2>Leitura do planejamento</h2>
+        <div class="charts">
+          <div class="donut"><svg id="donut" width="180" height="180" viewBox="0 0 180 180"></svg>
+            <div class="dctr"><div class="a" id="dA"></div><div class="b">custo / m²</div></div></div>
+          <div class="bars" id="bars"></div>
+        </div>
+      </div>
+
+      <div class="card"><h2>Diretrizes para o time de criação</h2><div class="dir"><ul id="diretrizes"></ul></div></div>
+
+      <div class="card">
+        <h2>Ressalvas para o cliente <button class="ghost hide-print" id="btAddRsv">+ Adicionar</button></h2>
+        <div class="dir" id="ressalvas"></div>
+        <div class="hint">Estas ressalvas aparecem na aba Apresentação. Ajuste o texto para a realidade do seu escritório antes de mostrar para o cliente.</div>
+      </div>
+    </main>
+  </div>
+  </div>
+
+  <!-- ================= DEPOIS ================= -->
+  <div id="viewExec">
+    <div class="card"><div class="ind q4" id="eind"></div></div>
+
+    <div class="card">
+      <h2>Previsto x contratado</h2>
+      <div class="cmp">
+        <div class="cmpline"><span>Planejado no briefing</span><b id="cmpP"></b></div>
+        <div class="cmpwrap"><div class="cmpbar"><i id="barP" style="background:var(--serv)"></i></div></div>
+        <div class="cmpline" style="margin-top:18px"><span>Projeção de fechamento: contratado mais o que falta pelo valor planejado</span><b id="cmpPR"></b></div>
+        <div class="cmpwrap"><div class="cmpbar"><i id="barR"></i><i id="barF"></i></div><div class="teto" id="teto"><span>teto planejado</span></div></div>
+        <div class="cmplab" id="cmpLeg"></div>
+        <div class="mini" id="cmpMini"></div>
+      </div>
+    </div>
+
+    <div class="card">
+      <h2>Controle de desvio <span style="text-transform:none;letter-spacing:0;font-weight:400">preencha o valor fechado com cada fornecedor</span></h2>
+      <div class="ehead">
+        <div></div><div>Serviço</div><div class="a">Previsto</div><div class="a">Contratado</div><div class="a">Desvio</div>
+        <div>Fornecedor</div><div class="a">Prazo</div>
+      </div>
+      <div id="etabela"></div>
+      <div class="note" style="padding-top:12px">Prazo é o tempo entre o pedido e a entrega no canteiro, em dias corridos. Ele alimenta o cronograma e a data limite de compra.</div>
+    </div>
+
+    <div class="card hide-print">
+      <h2>Importar valores do orçamento executivo</h2>
+      <textarea class="ta" id="imp" placeholder="Cole uma linha por item, no formato:&#10;Marcenaria; 168000&#10;Marmoraria; 21500&#10;Climatização; 19800"></textarea>
+      <div class="presets"><button id="btImp">Importar</button><button class="ghost" id="btCopy">Copiar base para análise</button></div>
+      <div class="hint">O nome não precisa ser idêntico, a busca é por aproximação. "Copiar base para análise" leva o comparativo inteiro para a área de transferência, pronto para colar em uma conversa com a IA junto do orçamento executivo.</div>
+    </div>
+
+    <div class="card">
+      <h2>Cronograma físico-financeiro
+        <span class="hide-print" style="text-transform:none;letter-spacing:0;font-weight:400;display:flex;gap:8px;align-items:center">
+          Início da obra <input type="date" id="dtIni" style="width:150px;padding:5px 8px;font-size:12px">
+          <button class="ghost" id="btSeed">Recalcular prazos padrão</button></span></h2>
+      <div class="gwrap"><div class="gantt" id="gantt"></div></div>
+      <div class="gsub" id="gsub"></div>
+    </div>
+
+    <div class="card">
+      <h2>Curva de desembolso</h2>
+      <div class="fin"><svg id="curva" height="250"></svg>
+        <div class="mini" id="curvaMini"></div></div>
+    </div>
+
+    <div class="card"><h2>Alertas de execução</h2><div class="dir"><ul id="alertas"></ul></div></div>
+  </div>
+
+  <!-- ================= APRESENTAÇÃO ================= -->
+  <div id="viewApre">
+    <div class="tabs hide-print" style="margin-bottom:14px">
+      <button id="apA" class="on">Antes · Planejamento</button>
+      <button id="apB">Depois · Andamento da obra</button>
+    </div>
+    <div class="card" id="apre"></div>
+  </div>
+</div>
+
+<script>
+const FASES={
+  servico:{nome:'Seu serviço',cor:'#1e4b57',q:'Projeto, especificação, compras e a gestão da obra do início ao fim.'},
+  f1:{nome:'Fase 1 · Obra',cor:'#b07a34',q:'Tudo que exige obreiro dentro do imóvel: civil, instalações e acabamentos fixos.'},
+  f2:{nome:'Fase 2 · Sob medida e mobiliário',cor:'#3e7a6e',q:'O que entra depois que a obra sai: sob medida, mobiliário, eletros e produção final.'}
+};
+
+/* CUB por estado, referência maio/2026, publicado pelos Sinduscons estaduais */
+const CUB={
+  RS:{nome:'Rio Grande do Sul',R1:{B:2482.09,N:3331.44,A:4509.88},R8:{B:2248.61,N:2842.11,A:3666.35},CSL8:{B:2820.87,N:2820.87,A:3345.43},CAL8:{B:3724.48,N:3724.48,A:4344.12},GI:{B:1362.84,N:1362.84,A:1362.84}},
+  SC:{nome:'Santa Catarina',R1:{B:2818.65,N:3366.02,A:4095.76},R8:{B:2426.58,N:2745.26,A:3265.26},CSL8:{B:2728.43,N:2728.43,A:2983.97},CAL8:{B:3132.19,N:3132.19,A:3328.78},GI:{B:1535.75,N:1535.75,A:1535.75}},
+  SP:{nome:'São Paulo',R1:{B:2129.49,N:2609.74,A:3160.94},R8:{B:1898.50,N:2172.71,A:2552.37},CSL8:{B:2171.94,N:2171.94,A:2339.34},CAL8:{B:2519.97,N:2519.97,A:2668.14},GI:{B:1231.44,N:1231.44,A:1231.44}},
+  MG:{nome:'Minas Gerais',R1:{B:2540.91,N:3065.77,A:3795.11},R8:{B:2282.36,N:2543.23,A:3089.41},CSL8:{B:2496.23,N:2496.23,A:2747.83},CAL8:{B:2946.40,N:2946.40,A:3190.65},GI:{B:1340.02,N:1340.02,A:1340.02}},
+  RJ:{nome:'Rio de Janeiro',R1:{B:2456.01,N:2974.01,A:3676.12},R8:{B:2161.82,N:2456.44,A:2937.24},CSL8:{B:2432.02,N:2432.02,A:2660.34},CAL8:{B:2838.49,N:2838.49,A:3032.27},GI:{B:1354.69,N:1354.69,A:1354.69}}
+};
+const TIPOLOGIA={'Casa':'R1','Cobertura':'R8','Apartamento':'R8','Sala comercial':'CSL8','Loja':'CSL8','Restaurante':'CSL8','Galpão':'GI'};
+const TIPNOME={R1:'R-1 unifamiliar',R8:'R-8 multifamiliar',CSL8:'CSL-8 salas e lojas',CAL8:'CAL-8 andares livres',GI:'GI galpão'};
+const PADNOME={B:'baixo',N:'médio',A:'alto',L:'luxo'};
+const FATOR={B:{base:1.12,fino:.72},N:{base:1,fino:1},A:{base:.94,fino:1.18},L:{base:.86,fino:1.34}};
+const SINAPI={valor:1976.37,ref:'jun/2026',var12:'+6,71%'};
+
+/* durações típicas em semanas e prazos típicos de fornecedor em dias corridos.
+   Referência de mercado para partida, o profissional ajusta com os seus fornecedores. */
+const TEMPOS=[
+  [/demoli/i,2,5],[/funda|preliminar/i,4,10],[/estrutura/i,6,20],[/alvenaria|civil|forro|drywall/i,4,10],
+  [/cobertura/i,3,25],[/hidro|hidrossanit/i,3,10],[/el[ée]tric|dados/i,3,10],[/impermeab/i,1,7],
+  [/esquadria/i,2,45],[/revestimento|piso/i,4,25],[/pintura/i,2,7],[/ilumina/i,1,20],[/box/i,1,20],
+  [/sacada|fechamento/i,2,30],[/climatiz/i,1,20],[/automa|som/i,1,25],[/inc[êe]ndio/i,2,20],
+  [/marcenaria|expositor/i,3,45],[/marmoraria/i,1,25],[/vidra/i,1,25],[/acess[óo]rio/i,1,25],
+  [/cortina|persiana/i,1,30],[/eletrodom|tv/i,1,20],[/lou[çc]a|metal/i,1,25],[/mobili[áa]rio/i,1,45],
+  [/comunica[çc][ãa]o|letreiro/i,1,25],[/decora|produ[çc]/i,1,20]
+];
+function tempoDe(nome){for(const[r,d,p]of TEMPOS)if(r.test(nome))return{dur:d,prazo:p};return{dur:2,prazo:15}}
+
+const RESSALVAS_PADRAO=[
+ 'Este é um planejamento de investimento feito antes do projeto, não um orçamento executivo. Os valores orientam as escolhas de projeto e vão sendo substituídos pelos orçamentos reais dos fornecedores conforme cada etapa é detalhada.',
+ 'Todos os produtos foram considerados já instalados. Frete, montagem e instalação estão embutidos nas respectivas linhas.',
+ 'A distribuição entre as linhas é móvel, o total é que não é. Escolher uma linha importada de louças e metais, por exemplo, tira verba de outro item da lista, e essa decisão é sua.',
+ 'Não estão incluídos: terreno, taxas de aprovação e cartório, taxas de obra do condomínio, seguros, mudança e itens de uso pessoal.',
+ 'Preço de material sofre reajuste ao longo da obra. Compra adiada custa mais caro do que o planejado aqui.',
+ 'A Fase 2 só é contratada depois da aprovação do projeto executivo, quando os orçamentos passam a ser feitos com desenho técnico e medida final.',
+ 'Recomendamos manter uma reserva técnica de 5% a 10% fora deste planejamento, para o que só aparece quando a obra abre parede e piso.'
+];
+
+const PERFIS={
+  'Interiores · recém entregue':{escopo:{tipo:'Interiores',categoria:'Residencial',obra:'Apartamento',status:'Recém entregue',area:150,ambientes:14},
+    itens:[['servico','Acompanhamento / gestão',12],
+      ['f1','Civil · pequenas modificações',5],['f1','Automação',0],['f1','Revestimentos · decorativos e WCs',5],
+      ['f1','Pintura todo o apartamento',1],['f1','Iluminação técnica e decorativa',2],['f1','Box',1],
+      ['f1','Fechamento de sacada',3],['f1','Climatização (split)',3.5],
+      ['f2','Marcenaria',25],['f2','Marmoraria',3],['f2','Vidraçaria',5],['f2','Acessórios de marcenaria',1.5],
+      ['f2','Cortinas e persianas',6],['f2','Eletrodomésticos e TVs',10],['f2','Louças e metais + instalação',6],
+      ['f2','Mobiliário solto',9],['f2','Decoração e produção',2]]},
+  'Interiores · reforma pesada':{escopo:{tipo:'Interiores',categoria:'Residencial',obra:'Apartamento',status:'Reforma',area:150,ambientes:14},
+    itens:[['servico','Acompanhamento / gestão',12],
+      ['f1','Demolição e remoção de entulho',3],['f1','Civil · alvenaria e forro',9],['f1','Instalações hidrossanitárias',4],
+      ['f1','Instalações elétricas e dados',5],['f1','Impermeabilização',1.5],['f1','Revestimentos e pisos',8],
+      ['f1','Pintura todo o apartamento',2],['f1','Iluminação técnica e decorativa',2.5],['f1','Box',1],
+      ['f1','Fechamento de sacada',2],['f1','Climatização (split)',3],
+      ['f2','Marcenaria',20],['f2','Marmoraria',3],['f2','Vidraçaria',2],['f2','Acessórios de marcenaria',1],
+      ['f2','Cortinas e persianas',3],['f2','Eletrodomésticos e TVs',6],['f2','Louças e metais + instalação',4],
+      ['f2','Mobiliário solto',6],['f2','Decoração e produção',2]]},
+  'Arquitetura + interiores · do zero':{escopo:{tipo:'Arquitetura + Interiores',categoria:'Residencial',obra:'Casa',status:'Do zero',area:280,ambientes:16},
+    itens:[['servico','Acompanhamento / gestão',10],
+      ['f1','Serviços preliminares e fundação',8],['f1','Estrutura',12],['f1','Alvenaria e vedação',7],['f1','Cobertura',4],
+      ['f1','Instalações hidrossanitárias',4],['f1','Instalações elétricas e dados',4.5],['f1','Esquadrias · janelas e portas',6],
+      ['f1','Revestimentos e pisos',8],['f1','Pintura',3],['f1','Impermeabilização',1.5],
+      ['f1','Iluminação técnica e decorativa',2],['f1','Climatização',2.5],['f1','Automação',1.5],
+      ['f2','Marcenaria',12],['f2','Marmoraria',3],['f2','Vidraçaria',2],['f2','Louças e metais + instalação',2.5],
+      ['f2','Eletrodomésticos e TVs',2],['f2','Mobiliário solto',3],['f2','Cortinas e persianas',1],['f2','Decoração e produção',0.5]]},
+  'Comercial · loja ou escritório':{escopo:{tipo:'Arquitetura + Interiores',categoria:'Comercial',obra:'Loja',status:'Reforma',area:120,ambientes:8},
+    itens:[['servico','Acompanhamento / gestão',12],
+      ['f1','Demolição e adequação',3],['f1','Civil · alvenaria, forro e drywall',10],['f1','Instalações elétricas e dados',7],
+      ['f1','Instalações hidrossanitárias',2],['f1','Prevenção e combate a incêndio',3],['f1','Revestimentos e pisos',9],
+      ['f1','Pintura',2],['f1','Iluminação técnica e cênica',6],['f1','Climatização',5],['f1','Automação e som',2],
+      ['f2','Marcenaria e expositores',22],['f2','Marmoraria',2],['f2','Vidraçaria e fachada',5],
+      ['f2','Comunicação visual e letreiro',4],['f2','Mobiliário solto',4],['f2','Decoração e produção',2]]}
+};
+
+let uid=1;
+let st={escopo:{padrao:'N',uf:'SC'},itens:[],ressalvas:RESSALVAS_PADRAO.slice(),inicio:''};
+
+const $=id=>document.getElementById(id);
+const num=v=>{const n=parseFloat(String(v).replace(/[^\d,.-]/g,'').replace(/\.(?=\d{3}\b)/g,'').replace(',','.'));return isNaN(n)?0:n};
+const brl=n=>'R$ '+Math.round(n).toLocaleString('pt-BR');
+const brlK=n=>Math.abs(n)>=1000?'R$ '+Math.round(n/1000)+'k':'R$ '+Math.round(n);
+const brl2=n=>Math.round(n).toLocaleString('pt-BR');
+const pctF=n=>n.toLocaleString('pt-BR',{minimumFractionDigits:n%1?1:0,maximumFractionDigits:2});
+const sgn=n=>(n>0?'+':'')+pctF(Math.round(n*10)/10)+'%';
+function tint(hex,t){const r=parseInt(hex.slice(1,3),16),g=parseInt(hex.slice(3,5),16),b=parseInt(hex.slice(5,7),16);
+  const m=c=>Math.round(c+(255-c)*t).toString(16).padStart(2,'0');return '#'+m(r)+m(g)+m(b)}
+const esc=s=>String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+const orcamento=()=>num($('orcamento').value);
+const area=()=>num($('area').value)||0;
+const ambientes=()=>num($('ambientes').value)||0;
+const somaFase=f=>st.itens.filter(i=>i.fase===f).reduce((s,i)=>s+i.pct,0);
+const somaTotal=()=>st.itens.reduce((s,i)=>s+i.pct,0);
+const grupoDe=i=>(i.fase==='f2'||/ilumina|automa|climatiz|revestimento|esquadria/i.test(i.nome))?'fino':'base';
+function corItem(item){const p=st.itens.filter(i=>i.fase===item.fase),k=p.indexOf(item);
+  return tint(FASES[item.fase].cor,Math.min(.62,k*(p.length>10?.055:.08)))}
+const prev=i=>orcamento()*i.pct/100;
+const real=i=>i.real>0?i.real:0;
+const efetivo=i=>real(i)||prev(i);
+const totalPrev=()=>st.itens.reduce((s,i)=>s+prev(i),0);
+const totalReal=()=>st.itens.reduce((s,i)=>s+real(i),0);
+const totalProj=()=>st.itens.reduce((s,i)=>s+efetivo(i),0);
+const dias=(d,n)=>{const x=new Date(d);x.setDate(x.getDate()+n);return x};
+const fmtD=d=>d.toLocaleDateString('pt-BR',{day:'2-digit',month:'2-digit',year:'2-digit'});
+function dataIni(){const v=$('dtIni').value;return v?new Date(v+'T00:00:00'):new Date()}
+
+/* ---------------- CUB ---------------- */
+function tipologia(){return TIPOLOGIA[$('obra').value]||'R8'}
+function cubBase(){const uf=$('uf').value;if(uf==='XX'||!CUB[uf])return null;
+  const tab=CUB[uf][tipologia()];if(!tab)return null;
+  return st.escopo.padrao==='L'?tab.A*1.35:tab[st.escopo.padrao]}
+function atualizarCub(auto){
+  const b=cubBase();if(auto&&b)$('cub').value=brl2(b);
+  const v=num($('cub').value),A=area(),O=orcamento(),uf=$('uf').value;
+  const ref=b?`${CUB[uf].nome} · ${TIPNOME[tipologia()]} · padrão ${PADNOME[st.escopo.padrao]}${st.escopo.padrao==='L'?' (CUB alto × 1,35, o índice não tem faixa de luxo)':''} · mai/2026`:'valor informado por você';
+  const c=v*A;
+  $('cubMini').innerHTML=`<b>${ref}</b><br>
+    Construir ${A?pctF(A):'—'} m² do zero nessa referência: <b>${brl(c)}</b>. O orçamento do briefing equivale a <b>${c?pctF(Math.round(O/c*100)):'—'}%</b> disso.<br>
+    O CUB cobre a obra padrão e não inclui fundação especial, elevador, projetos, taxas, terreno, sob medida nem mobiliário. Serve como termômetro de região e de padrão, não como orçamento.<br>
+    SINAPI nacional ${SINAPI.ref}: ${brl(SINAPI.valor)}/m², ${SINAPI.var12} em 12 meses.
+    ${uf==='XX'?'<br>Busque o CUB do seu estado em <a href="http://www.cub.org.br/cub-m2-estadual/" target="_blank" rel="noopener">cub.org.br</a> e digite ao lado.':''}`;
+}
+
+/* ---------------- antes ---------------- */
+function carregarPerfil(nome){
+  const p=PERFIS[nome];
+  st.escopo=Object.assign({},st.escopo,p.escopo,{nome:$('nome').value||''});
+  st.itens=p.itens.map(([fase,n,pct])=>({id:uid++,fase,nome:n,pct,real:0,forn:''}));
+  seedCronograma();aplicarEscopo();render();
+}
+
+function render(){
+  const t=$('tabela');t.innerHTML='';
+  Object.keys(FASES).forEach(f=>{
+    const g=document.createElement('div');g.className='grp';
+    g.innerHTML=`<div class="t" style="color:${FASES[f].cor}">${FASES[f].nome}</div><div class="s" data-sub="${f}"></div>`;
+    t.appendChild(g);
+    st.itens.filter(i=>i.fase===f).forEach(item=>t.appendChild(linha(item)));
+    const add=document.createElement('div');add.className='addrow hide-print';
+    add.innerHTML='<button class="ghost">+ Adicionar item</button>';
+    add.querySelector('button').onclick=()=>{const it={id:uid++,fase:f,nome:'Novo serviço',pct:0,real:0,forn:''};
+      Object.assign(it,tempoDe(it.nome),{ini:0});st.itens.push(it);render()};
+    t.appendChild(add);
+  });
+  renderRessalvas();sync();
+}
+
+function linha(item){
+  const d=document.createElement('div');d.className='row';d.dataset.id=item.id;
+  d.innerHTML=`<div class="sw" style="background:${corItem(item)}"></div>
+    <input class="nm" value="${esc(item.nome).replace(/"/g,'&quot;')}">
+    <div class="pctwrap"><input class="num pct" value="${pctF(item.pct)}"></div>
+    <div class="valwrap"><input class="num val"></div>
+    <button class="del hide-print" title="Remover">×</button>`;
+  const nm=d.querySelector('.nm'),pct=d.querySelector('.pct'),val=d.querySelector('.val');
+  nm.oninput=()=>{item.nome=nm.value;sync()};
+  pct.oninput=()=>{item.pct=num(pct.value);val.value=brl2(prev(item));sync()};
+  pct.onblur=()=>pct.value=pctF(item.pct);
+  val.oninput=()=>{const v=num(val.value);item.pct=orcamento()?v/orcamento()*100:0;pct.value=pctF(item.pct);sync()};
+  val.onblur=()=>val.value=brl2(prev(item));
+  d.querySelector('.del').onclick=()=>{st.itens=st.itens.filter(i=>i!==item);render()};
+  val.value=brl2(prev(item));
+  return d;
+}
+
+function renderRessalvas(){
+  const c=$('ressalvas');c.innerHTML='';
+  st.ressalvas.forEach((r,k)=>{
+    const d=document.createElement('div');d.className='rsv';
+    d.innerHTML=`<span class="tag t-info">${String(k+1).padStart(2,'0')}</span><textarea rows="2"></textarea><button class="del hide-print">×</button>`;
+    const ta=d.querySelector('textarea');ta.value=r;
+    const fit=()=>{ta.style.height='auto';ta.style.height=ta.scrollHeight+'px'};
+    ta.oninput=()=>{st.ressalvas[k]=ta.value;fit()};
+    d.querySelector('.del').onclick=()=>{st.ressalvas.splice(k,1);renderRessalvas()};
+    c.appendChild(d);fit();
+  });
+}
+
+function sync(){
+  const O=orcamento(),A=area(),AMB=ambientes();
+  const sv=somaFase('servico'),f1=somaFase('f1'),f2=somaFase('f2'),tot=somaTotal(),vObra=O*(f1+f2)/100;
+
+  $('ind').innerHTML=[['Orçamento do briefing',brl(O)],['Custo / m²',A?brl(O/A):'—'],
+    ['Custo F1 / m²',A?brl(O*f1/100/A):'—'],['Custo F2 / m²',A?brl(O*f2/100/A):'—'],
+    ['Preço do serviço / m²',A?brl(O*sv/100/A):'—']]
+    .map(([k,v])=>`<div><div class="k">${k}</div><div class="v">${v}</div></div>`).join('');
+
+  const strip=$('strip');strip.innerHTML='';
+  st.itens.filter(i=>i.pct>0).forEach(i=>{const s=document.createElement('div');s.className='seg';
+    s.style.width=Math.min(i.pct,100)+'%';s.style.background=corItem(i);
+    s.title=`${i.nome} · ${pctF(i.pct)}% · ${brl(prev(i))}`;strip.appendChild(s)});
+  $('ruler').innerHTML=Array.from({length:11},(_,k)=>{const p=k*10;
+    return `<i class="${k%5===0?'maj':''}" style="left:${p}%"></i>`+
+      (k%5===0?`<b style="left:${p}%;transform:${k===0?'none':k===10?'translateX(-100%)':'translateX(-50%)'}">${p}%</b>`:'')}).join('');
+
+  const dif=100-tot;
+  $('stPct').innerHTML=`<span class="${Math.abs(dif)<.005?'st-ok':'st-bad'}">${pctF(tot)}% de 100%</span>`;
+  $('stMsg').textContent=Math.abs(dif)<.005?'Fechado em 100%. O planejamento cabe dentro do orçamento do briefing.'
+    :dif>0?`Sobram ${pctF(dif)}%, ou ${brl(O*dif/100)}, sem destino definido.`
+          :`Estouro de ${pctF(-dif)}%, ou ${brl(O*-dif/100)}, acima do orçamento do briefing.`;
+
+  $('legend').innerHTML=Object.keys(FASES).map(f=>{const v=somaFase(f);
+    return `<div><s style="background:${FASES[f].cor}"></s>${FASES[f].nome.split(' · ')[0]} · ${pctF(v)}% · ${brl(O*v/100)}</div>`}).join('')
+    +`<div><s style="background:repeating-linear-gradient(-45deg,#fff,#fff 3px,#dedbd4 3px,#dedbd4 6px);border:1px solid var(--rule-strong)"></s>Não alocado · ${pctF(Math.max(dif,0))}%</div>`
+    +`<div style="margin-left:auto"><button class="ghost hide-print" id="btFechar">Fechar em 100%</button></div>`;
+  $('btFechar').onclick=fechar100;
+
+  document.querySelectorAll('[data-sub]').forEach(el=>{const v=somaFase(el.dataset.sub);
+    el.innerHTML=`<b>${pctF(v)}%</b> · ${brl(O*v/100)}`});
+
+  $('ftPct').innerHTML=`<span class="${Math.abs(dif)<.005?'st-ok':'st-bad'}">${pctF(tot)}%</span>`;
+  $('ftVal').textContent=brl(O*tot/100);
+  $('hdNome').textContent=$('nome').value?' · '+$('nome').value:'';
+
+  const R=64,C=2*Math.PI*R;let off=0;
+  let svg=`<g transform="rotate(-90 90 90)"><circle cx="90" cy="90" r="${R}" fill="none" stroke="#eceae4" stroke-width="26"/>`;
+  st.itens.filter(i=>i.pct>0).forEach(i=>{const len=C*Math.min(i.pct,100)/100;
+    svg+=`<circle cx="90" cy="90" r="${R}" fill="none" stroke="${corItem(i)}" stroke-width="26" stroke-dasharray="${len} ${C-len}" stroke-dashoffset="${-off}"><title>${esc(i.nome)}</title></circle>`;off+=len});
+  $('donut').innerHTML=svg+'</g>';
+  $('dA').textContent=A?brl(O/A):'—';
+
+  $('bars').innerHTML=Object.keys(FASES).map(f=>({nome:FASES[f].nome,pct:somaFase(f),cor:FASES[f].cor}))
+    .map(b=>`<div class="bar"><div class="hd"><span class="nm">${b.nome}</span>
+      <span class="fig"><b>${pctF(b.pct)}%</b> · ${brl(O*b.pct/100)}</span></div>
+      <div class="track"><i style="width:${Math.min(b.pct,100)}%;background:${b.cor}"></i></div></div>`).join('')
+    +`<div class="bar" style="margin-top:16px;padding-top:14px;border-top:1px solid var(--rule)">
+      <div class="hd"><span class="nm">Obra sem o seu serviço (F1 + F2)</span><span class="fig"><b>${brl(vObra)}</b></span></div>
+      <div class="hd"><span class="nm">Custo médio por ambiente</span><span class="fig"><b>${AMB?brl(vObra/AMB):'—'}</b></span></div>
+      <div class="hd"><span class="nm">Seu serviço sobre a obra</span><span class="fig"><b>${vObra?pctF(Math.round(O*sv/100/vObra*1000)/10)+'%':'—'}</b></span></div></div>`;
+
+  $('padraoMini').innerHTML=`Padrão <b>${PADNOME[st.escopo.padrao]}</b>. Ele troca a faixa do CUB e o peso relativo entre a base da obra e o acabamento fino. Aplicar redistribui F1 e F2 e mantém o seu serviço travado em ${pctF(sv)}%.`;
+  atualizarCub(false);diretrizes();
+  if(document.body.classList.contains('exec'))renderExec();
+  if(document.body.classList.contains('apre'))renderApre();
+}
+
+function diretrizes(){
+  const O=orcamento(),A=area(),AMB=ambientes(),sv=somaFase('servico'),dif=100-somaTotal();
+  const vObra=O*(somaFase('f1')+somaFase('f2'))/100;
+  const L=[];const add=(t,txt)=>L.push([t,txt]);
+  if(Math.abs(dif)>=.005)
+    add(dif>0?'aten':'crit',dif>0?`Faltam ${brl(O*dif/100)} sem destino. Distribua antes de liberar o time para criar, senão esse valor vai ser consumido pelo primeiro item que passar do previsto.`
+      :`O planejamento estourou ${brl(O*-dif/100)} acima do briefing. Corte agora, no papel, e não depois, no orçamento do fornecedor.`);
+  else add('ok','Distribuição fechada em 100%. O time pode criar com estes tetos.');
+  const top=[...st.itens].filter(i=>i.fase!=='servico').sort((a,b)=>b.pct-a.pct).slice(0,3);
+  if(top.length)add('info','Tetos das três maiores rubricas: '+top.map(i=>`${esc(i.nome)} até <b>${brl(prev(i))}</b>`).join(', ')+'. Passou disso, tire de outro lugar na mesma reunião.');
+  const marc=st.itens.find(i=>/marcenaria/i.test(i.nome)&&i.fase==='f2');
+  if(marc&&marc.pct>=28)add('aten',`Marcenaria concentra ${pctF(marc.pct)}% do orçamento. Um erro de 10% só nessa linha come ${brl(prev(marc)*.1)}. Peça um preliminar ao marceneiro antes de travar o layout.`);
+  if(sv>0&&sv<10)add('aten',`O seu serviço está em ${pctF(sv)}%. Abaixo de 10% em gestão de obra costuma significar trabalhar de graça na segunda metade do cronograma.`);
+  if(sv>18)add('aten',`O seu serviço está em ${pctF(sv)}% do global, ou ${vObra?pctF(Math.round(O*sv/100/vObra*1000)/10):'—'}% sobre a obra. Defensável, mas prepare o argumento antes de apresentar.`);
+  const dec=st.itens.find(i=>/decoração|produção/i.test(i.nome));
+  if(!dec||dec.pct<1)add('aten','Sem verba de decoração e produção o projeto entrega bonito no executivo e vazio no dia da mudança. Reserve pelo menos 1% para fechar o ambiente.');
+  if(!st.itens.some(i=>/reserva|contingên/i.test(i.nome)))
+    add('info','Não há reserva técnica neste planejamento. O padrão de mercado é de 5% a 10% fora do orçamento, e quem não reserva paga a surpresa tirando de acabamento no fim da obra.');
+  if(A)add('info',`Referências de projeto: <b>${brl(O/A)}/m²</b> global, <b>${brl(vObra/A)}/m²</b> só de obra${AMB?`, <b>${brl(vObra/AMB)}</b> por ambiente`:''}. Use para checar rápido se a especificação está saindo da faixa.`);
+  const cub=num($('cub').value);
+  if(cub&&A){const rel=O/(cub*A)*100;
+    add(rel<60?'aten':'info',`O orçamento equivale a ${pctF(Math.round(rel))}% do custo de construir a mesma área do zero na sua região. ${rel<60?'Faixa apertada: prepare o cliente para um projeto de escolhas, não de desejos.':rel>140?'Faixa folgada: cabe especificação de alto padrão sem ginástica.':'Faixa coerente com um projeto completo do padrão escolhido.'}`);}
+  $('diretrizes').innerHTML=L.map(([t,txt])=>`<li><span class="tag t-${t}">${{crit:'crítico',aten:'atenção',ok:'ok',info:'nota'}[t]}</span><span>${txt}</span></li>`).join('');
+}
+
+function fechar100(){
+  const sv=somaFase('servico'),resto=100-sv,atual=somaFase('f1')+somaFase('f2');
+  if(resto<=0||atual<=0){alert('Ajuste primeiro o percentual do seu serviço: ele sozinho já ocupa o orçamento inteiro.');return}
+  const k=resto/atual;st.itens.forEach(i=>{if(i.fase!=='servico')i.pct=Math.round(i.pct*k*100)/100});render();
+}
+function aplicarPadrao(){
+  const f=FATOR[st.escopo.padrao],resto=100-somaFase('servico');
+  const alvo=st.itens.filter(i=>i.fase!=='servico'&&i.pct>0);
+  if(!alvo.length||resto<=0)return;
+  const tmp=alvo.map(i=>i.pct*f[grupoDe(i)]),s=tmp.reduce((a,b)=>a+b,0);
+  alvo.forEach((i,k)=>i.pct=Math.round(tmp[k]/s*resto*100)/100);render();
+}
+
+/* ---------------- depois: cronograma ---------------- */
+function seedCronograma(){
+  let cur=0;
+  st.itens.filter(i=>i.fase==='f1').forEach(i=>{
+    const t=tempoDe(i.nome);i.dur=t.dur;i.prazo=t.prazo;i.ini=cur;cur+=Math.max(1,Math.round(t.dur*.7))});
+  const fimF1=Math.max(0,...st.itens.filter(i=>i.fase==='f1').map(i=>i.ini+i.dur));
+  let k=0;
+  st.itens.filter(i=>i.fase==='f2').forEach(i=>{
+    const t=tempoDe(i.nome);i.dur=t.dur;i.prazo=t.prazo;i.ini=fimF1+Math.min(k,4);k++});
+  const fim=Math.max(1,...st.itens.filter(i=>i.fase!=='servico').map(i=>i.ini+i.dur));
+  st.itens.filter(i=>i.fase==='servico').forEach(i=>{i.ini=0;i.dur=fim;i.prazo=0});
+}
+const fimObra=()=>Math.max(1,...st.itens.map(i=>(i.ini||0)+(i.dur||0)));
+
+const HACH='repeating-linear-gradient(-45deg,#fff,#fff 4px,#dedbd4 4px,#dedbd4 8px)';
+function corDesvio(dp){return Math.abs(dp)<2?'var(--ink)':dp>0?'var(--alert)':'var(--ok)'}
+function renderInd(){
+  const P=totalPrev(),R=totalReal(),PR=totalProj(),d=PR-P,dp=P?d/P*100:0;
+  const cont=st.itens.filter(i=>real(i)>0).length;
+  $('eind').innerHTML=[
+    ['Planejado no briefing',brl(P),'100% do orçamento'],
+    ['Contratado até agora',brl(R),`${cont} de ${st.itens.length} itens · ${P?pctF(Math.round(R/P*100)):0}% do planejado`],
+    ['Falta contratar',brl(Math.max(0,PR-R)),`${st.itens.length-cont} itens ainda pelo valor planejado`],
+    ['Projeção de fechamento',brl(PR),cont?`${d>=0?'estouro':'economia'} de ${brl(Math.abs(d))} · ${sgn(dp)}`:'nada contratado ainda']
+  ].map(([k,v,s],ix)=>`<div><div class="k">${k}</div><div class="v"${ix===3?` style="color:${corDesvio(dp)}"`:''}>${v}</div><div class="s">${s}</div></div>`).join('');
+}
+function renderCmp(){
+  const P=totalPrev(),R=totalReal(),PR=totalProj(),max=Math.max(P,PR)||1,d=PR-P,dp=P?d/P*100:0;
+  const w=v=>Math.max(0,Math.min(v,max))/max*100+'%';
+  $('cmpP').textContent=brl(P);
+  $('cmpPR').innerHTML=`${brl(PR)} <span style="font-size:11.5px;color:${corDesvio(dp)}">${sgn(dp)}</span>`;
+  $('barP').style.width=w(P);
+  $('barR').style.width=w(R);
+  $('barR').style.background=d>0?'var(--alert)':'var(--ok)';
+  $('barF').style.width=w(PR-R);
+  $('barF').style.background=HACH;
+  const pos=P/max*100;
+  $('teto').style.left=pos+'%';
+  $('teto').classList.toggle('esq',pos>78);
+  $('teto').style.display=Math.abs(P-PR)/max<.01?'none':'block';
+  $('cmpLeg').innerHTML=`<span>Contratado <b>${brl(R)}</b></span>
+    <span>Falta contratar <b>${brl(Math.max(0,PR-R))}</b></span>
+    <span style="color:${corDesvio(dp)}">${Math.abs(dp)<.5?'dentro do planejado':d>0?'estouro de '+brl(d):'economia de '+brl(-d)}</span>`;
+  $('cmpMini').innerHTML='A projeção assume que o que ainda não foi contratado sai pelo valor planejado. É esse o número que vai para a reunião com o cliente, e não o total contratado até hoje.';
+}
+function renderExec(){
+  renderInd();renderCmp();
+  const t=$('etabela');t.innerHTML='';
+  Object.keys(FASES).forEach(f=>{
+    const itens=st.itens.filter(i=>i.fase===f);if(!itens.length)return;
+    const g=document.createElement('div');g.className='grp';
+    const sp=itens.reduce((s,i)=>s+prev(i),0),sr=itens.reduce((s,i)=>s+efetivo(i),0);
+    g.innerHTML=`<div class="t" style="color:${FASES[f].cor}">${FASES[f].nome}</div>
+      <div class="s">${brl(sp)} → <b>${brl(sr)}</b> · <span class="${sr>sp*1.02?'st-bad':'st-ok'}">${sgn(sp?(sr-sp)/sp*100:0)}</span></div>`;
+    t.appendChild(g);
+    itens.forEach(i=>t.appendChild(elinha(i)));
+  });
+
+  renderGantt();renderCurva();alertas();
+}
+
+function elinha(i){
+  const d=document.createElement('div');d.className='erow';d.dataset.id=i.id;
+  d.innerHTML=`<div class="sw" style="background:${corItem(i)}"></div>
+    <div class="nm" title="${esc(i.nome)}">${esc(i.nome)}</div>
+    <div class="prev">${brl(prev(i))}</div>
+    <div class="valwrap"><input class="num val" style="padding-left:26px"></div>
+    <div class="dv"></div>
+    <input class="forn" placeholder="fornecedor">
+    <input class="num prz" value="${i.prazo||0}">`;
+  const val=d.querySelector('.val'),forn=d.querySelector('.forn'),prz=d.querySelector('.prz'),dv=d.querySelector('.dv');
+  val.value=i.real?brl2(i.real):'';
+  forn.value=i.forn||'';
+  const pinta=()=>{
+    const p=prev(i);
+    if(!i.real){dv.className='dv dv-nd';dv.textContent='—';return}
+    const x=p?(i.real-p)/p*100:0;
+    dv.className='dv '+(Math.abs(x)<=5?'dv-ok':Math.abs(x)<=15?'dv-at':'dv-cr');
+    dv.textContent=`${sgn(x)} · ${i.real-p>0?'+':''}${brlK(i.real-p)}`;
+  };
+  val.oninput=()=>{i.real=num(val.value);pinta();renderExecLeve()};
+  val.onblur=()=>{val.value=i.real?brl2(i.real):''};
+  forn.oninput=()=>i.forn=forn.value;
+  prz.oninput=()=>{i.prazo=num(prz.value);renderGantt();alertas()};
+  pinta();
+  return d;
+}
+/* atualiza só os agregados, sem recriar as linhas que estão sendo digitadas */
+function renderExecLeve(){
+  renderInd();renderCmp();
+  document.querySelectorAll('#etabela .grp .s').forEach((el,k)=>{
+    const f=Object.keys(FASES)[k];if(!f)return;
+    const itens=st.itens.filter(i=>i.fase===f);
+    const sp=itens.reduce((s,i)=>s+prev(i),0),sr=itens.reduce((s,i)=>s+efetivo(i),0);
+    el.innerHTML=`${brl(sp)} → <b>${brl(sr)}</b> · <span class="${sr>sp*1.02?'st-bad':'st-ok'}">${sgn(sp?(sr-sp)/sp*100:0)}</span>`});
+  renderCurva();alertas();
+}
+
+function renderGantt(){
+  const fim=fimObra(),W=100/fim,ini=dataIni(),hoje=new Date();
+  const meses=[];for(let w=0;w<fim;w++){const d=dias(ini,w*7);const k=d.toLocaleDateString('pt-BR',{month:'short'});
+    if(!meses.length||meses[meses.length-1].k!==k)meses.push({k,w,n:1});else meses[meses.length-1].n++}
+  const eixo=`<div class="gaxis" style="grid-template-columns:210px 96px 1fr">
+    <span style="border:0">Serviço</span><span style="border:0">Pedido até</span>
+    <div style="display:grid;grid-template-columns:${meses.map(m=>m.n).join('fr ')}fr">
+      ${meses.map(m=>`<span>${m.k}</span>`).join('')}</div></div>`;
+  const hojeW=(hoje-ini)/(7*864e5);
+  const linhas=st.itens.filter(i=>i.pct>0).map(i=>{
+    const inicioServ=dias(ini,(i.ini||0)*7);
+    const limite=dias(inicioServ,-(i.prazo||0));
+    const atrasado=(i.prazo||0)>0&&limite<hoje;
+    return `<div class="grow"><div class="n" title="${esc(i.nome)}">${esc(i.nome)}</div>
+      <div class="p" style="color:${atrasado?'var(--alert)':'var(--muted)'}">${(i.prazo||0)>0?fmtD(limite):'—'}</div>
+      <div class="gtrack" style="--w:${W}%">
+        ${hojeW>=0&&hojeW<=fim?`<div class="ghoje" style="left:${hojeW/fim*100}%"></div>`:''}
+        <div class="gbar" style="left:${(i.ini||0)/fim*100}%;width:${Math.max((i.dur||1)/fim*100,2)}%;background:${corItem(i)}">${(i.dur||1)>=2?(i.dur||1)+'s':''}</div>
+      </div></div>`}).join('');
+  $('gantt').innerHTML=eixo+linhas;
+  const fimData=dias(ini,fim*7);
+  const gargalos=st.itens.filter(i=>i.pct>0&&(i.prazo||0)>0&&dias(dias(ini,(i.ini||0)*7),-(i.prazo||0))<hoje);
+  $('gsub').innerHTML=`Obra em <b>${fim} semanas</b>, de ${fmtD(ini)} a ${fmtD(fimData)}. A linha vertical vermelha é hoje. "Pedido até" é a data limite para comprar sem atrasar a obra, calculada pelo prazo de entrega do fornecedor.
+    ${gargalos.length?`<br><span style="color:var(--alert)"><b>${gargalos.length} ${gargalos.length===1?'item já está com a data de compra vencida':'itens já estão com a data de compra vencida'}:</b> ${gargalos.map(i=>esc(i.nome)).join(', ')}.</span>`:''}
+    <br>Durações e prazos vêm de referências típicas de mercado. Ajuste na coluna Prazo e confirme com cada fornecedor.`;
+}
+
+function dadosCurva(){
+  const fim=fimObra(),ini=dataIni(),sem=Array(fim).fill(0);
+  st.itens.forEach(i=>{const v=efetivo(i),d=Math.max(1,i.dur||1);
+    for(let w=0;w<d;w++){const ix=(i.ini||0)+w;if(ix<fim)sem[ix]+=v/d}});
+  const ordem=[],mes={};
+  sem.forEach((v,w)=>{const k=dias(ini,w*7).toLocaleDateString('pt-BR',{month:'short',year:'2-digit'});
+    if(!(k in mes)){mes[k]=0;ordem.push(k)}mes[k]+=v});
+  const vals=ordem.map(k=>mes[k]);
+  return {ordem,vals,tot:vals.reduce((a,b)=>a+b,0)||1,maxV:Math.max(...vals,1)};
+}
+function renderCurva(idSvg,idMini){
+  idSvg=idSvg||'curva';idMini=idMini||'curvaMini';
+  const svg=$(idSvg);if(!svg)return;
+  const {ordem,vals,tot,maxV}=dadosCurva();
+  const bw=Math.max(62,Math.min(96,760/Math.max(ordem.length,1))),padL=16,padR=54,H=250,top=40,base=H-34;
+  const W=Math.round(padL+padR+bw*ordem.length);
+  const hb=v=>(v/maxV)*(base-top);
+  let acc=0;const pts=vals.map((v,k)=>{acc+=v;return[padL+bw*k+bw/2,base-(acc/tot)*(base-top)]});
+  const acumul=[];acc=0;vals.forEach(v=>{acc+=v;acumul.push(acc/tot*100)});
+  svg.setAttribute('viewBox','0 0 '+W+' '+H);
+  svg.setAttribute('width',W);svg.setAttribute('height',H);
+  svg.innerHTML=
+    [0,.25,.5,.75,1].map(p=>`<line x1="${padL}" y1="${base-p*(base-top)}" x2="${W-padR+8}" y2="${base-p*(base-top)}" stroke="${p?'#eceae4':'#c9c6be'}"/>
+      <text x="${W-padR+14}" y="${base-p*(base-top)+3}" font-family="IBM Plex Mono" font-size="9" fill="#6e7278">${Math.round(p*100)}%</text>`).join('')
+    +vals.map((v,k)=>`<rect x="${padL+bw*k+bw*.16}" y="${base-hb(v)}" width="${bw*.68}" height="${hb(v)}" fill="#e2ddd2"><title>${ordem[k]}: ${brl(v)}</title></rect>`).join('')
+    +`<polyline points="${pts.map(p=>p.join(',')).join(' ')}" fill="none" stroke="#1e4b57" stroke-width="2"/>`
+    +pts.map((p,k)=>`<circle cx="${p[0]}" cy="${p[1]}" r="3.5" fill="#fff" stroke="#1e4b57" stroke-width="2"><title>${pctF(Math.round(acumul[k]))}% acumulado</title></circle>`).join('')
+    +vals.map((v,k)=>`<text x="${padL+bw*k+bw/2}" y="${base-hb(v)-9}" text-anchor="middle" font-family="IBM Plex Mono" font-size="10.5" fill="#14171a" stroke="#ffffff" stroke-width="4" paint-order="stroke">${brlK(v)}</text>
+      <text x="${padL+bw*k+bw/2}" y="${base+17}" text-anchor="middle" font-family="IBM Plex Mono" font-size="10" fill="#6e7278">${ordem[k]}</text>`).join('')
+    +`<text x="${padL}" y="18" font-family="IBM Plex Mono" font-size="9" letter-spacing="1" fill="#6e7278">DESEMBOLSO DO MÊS</text>
+      <text x="${W-padR+8}" y="18" text-anchor="end" font-family="IBM Plex Mono" font-size="9" letter-spacing="1" fill="#1e4b57">ACUMULADO</text>`;
+  const pico=ordem[vals.indexOf(maxV)],mini=$(idMini);
+  if(mini)mini.innerHTML=`Barras são o desembolso do mês, a linha é o acumulado. Pico de caixa em <b>${pico}</b>, com <b>${brl(maxV)}</b> concentrados. Combine as parcelas com o cliente antes da obra começar, e não no meio dela.`;
+}
+function alertas(){
+  const L=[],add=(t,x)=>L.push([t,x]);
+  const P=totalPrev(),PR=totalProj(),d=PR-P,dp=P?d/P*100:0,hoje=new Date(),ini=dataIni();
+  if(!st.itens.some(i=>real(i)>0))add('info','Nenhum valor contratado lançado ainda. Preencha a coluna Contratado conforme os orçamentos executivos forem fechando e o comparativo se monta sozinho.');
+  else add(Math.abs(dp)<2?'ok':dp>0?(dp>8?'crit':'aten'):'ok',
+    `Projeção de fechamento em ${brl(PR)}, ${d>0?'acima':'abaixo'} do planejado em ${brl(Math.abs(d))} (${sgn(dp)}).${dp>8?' Acima de 8% já é conversa com o cliente, não ajuste interno.':''}`);
+
+  st.itens.filter(i=>real(i)>0).forEach(i=>{const p=prev(i),x=p?(i.real-p)/p*100:0;
+    if(x>15)add('crit',`<b>${esc(i.nome)}</b> fechou ${sgn(x)} acima do previsto, ${brl(i.real-p)} a mais. Compense em outra linha da mesma fase antes de aprovar o próximo item.`);
+    else if(x<-15)add('ok',`<b>${esc(i.nome)}</b> fechou ${sgn(x)} abaixo do previsto, sobrando ${brl(p-i.real)}. Realoque de forma consciente em vez de deixar a sobra sumir.`)});
+
+  const garg=st.itens.filter(i=>i.pct>0&&(i.prazo||0)>0&&dias(dias(ini,(i.ini||0)*7),-(i.prazo||0))<hoje);
+  if(garg.length)add('crit',`Data de compra vencida em ${garg.length} ${garg.length===1?'item':'itens'}: ${garg.map(i=>esc(i.nome)).join(', ')}. Ou compra hoje, ou o cronograma anda para a direita.`);
+
+  const longos=st.itens.filter(i=>(i.prazo||0)>=40&&i.pct>0);
+  if(longos.length)add('aten',`Prazo longo de fornecedor em ${longos.map(i=>`${esc(i.nome)} (${i.prazo} dias)`).join(', ')}. São os itens que definem a data de entrega, trave o pedido deles primeiro.`);
+
+  $('alertas').innerHTML=L.map(([t,x])=>`<li><span class="tag t-${t}">${{crit:'crítico',aten:'atenção',ok:'ok',info:'nota'}[t]}</span><span>${x}</span></li>`).join('');
+}
+
+function importar(){
+  const txt=$('imp').value.trim();if(!txt)return;
+  let ok=0,nao=[];
+  txt.split(/\n/).forEach(l=>{
+    const m=l.split(/[;\t]|\s{2,}|,(?=\s*R?\$?\s*[\d.]+\s*$)/);
+    if(m.length<2)return;
+    const nome=m[0].trim().toLowerCase(),v=num(m.slice(1).join(' '));
+    if(!nome||!v)return;
+    const alvo=st.itens.find(i=>i.nome.toLowerCase().includes(nome)||nome.includes(i.nome.toLowerCase().split(' ')[0]));
+    if(alvo){alvo.real=v;ok++}else nao.push(m[0].trim());
+  });
+  $('imp').value='';renderExec();
+  alert(`${ok} ${ok===1?'item atualizado':'itens atualizados'}.`+(nao.length?`\nNão encontrei: ${nao.join(', ')}. Renomeie a linha ou lance manualmente.`:''));
+}
+
+function copiarBase(){
+  const O=orcamento();
+  let t=`Projeto: ${$('nome').value||'sem nome'} | ${$('tipo').value} | ${$('obra').value} | ${area()} m² | padrão ${PADNOME[st.escopo.padrao]}\n`;
+  t+=`Orçamento do briefing: ${brl(O)} | Projeção atual: ${brl(totalProj())} (${sgn(totalPrev()?(totalProj()-totalPrev())/totalPrev()*100:0)})\n\n`;
+  t+=`Fase | Item | Previsto | Contratado | Desvio | Fornecedor | Prazo (dias)\n`;
+  st.itens.forEach(i=>{const p=prev(i);
+    t+=`${FASES[i.fase].nome} | ${i.nome} | ${Math.round(p)} | ${i.real?Math.round(i.real):''} | ${i.real&&p?sgn((i.real-p)/p*100):''} | ${i.forn||''} | ${i.prazo||0}\n`});
+  t+=`\nAnalise o previsto x realizado, aponte onde o desvio é estrutural e onde é pontual, e sugira de onde compensar sem mexer no total.`;
+  navigator.clipboard.writeText(t).then(()=>alert('Base copiada. Cole em uma conversa com a IA junto do orçamento executivo.'),
+    ()=>{$('imp').value=t;alert('Não consegui acessar a área de transferência. O texto está na caixa acima, copie manualmente.')});
+}
+
+/* ---------------- apresentação ---------------- */
+let apreModo='A';
+function renderApre(){apreModo==='B'?renderApreDepois():renderApreAntes()}
+function renderApreAntes(){
+  const O=orcamento(),A=area(),AMB=ambientes(),e=st.escopo,cub=num($('cub').value),uf=$('uf').value;
+  const linhas=f=>st.itens.filter(i=>i.fase===f&&i.pct>0).map(i=>`<li><span>${esc(i.nome)}</span><b>${brl(prev(i))}</b></li>`).join('');
+  const seg=st.itens.filter(i=>i.pct>0).map(i=>`<div class="seg" style="width:${Math.min(i.pct,100)}%;background:${corItem(i)}"></div>`).join('');
+  $('apre').innerHTML=`
+  <div class="capa">
+    <div class="eyebrow">Planejamento de investimento · ${new Date().toLocaleDateString('pt-BR',{month:'long',year:'numeric'})}</div>
+    <h2>${esc($('nome').value||'Projeto sem nome')}</h2>
+    <div class="meta">${e.tipo} · ${e.categoria} · ${$('obra').value} · ${$('status').value} · ${pctF(A)} m² · ${pctF(AMB)} ambientes · padrão ${PADNOME[e.padrao]}</div>
+  </div>
+  <div class="bignum">
+    <div><div class="k">Investimento total planejado</div><div class="v">${brl(O)}</div></div>
+    <div><div class="k">Por m²</div><div class="v sm">${A?brl(O/A):'—'}</div></div>
+    <div><div class="k">Por ambiente</div><div class="v sm">${AMB?brl(O/AMB):'—'}</div></div>
+  </div>
+  <div style="padding:22px 24px;border-bottom:1px solid var(--rule)">
+    <div class="strip">${seg}</div>
+    <div style="margin-top:10px;font-size:12px;color:var(--muted)">Cada faixa é uma frente de investimento. A largura mostra o peso dela dentro do total.</div>
+  </div>
+  <div class="fases">
+    ${Object.keys(FASES).map(f=>`<div class="fase">
+      <div class="h"><s style="background:${FASES[f].cor}"></s><span class="n">${FASES[f].nome}</span></div>
+      <div class="q">${FASES[f].q}</div>
+      <div class="tot">${brl(O*somaFase(f)/100)}</div>
+      <div class="pc">${pctF(somaFase(f))}% do investimento${A?` · ${brl(O*somaFase(f)/100/A)}/m²`:''}</div>
+      <ul>${linhas(f)}</ul></div>`).join('')}
+  </div>
+  <div class="linha">
+    <div class="etapa e1"><div class="n">01</div><div class="t">Projeto e planejamento</div>
+      <div class="d">Levantamento, conceito, executivo e o orçamento real de cada frente, antes de qualquer contratação.</div></div>
+    <div class="etapa e2"><div class="n">02</div><div class="t">Fase 1 · Obra</div>
+      <div class="d">Demolição, alvenaria, instalações e revestimentos, tudo que precisa estar pronto antes de entrar o sob medida.</div></div>
+    <div class="etapa e3"><div class="n">03</div><div class="t">Fase 2 · Instalação e mudança</div>
+      <div class="d">Marcenaria, marmoraria, mobiliário, eletros e a produção final do ambiente.</div></div>
+  </div>
+  ${cub&&A?`<div class="bloco"><h3>Referência de mercado</h3>
+    <div style="font-size:13px;line-height:1.6;max-width:780px">Construir ${pctF(A)} m² do zero ${uf!=='XX'?'em '+CUB[uf].nome:'nessa região'} custaria cerca de <b>${brl(cub*A)}</b> pela referência do CUB (${brl(cub)}/m², padrão ${PADNOME[e.padrao]}, maio de 2026). O investimento planejado aqui equivale a <b>${pctF(Math.round(O/(cub*A)*100))}%</b> desse valor. O CUB é o custo de uma obra padrão e não inclui projeto, taxas, terreno, sob medida ou mobiliário, então serve como termômetro de região e de padrão, não como orçamento.</div></div>`:''}
+  <div class="bloco"><h3>Pontos de atenção</h3>
+    <ol>${st.ressalvas.filter(r=>r.trim()).map(r=>`<li>${esc(r)}</li>`).join('')}</ol></div>
+  <div class="assin"><span>Planejamento de investimento · documento de trabalho, sujeito a ajuste durante o desenvolvimento do projeto.</span>
+    <span>${esc($('nome').value||'')}</span></div>`;
+}
+
+function renderApreDepois(){
+  const P=totalPrev(),R=totalReal(),PR=totalProj(),d=PR-P,dp=P?d/P*100:0;
+  const e=st.escopo,ini=dataIni(),hoje=new Date(),fim=fimObra(),fimData=dias(ini,fim*7);
+  const semanaAtual=Math.max(0,Math.min(fim,Math.round((hoje-ini)/(7*864e5))));
+  const cont=st.itens.filter(i=>real(i)>0).length;
+
+  const faseLinha=f=>{
+    const it=st.itens.filter(i=>i.fase===f&&i.pct>0);
+    const sp=it.reduce((a,i)=>a+prev(i),0),sr=it.reduce((a,i)=>a+efetivo(i),0),x=sp?(sr-sp)/sp*100:0;
+    return `<tr><td><s style="background:${FASES[f].cor}"></s>${FASES[f].nome}</td>
+      <td>${brl(sp)}</td><td><b>${brl(sr)}</b></td>
+      <td style="color:${corDesvio(x)}">${sp?sgn(x):'—'}</td></tr>`};
+
+  const detalhe=f=>st.itens.filter(i=>i.fase===f&&i.pct>0).map(i=>{
+    const p=prev(i),v=efetivo(i),x=p?(v-p)/p*100:0;
+    return `<li><span>${esc(i.nome)}${i.forn?` <span style="color:var(--muted)">· ${esc(i.forn)}</span>`:''}</span>
+      <b style="color:${real(i)?corDesvio(x):'var(--muted)'}">${brl(v)}${real(i)&&Math.abs(x)>=5?` ${sgn(x)}`:''}</b></li>`}).join('');
+
+  const compras=st.itens.filter(i=>i.pct>0&&(i.prazo||0)>0)
+    .map(i=>({i,lim:dias(dias(ini,(i.ini||0)*7),-(i.prazo||0))}))
+    .sort((a,b)=>a.lim-b.lim).slice(0,7);
+
+  $('apre').innerHTML=`
+  <div class="capa">
+    <div class="eyebrow">Andamento da obra · ${new Date().toLocaleDateString('pt-BR',{day:'2-digit',month:'long',year:'numeric'})}</div>
+    <h2>${esc($('nome').value||'Projeto sem nome')}</h2>
+    <div class="meta">${e.tipo} · ${$('obra').value} · ${pctF(area())} m² · obra de ${fim} semanas, de ${fmtD(ini)} a ${fmtD(fimData)} · semana ${semanaAtual} de ${fim}</div>
+  </div>
+  <div class="bignum b4">
+    <div><div class="k">Planejado</div><div class="v sm">${brl(P)}</div></div>
+    <div><div class="k">Contratado</div><div class="v sm">${brl(R)}</div></div>
+    <div><div class="k">Falta contratar</div><div class="v sm">${brl(Math.max(0,PR-R))}</div></div>
+    <div><div class="k">Projeção de fechamento</div><div class="v sm" style="color:${corDesvio(dp)}">${brl(PR)}</div>
+      <div style="font-size:11px;color:var(--muted);margin-top:4px">${cont?`${d>=0?'estouro':'economia'} de ${brl(Math.abs(d))} · ${sgn(dp)}`:'nada contratado ainda'}</div></div>
+  </div>
+  <div class="bloco" style="border-top:0">
+    <h3>Onde estamos por fase</h3>
+    <table class="cmpfase"><tr><th>Fase</th><th>Planejado</th><th>Projetado</th><th>Desvio</th></tr>
+      ${Object.keys(FASES).map(faseLinha).join('')}
+      <tr><td style="padding-top:12px"><b>Total</b></td><td style="padding-top:12px">${brl(P)}</td>
+        <td style="padding-top:12px"><b>${brl(PR)}</b></td>
+        <td style="padding-top:12px;color:${corDesvio(dp)}">${sgn(dp)}</td></tr></table>
+    <div style="font-size:12px;color:var(--muted);margin-top:10px;line-height:1.55">Projetado é o que já foi contratado somado ao que ainda falta, considerado pelo valor planejado. Itens ainda não contratados aparecem pelo valor de planejamento.</div>
+  </div>
+  <div class="fases" style="border-top:1px solid var(--rule)">
+    ${Object.keys(FASES).map(f=>{
+      const it=st.itens.filter(i=>i.fase===f&&i.pct>0);
+      const sr=it.reduce((a,i)=>a+efetivo(i),0);
+      const inis=it.map(i=>i.ini||0),fims=it.map(i=>(i.ini||0)+(i.dur||0));
+      return `<div class="fase">
+        <div class="h"><s style="background:${FASES[f].cor}"></s><span class="n">${FASES[f].nome}</span></div>
+        <div class="q">${it.length?`De ${fmtD(dias(ini,Math.min(...inis)*7))} a ${fmtD(dias(ini,Math.max(...fims)*7))}.`:''} ${FASES[f].q}</div>
+        <div class="tot">${brl(sr)}</div>
+        <div class="pc">${it.filter(i=>real(i)>0).length} de ${it.length} itens já contratados</div>
+        <ul>${detalhe(f)}</ul></div>`}).join('')}
+  </div>
+  ${compras.length?`<div class="bloco"><h3>Próximas compras a fechar</h3>
+    <table class="prox">${compras.map(({i,lim})=>{
+      const atrasado=lim<hoje;
+      return `<tr><td>${esc(i.nome)}${i.forn?` <span style="color:var(--muted)">· ${esc(i.forn)}</span>`:''}</td>
+        <td>${i.prazo} dias de entrega</td>
+        <td style="color:${atrasado?'var(--alert)':'var(--ink)'}">${atrasado?'vencido em ':''}${fmtD(lim)}</td></tr>`}).join('')}</table>
+    <div style="font-size:12px;color:var(--muted);margin-top:10px;line-height:1.55">A data é o limite para fechar o pedido sem atrasar a obra, contando o prazo de entrega de cada fornecedor a partir da semana em que o serviço entra.</div></div>`:''}
+  <div class="bloco"><h3>Desembolso previsto por mês</h3>
+    <div style="overflow-x:auto"><svg id="curva2" height="250"></svg></div>
+    <div class="mini" id="curvaMini2"></div></div>
+  <div class="bloco"><h3>Pontos de atenção</h3>
+    <ol>${st.ressalvas.filter(r=>r.trim()).map(r=>`<li>${esc(r)}</li>`).join('')}</ol></div>
+  <div class="assin"><span>Andamento de obra · posição de ${fmtD(hoje)}, atualizada a cada contratação.</span>
+    <span>${esc($('nome').value||'')}</span></div>`;
+  renderCurva('curva2','curvaMini2');
+}
+
+/* ---------------- escopo, eventos ---------------- */
+function aplicarEscopo(){
+  const e=st.escopo;
+  ['tipo','categoria','obra','status','uf'].forEach(k=>{if(e[k])$(k).value=e[k]});
+  if(e.area)$('area').value=e.area;
+  if(e.ambientes)$('ambientes').value=e.ambientes;
+  if(e.nome!==undefined)$('nome').value=e.nome;
+  if(e.orcamento)$('orcamento').value=brl(e.orcamento);
+  document.querySelectorAll('#padrao button').forEach(b=>b.classList.toggle('on',b.dataset.p===(e.padrao||'N')));
+  atualizarCub(true);
+  if(e.cub)$('cub').value=brl2(e.cub);
+  if(st.inicio)$('dtIni').value=st.inicio;
+}
+function lerEscopo(){
+  st.inicio=$('dtIni').value;
+  st.escopo=Object.assign({},st.escopo,{nome:$('nome').value,tipo:$('tipo').value,categoria:$('categoria').value,
+    obra:$('obra').value,status:$('status').value,area:area(),ambientes:ambientes(),orcamento:orcamento(),
+    uf:$('uf').value,cub:num($('cub').value)});
+}
+
+$('orcamento').addEventListener('input',()=>{
+  document.querySelectorAll('#tabela .row').forEach(r=>{const it=st.itens.find(i=>String(i.id)===r.dataset.id);
+    if(it)r.querySelector('.val').value=brl2(prev(it))});sync()});
+$('orcamento').addEventListener('blur',()=>$('orcamento').value=brl(orcamento()));
+['area','ambientes','nome'].forEach(id=>$(id).addEventListener('input',sync));
+$('obra').addEventListener('change',()=>{atualizarCub(true);sync()});
+['tipo','categoria','status'].forEach(id=>$(id).addEventListener('change',sync));
+$('uf').addEventListener('change',()=>{atualizarCub(true);sync()});
+$('cub').addEventListener('input',()=>{atualizarCub(false);diretrizes();if(document.body.classList.contains('apre'))renderApre()});
+$('cub').addEventListener('blur',()=>$('cub').value=brl2(num($('cub').value)));
+$('dtIni').addEventListener('change',()=>{st.inicio=$('dtIni').value;renderGantt();renderCurva();alertas()});
+$('btSeed').onclick=()=>{seedCronograma();renderExec()};
+$('btImp').onclick=importar;
+$('btCopy').onclick=copiarBase;
+
+$('padrao').onclick=ev=>{const p=ev.target.dataset.p;if(!p)return;st.escopo.padrao=p;
+  document.querySelectorAll('#padrao button').forEach(b=>b.classList.toggle('on',b.dataset.p===p));
+  atualizarCub(true);sync()};
+$('btPadrao').onclick=aplicarPadrao;
+$('presets').innerHTML=Object.keys(PERFIS).map(p=>`<button data-p="${p}">${p}</button>`).join('');
+$('presets').onclick=ev=>{const p=ev.target.dataset.p;if(p)carregarPerfil(p)};
+$('btAddRsv').onclick=()=>{st.ressalvas.push('Nova ressalva.');renderRessalvas()};
+
+const EYE={plan:'Antes de criar · Baliza do processo criativo',exec:'Depois de aprovar · Previsto x realizado e cronograma',apre:'Peça de apresentação ao cliente'};
+function aba(k){
+  document.body.classList.remove('exec','apre');
+  if(k!=='plan')document.body.classList.add(k);
+  ['tbPlan','tbExec','tbApre'].forEach((id,ix)=>$(id).classList.toggle('on',['plan','exec','apre'][ix]===k));
+  $('hdEyebrow').textContent=EYE[k];
+  if(k==='exec'){if(!st.itens.some(i=>i.dur))seedCronograma();renderExec()}
+  if(k==='apre')renderApre();
+}
+$('apA').onclick=()=>{apreModo='A';$('apA').classList.add('on');$('apB').classList.remove('on');renderApre()};
+$('apB').onclick=()=>{apreModo='B';$('apB').classList.add('on');$('apA').classList.remove('on');
+  if(!st.itens.some(i=>i.dur))seedCronograma();renderApre()};
+$('tbPlan').onclick=()=>aba('plan');
+$('tbExec').onclick=()=>aba('exec');
+$('tbApre').onclick=()=>aba('apre');
+
+$('btCsv').onclick=()=>{
+  lerEscopo();const O=orcamento();
+  const l=['Projeto;'+st.escopo.nome,'Tipo;'+st.escopo.tipo,'Categoria;'+st.escopo.categoria,'Tipo de obra;'+st.escopo.obra,
+    'Status;'+st.escopo.status,'Padrão;'+PADNOME[st.escopo.padrao],'Área (m2);'+st.escopo.area,'Ambientes;'+st.escopo.ambientes,
+    'UF;'+st.escopo.uf,'CUB (R$/m2);'+st.escopo.cub,'Orçamento;'+O,'Início da obra;'+(st.inicio||''),
+    '','Fase;Serviço;% da obra;Previsto;Contratado;Desvio %;Fornecedor;Prazo (dias);Início (semana);Duração (semanas)'];
+  st.itens.forEach(i=>{const p=prev(i);
+    l.push([FASES[i.fase].nome,i.nome,pctF(i.pct),Math.round(p),i.real?Math.round(i.real):'',
+      i.real&&p?pctF(Math.round((i.real-p)/p*1000)/10):'',i.forn||'',i.prazo||0,i.ini||0,i.dur||0].join(';'))});
+  l.push(['','TOTAL',pctF(somaTotal()),Math.round(totalPrev()),Math.round(totalReal()),'','','','',''].join(';'));
+  l.push('','Projeção de fechamento;'+Math.round(totalProj()));
+  l.push('','Ressalvas para o cliente');st.ressalvas.forEach(r=>l.push('"'+r.replace(/"/g,'""')+'"'));
+  baixar('\ufeff'+l.join('\n'),(st.escopo.nome||'planejamento')+'.csv','text/csv');
+};
+$('btSave').onclick=()=>{lerEscopo();baixar(JSON.stringify(st,null,2),(st.escopo.nome||'planejamento')+'.json','application/json')};
+$('btLoad').onclick=()=>$('fileIn').click();
+$('fileIn').onchange=ev=>{const f=ev.target.files[0];if(!f)return;const r=new FileReader();
+  r.onload=()=>{try{const d=JSON.parse(r.result);st=d;st.ressalvas=st.ressalvas||RESSALVAS_PADRAO.slice();
+    st.itens.forEach(i=>{if(i.real===undefined)i.real=0});
+    if(!st.itens.some(i=>i.dur))seedCronograma();
+    uid=Math.max(0,...st.itens.map(i=>i.id))+1;aplicarEscopo();render()}
+    catch(err){alert('Arquivo inválido. Use um arquivo salvo por esta calculadora.')}};
+  r.readAsText(f);ev.target.value=''};
+function baixar(txt,nome,tipo){const a=document.createElement('a');
+  a.href=URL.createObjectURL(new Blob([txt],{type:tipo+';charset=utf-8'}));a.download=nome;a.click();URL.revokeObjectURL(a.href)}
+
+carregarPerfil('Interiores · recém entregue');
+$('orcamento').value=brl(600000);
+$('dtIni').value=new Date().toISOString().slice(0,10);
+atualizarCub(true);
+render();
+</script>
+</body>
+</html>

@@ -155,6 +155,36 @@
 
   <div class="mx-auto max-w-[680px] px-4 py-8">
 
+    <!-- ====== MURO DE ACESSO (vira domingo 23h59) ====== -->
+    <div id="muro" style="display:none">
+      <div class="rounded-2xl border border-border bg-card p-6 sm:p-8 mt-4">
+        <img src="/ed7/img/logo-implementacao.png" alt="" class="h-8 w-auto mb-5 opacity-0 pointer-events-none absolute">
+        <p class="text-[10px] uppercase tracking-[0.18em] font-bold text-accent mb-3">Acesso encerrado</p>
+        <h2 class="text-foreground font-bold text-xl sm:text-2xl leading-snug">Esta central ficou aberta durante o&nbsp;workshop</h2>
+        <p class="text-sm text-muted-foreground mt-3 leading-relaxed">
+          A partir de agora o conteúdo fica com quem adquiriu as aulas gravadas, com um ano de acesso, ou com quem entrou na Implementação Projeto de Primeira + IA.
+        </p>
+
+        <div class="mt-6 pt-5 border-t border-border">
+          <p class="text-sm font-semibold text-foreground mb-1">Já tem acesso?</p>
+          <p class="text-sm text-muted-foreground mb-3">Digite o e-mail que você usou na compra e a central abre na hora.</p>
+          <form id="form-acesso" class="flex flex-col sm:flex-row gap-2">
+            <input id="email-acesso" type="email" required autocomplete="email" placeholder="seu@email.com"
+              class="flex-1 rounded-lg border border-border bg-background px-4 py-2.5 text-sm text-foreground outline-none focus:border-accent">
+            <button type="submit" id="btn-acesso"
+              class="rounded-lg bg-accent px-5 py-2.5 text-sm font-bold text-white hover:opacity-90 transition-opacity whitespace-nowrap">Liberar acesso</button>
+          </form>
+          <p id="msg-acesso" class="text-sm mt-3"></p>
+          <p class="text-xs text-muted-foreground mt-4">
+            O conector do Claude também mudou de endereço. O novo está na área de membros, na Hotmart, junto com as aulas.
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <!-- tudo o que existia continua aqui dentro, escondido quando o muro sobe -->
+    <div id="conteudo">
+
     <!-- Voltar -->
     <a href="index.html" class="text-sm text-muted-foreground hover:text-foreground transition-colors inline-flex items-center gap-1 mb-8">
       ← Voltar
@@ -313,7 +343,7 @@
       </details>
       </div>
 <div class="flex items-center gap-3 pt-7 pb-1">
-        <span class="inline-flex items-center justify-center text-[11px] font-bold tracking-[0.12em] text-accent bg-accent/10 border border-accent/25 rounded-full px-2.5 py-1 shrink-0">/04</span>
+        <span class="inline-flex items-center justify-center text-[11px] font-bold tracking-[0.12em] text-accent bg-accent/10 border border-accent/25 rounded-full px-2.5 py-1 shrink-0">/02</span>
         <span class="text-[11px] uppercase tracking-[0.14em] font-bold text-muted-foreground">Documentação profissional</span>
         <span class="flex-1 h-px bg-border"></span>
       </div>
@@ -382,7 +412,7 @@
       </details>
       </div>
 <div class="flex items-center gap-3 pt-7 pb-1">
-        <span class="inline-flex items-center justify-center text-[11px] font-bold tracking-[0.12em] text-accent bg-accent/10 border border-accent/25 rounded-full px-2.5 py-1 shrink-0">/05</span>
+        <span class="inline-flex items-center justify-center text-[11px] font-bold tracking-[0.12em] text-accent bg-accent/10 border border-accent/25 rounded-full px-2.5 py-1 shrink-0">/03</span>
         <span class="text-[11px] uppercase tracking-[0.14em] font-bold text-muted-foreground">Mapeamento de processos</span>
         <span class="flex-1 h-px bg-border"></span>
       </div>
@@ -424,7 +454,7 @@
       </details>
       </div>
 <div class="flex items-center gap-3 pt-7 pb-1">
-        <span class="inline-flex items-center justify-center text-[11px] font-bold tracking-[0.12em] text-accent bg-accent/10 border border-accent/25 rounded-full px-2.5 py-1 shrink-0">/06</span>
+        <span class="inline-flex items-center justify-center text-[11px] font-bold tracking-[0.12em] text-accent bg-accent/10 border border-accent/25 rounded-full px-2.5 py-1 shrink-0">/04</span>
         <span class="text-[11px] uppercase tracking-[0.14em] font-bold text-muted-foreground">A IA entra em campo</span>
         <span class="flex-1 h-px bg-border"></span>
       </div>
@@ -507,7 +537,7 @@
       </div>
       </div>
 <div class="flex items-center gap-3 pt-7 pb-1">
-        <span class="inline-flex items-center justify-center text-[11px] font-bold tracking-[0.12em] text-accent bg-accent/10 border border-accent/25 rounded-full px-2.5 py-1 shrink-0">/07</span>
+        <span class="inline-flex items-center justify-center text-[11px] font-bold tracking-[0.12em] text-accent bg-accent/10 border border-accent/25 rounded-full px-2.5 py-1 shrink-0">/05</span>
         <span class="text-[11px] uppercase tracking-[0.14em] font-bold text-muted-foreground">Claude na prática</span>
         <span class="flex-1 h-px bg-border"></span>
       </div>
@@ -547,7 +577,7 @@
       </details>
       </div>
 <div class="flex items-center gap-3 pt-7 pb-1">
-        <span class="inline-flex items-center justify-center text-[11px] font-bold tracking-[0.12em] text-accent bg-accent/10 border border-accent/25 rounded-full px-2.5 py-1 shrink-0">/08</span>
+        <span class="inline-flex items-center justify-center text-[11px] font-bold tracking-[0.12em] text-accent bg-accent/10 border border-accent/25 rounded-full px-2.5 py-1 shrink-0">/06</span>
         <span class="text-[11px] uppercase tracking-[0.14em] font-bold text-muted-foreground">O seu processo documentado com IA</span>
         <span class="flex-1 h-px bg-border"></span>
       </div>
@@ -754,7 +784,7 @@ Antes de gerar, me pergunte em uma pergunta numerada se eu quero a Skill genéri
       </details>
       </div>
 <div class="flex items-center gap-3 pt-7 pb-1">
-        <span class="inline-flex items-center justify-center text-[11px] font-bold tracking-[0.12em] text-accent bg-accent/10 border border-accent/25 rounded-full px-2.5 py-1 shrink-0">/09</span>
+        <span class="inline-flex items-center justify-center text-[11px] font-bold tracking-[0.12em] text-accent bg-accent/10 border border-accent/25 rounded-full px-2.5 py-1 shrink-0">/07</span>
         <span class="text-[11px] uppercase tracking-[0.14em] font-bold text-muted-foreground">Sua primeira skill</span>
         <span class="flex-1 h-px bg-border"></span>
       </div>
@@ -775,7 +805,7 @@ Antes de gerar, me pergunte em uma pergunta numerada se eu quero a Skill genéri
       </details>
       </div>
 <div class="flex items-center gap-3 pt-7 pb-1">
-        <span class="inline-flex items-center justify-center text-[11px] font-bold tracking-[0.12em] text-accent bg-accent/10 border border-accent/25 rounded-full px-2.5 py-1 shrink-0">/10</span>
+        <span class="inline-flex items-center justify-center text-[11px] font-bold tracking-[0.12em] text-accent bg-accent/10 border border-accent/25 rounded-full px-2.5 py-1 shrink-0">/08</span>
         <span class="text-[11px] uppercase tracking-[0.14em] font-bold text-muted-foreground">Cowork e conectores</span>
         <span class="flex-1 h-px bg-border"></span>
       </div>
@@ -868,7 +898,7 @@ Antes de gerar, me pergunte em uma pergunta numerada se eu quero a Skill genéri
       </details>
       </div>
       <div class="flex items-center gap-3 pt-7 pb-1">
-        <span class="inline-flex items-center justify-center text-[11px] font-bold tracking-[0.12em] text-accent bg-accent/10 border border-accent/25 rounded-full px-2.5 py-1 shrink-0">/03</span>
+        <span class="inline-flex items-center justify-center text-[11px] font-bold tracking-[0.12em] text-accent bg-accent/10 border border-accent/25 rounded-full px-2.5 py-1 shrink-0">/02</span>
         <span class="text-[11px] uppercase tracking-[0.14em] font-bold text-muted-foreground">Do que o cliente disse ao partido</span>
         <span class="flex-1 h-px bg-border"></span>
       </div>
@@ -907,7 +937,7 @@ Antes de gerar, me pergunte em uma pergunta numerada se eu quero a Skill genéri
       </details>
       </div>
       <div class="flex items-center gap-3 pt-7 pb-1">
-        <span class="inline-flex items-center justify-center text-[11px] font-bold tracking-[0.12em] text-accent bg-accent/10 border border-accent/25 rounded-full px-2.5 py-1 shrink-0">/04</span>
+        <span class="inline-flex items-center justify-center text-[11px] font-bold tracking-[0.12em] text-accent bg-accent/10 border border-accent/25 rounded-full px-2.5 py-1 shrink-0">/03</span>
         <span class="text-[11px] uppercase tracking-[0.14em] font-bold text-muted-foreground">Onde o projeto vai dar problema</span>
         <span class="flex-1 h-px bg-border"></span>
       </div>
@@ -946,7 +976,7 @@ Antes de gerar, me pergunte em uma pergunta numerada se eu quero a Skill genéri
       </details>
       </div>
       <div class="flex items-center gap-3 pt-7 pb-1">
-        <span class="inline-flex items-center justify-center text-[11px] font-bold tracking-[0.12em] text-accent bg-accent/10 border border-accent/25 rounded-full px-2.5 py-1 shrink-0">/06</span>
+        <span class="inline-flex items-center justify-center text-[11px] font-bold tracking-[0.12em] text-accent bg-accent/10 border border-accent/25 rounded-full px-2.5 py-1 shrink-0">/04</span>
         <span class="text-[11px] uppercase tracking-[0.14em] font-bold text-muted-foreground">Criar as suas próprias ferramentas</span>
         <span class="flex-1 h-px bg-border"></span>
       </div>
@@ -990,7 +1020,7 @@ Antes de gerar, me pergunte em uma pergunta numerada se eu quero a Skill genéri
       </details>
       </div>
 <div class="flex items-center gap-3 pt-7 pb-1">
-        <span class="inline-flex items-center justify-center text-[11px] font-bold tracking-[0.12em] text-accent bg-accent/10 border border-accent/25 rounded-full px-2.5 py-1 shrink-0">/07</span>
+        <span class="inline-flex items-center justify-center text-[11px] font-bold tracking-[0.12em] text-accent bg-accent/10 border border-accent/25 rounded-full px-2.5 py-1 shrink-0">/05</span>
         <span class="text-[11px] uppercase tracking-[0.14em] font-bold text-muted-foreground">Direção criativa, imagens e vídeos</span>
         <span class="flex-1 h-px bg-border"></span>
       </div>
@@ -1271,7 +1301,7 @@ O resultado final deve transmitir a sensação de um vídeo editorial de arquite
       </details>
       </div>
 <div class="flex items-center gap-3 pt-7 pb-1">
-        <span class="inline-flex items-center justify-center text-[11px] font-bold tracking-[0.12em] text-accent bg-accent/10 border border-accent/25 rounded-full px-2.5 py-1 shrink-0">/08</span>
+        <span class="inline-flex items-center justify-center text-[11px] font-bold tracking-[0.12em] text-accent bg-accent/10 border border-accent/25 rounded-full px-2.5 py-1 shrink-0">/06</span>
         <span class="text-[11px] uppercase tracking-[0.14em] font-bold text-muted-foreground">Render em um clique</span>
         <span class="flex-1 h-px bg-border"></span>
       </div>
@@ -1359,6 +1389,8 @@ O resultado final deve transmitir a sensação de um vídeo editorial de arquite
 
     </div><!-- /links-rapidos -->
 
+    </div><!-- /conteudo -->
+
     <!-- ====== CONVITE IMPLEMENTAÇÃO + CONTAGEM REGRESSIVA ====== -->
     <div id="convite-impl" class="relative overflow-hidden rounded-2xl mt-14 mb-10 border border-accent/30 bg-gradient-to-br from-[#0f1f1e] via-[#0d1a19] to-[#0a1413] p-6 sm:p-8">
       <div class="pointer-events-none absolute -top-24 -left-16 w-64 h-64 rounded-full bg-accent/15 blur-3xl"></div>
@@ -1407,6 +1439,86 @@ O resultado final deve transmitir a sensação de um vídeo editorial de arquite
     </footer>
 
   </div>
+
+  <script>
+  /* ====== ACESSO APÓS A VIRADA ======
+     Até domingo 23h59 a central fica aberta para todo mundo (ação de replay).
+     Depois disso, só abre para quem confirma o e-mail de compra.
+     Para a próxima edição, basta mudar VIRADA e ENDPOINT. */
+  (function () {
+    var VIRADA   = Date.UTC(2026, 7, 24, 2, 59, 0);          // domingo 23/08/2026, 23h59 BRT
+    var ENDPOINT = 'https://wpdp07.vercel.app/api/acesso';
+    var SELO     = 'wpdp07-acesso';
+
+    var muro = document.getElementById('muro');
+    var conteudo = document.getElementById('conteudo');
+    var barra = document.getElementById('barra-impl');
+
+    function liberado() {
+      try { return localStorage.getItem(SELO) === 'ok'; } catch (e) { return false; }
+    }
+    function precisaMuro() {
+      return Date.now() >= VIRADA && !liberado();
+    }
+    function aplica() {
+      var travado = precisaMuro();
+      muro.style.display = travado ? '' : 'none';
+      conteudo.style.display = travado ? 'none' : '';
+      if (barra) barra.style.display = travado ? 'none' : '';
+    }
+    aplica();
+
+    var form = document.getElementById('form-acesso');
+    var campo = document.getElementById('email-acesso');
+    var botao = document.getElementById('btn-acesso');
+    var msg = document.getElementById('msg-acesso');
+
+    form.addEventListener('submit', function (ev) {
+      ev.preventDefault();
+      var email = (campo.value || '').trim();
+      if (!email) return;
+      botao.disabled = true;
+      botao.textContent = 'Conferindo...';
+      msg.textContent = '';
+      msg.className = 'text-sm mt-3';
+
+      fetch(ENDPOINT, {
+        method: 'POST',
+        headers: { 'content-type': 'application/json' },
+        body: JSON.stringify({ email: email })
+      })
+      .then(function (r) { return r.json().then(function (d) { return { s: r.status, d: d }; }); })
+      .then(function (res) {
+        if (res.d && res.d.ok) {
+          try { localStorage.setItem(SELO, 'ok'); } catch (e) {}
+          msg.textContent = 'Tudo certo, liberando a central...';
+          msg.className = 'text-sm mt-3 text-accent font-semibold';
+          setTimeout(function () { aplica(); window.scrollTo(0, 0); }, 600);
+          return;
+        }
+        if (res.s === 429) {
+          msg.textContent = 'Muitas tentativas seguidas. Espere alguns minutos e tente de novo.';
+        } else {
+          msg.innerHTML = 'Não encontrei esse e-mail entre quem tem acesso. Confira se é o mesmo que você usou na compra. ' +
+            'Se acha que é engano, <a href="https://rodrigorosar.com.br/comercial" target="_blank" rel="noopener" class="text-accent underline">fale com o comercial</a>.';
+        }
+        msg.className = 'text-sm mt-3 text-muted-foreground';
+      })
+      .catch(function () {
+        msg.textContent = 'Não consegui conferir agora. Tente de novo em instantes.';
+        msg.className = 'text-sm mt-3 text-muted-foreground';
+      })
+      .finally(function () {
+        botao.disabled = false;
+        botao.textContent = 'Liberar acesso';
+      });
+    });
+
+    // se a pessoa deixar a aba aberta atravessando a virada, o muro sobe sozinho
+    var falta = VIRADA - Date.now();
+    if (falta > 0 && falta < 2147483647) setTimeout(aplica, falta + 800);
+  })();
+  </script>
 
   <script>
     // Ocultar seções para alunos

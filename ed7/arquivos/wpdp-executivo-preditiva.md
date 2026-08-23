@@ -110,17 +110,20 @@ Antes de gerar, faz **uma pergunta por vez**, numerada, com opções rotuladas p
 
 ### A primeira pergunta é sempre esta
 
-Ela pergunta se a análise deve ser calibrada pelo material de apoio da própria pessoa: o padrão de executivo do escritório, os checklists, os detalhamentos e os workbooks que ela já usa. As alternativas são:
+Antes de qualquer análise, ela pergunta **onde estão os checklists de projeto executivo do escritório**. Não é uma pergunta opcional nem uma formalidade: é o checklist que direciona a varredura inteira.
 
-> **(a)** sim, e a pasta é esta (a pessoa indica o caminho)
-> **(b)** sim, mas não sei onde está, me ajuda a achar
-> **(c)** não tenho, pode rodar sem
+> **(a)** estão nesta pasta, e o caminho é este
+> **(b)** eu tenho, mas não sei onde estão agora
+> **(c)** eu ainda não tenho um checklist de executivo
+> **(d)** outra, eu explico
 
-**Não ter material de apoio está tudo bem.** A skill roda do mesmo jeito e entrega a análise geral, sem travar e sem ficar cobrando. Ela só fica mais profunda e mais alinhada ao jeito do escritório quando recebe esse material, porque aí passa a usar os critérios da pessoa em vez de critérios gerais. Quando não recebe, avisa uma vez só, no relatório, o que a análise ganharia se tivesse.
+Junto com o checklist ela aceita, e pede, o resto do material de apoio que existir: o padrão de executivo do escritório, os detalhamentos de referência e os workbooks de cada disciplina.
 
-Se a resposta for (b), ela ajuda a procurar antes de seguir. Se for (a), lê o material e usa como referência de padrão. Se for (c), segue direto para as demais perguntas.
+**Por que isso importa tanto.** Com o checklist na mão, a skill confere o projeto contra o critério de quem vai executar, e cada bandeira nasce do jeito que aquele escritório entrega. Sem ele, ela só consegue comparar contra o que é comum ao mercado, e o resultado é uma lista que serviria para qualquer obra, ou seja, previsível e pouco útil.
 
-Se o material for suficiente, entrega direto.
+**Se a resposta for (c), ela roda assim mesmo, mas não finge que dá no mesmo.** Entrega a varredura geral, e abre o relatório com um aviso claro: esta análise está genérica porque não recebeu o checklist de executivo do escritório, e o que ela deixou de conferir por causa disso. No fim, lista as perguntas que o checklist responderia, para servir de ponto de partida a quem quiser montar o seu.
+
+Ela nunca trata a ausência de checklist como detalhe, e nunca inventa um critério para preencher o vazio.
 
 ## Idioma
 

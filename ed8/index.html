@@ -85,16 +85,6 @@
         <button type="button" onclick="toggleCheck('pre-evento')" data-card="pre-evento" class="check-btn absolute top-3 right-3 flex items-center justify-center shrink-0 z-20" style="width: 22px; height: 22px; border-radius: 11px; border: 2px solid #D3D1C7; background-color: #F5F4F0; transition: 0.15s; cursor: pointer;"></button>
       </div>
 
-      <!-- Card: Credenciamento (ATIVO) -->
-      <div class="relative">
-        <a href="https://workshop.rodrigorosar.com.br/credenciamento/?utm_source=central" target="_blank" class="bg-card border border-border rounded-2xl p-6 block hover:border-accent/30 hover:shadow-sm transition-all">
-          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-accent mb-2"><rect width="8" height="4" x="8" y="2" rx="1" ry="1"/><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/><path d="m9 14 2 2 4-4"/></svg>
-          <p class="font-bold mt-1 text-foreground">Credenciamento</p>
-          <p class="text-sm text-muted-foreground">Faça aqui seu credenciamento</p>
-        </a>
-        <button type="button" onclick="toggleCheck('credenciamento')" data-card="credenciamento" class="check-btn absolute top-3 right-3 flex items-center justify-center shrink-0 z-20" style="width: 22px; height: 22px; border-radius: 11px; border: 2px solid #D3D1C7; background-color: #F5F4F0; transition: 0.15s; cursor: pointer;"></button>
-      </div>
-
       <!-- Card: Grupo VIP (ATIVO) -->
       <div class="relative">
         <a href="https://chat.whatsapp.com/IGTAhvFF5wAHjnnAu2fw3l" target="_blank" class="bg-card border border-border rounded-2xl p-6 block hover:border-accent/30 hover:shadow-sm transition-all">
@@ -108,7 +98,7 @@
       </div>
 
       <!-- Card: Central de Links (ATIVO) -->
-      <div class="relative">
+      <div class="relative sm:col-span-2">
         <a href="central-links.html" class="bg-card border border-border rounded-2xl p-6 block hover:border-accent/30 hover:shadow-sm transition-all">
           <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-accent mb-2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" x2="12" y1="15" y2="3"/></svg>
           <p class="font-bold mt-1 text-foreground">Central de Links</p>
@@ -253,7 +243,7 @@
     }
 
     // Progress tracking
-    const CARDS = ['pre-evento', 'credenciamento', 'grupo-vip', 'central-links'];
+    const CARDS = ['pre-evento', 'grupo-vip', 'central-links'];
     const STORAGE_KEY = 'wpdp08-progress';
 
     function getChecked() {
@@ -276,7 +266,9 @@
 
     function updateUI() {
       const checked = getChecked();
-      const pct = Math.round((checked.length / CARDS.length) * 100);
+      // Ignora cards que saíram da página (ex.: credenciamento) mas ficaram salvos no navegador
+      const done = checked.filter(card => CARDS.includes(card)).length;
+      const pct = Math.round((done / CARDS.length) * 100);
 
       document.getElementById('progress-text').textContent = pct + '%';
       document.getElementById('progress-bar').style.width = pct + '%';

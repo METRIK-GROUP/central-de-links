@@ -1,0 +1,1066 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Planejador de Orçamento de Obra</title>
+<!--
+  PRÉ PROJETO I PLANEJADOR AUTOMÁTICO DE ORÇAMENTO DE OBRA
+  Instituto METRIK · material interno do escritório, não é para mostrar ao cliente.
+
+  COMO ALIMENTAR COM OS NÚMEROS DO SEU ESCRITÓRIO (instrução para o Claude)
+  1. Peça ao aluno a pasta (ou pastas) onde estão os orçamentos APROVADOS e executados das obras.
+  2. Para cada obra, some quanto foi gasto em cada item (marcenaria, marmoraria, civil...) e
+     calcule a porcentagem de cada item sobre o total da obra. Inclua o serviço de
+     acompanhamento/gestão do escritório como item do grupo "servico".
+  3. Agrupe as obras por perfil: "Projeto de|Categoria|Tipo de obra|Status da obra"
+     (ex.: "Interiores|Residencial|Apartamento|Reforma") e use a média de cada item no perfil.
+  4. Escreva os perfis no objeto PERFIS_BASE, logo abaixo no <script>, no mesmo formato do exemplo.
+     Grupos válidos: "servico" (acompanhamento/gestão e projetos complementares), "doc" (ITBI,
+     cartório, emolumentos, alvarás), "f1" (mobilização, civil, instalações e acabamentos), "f2"
+     (marcenaria, produtos e decoração), "entrega" (limpeza, finalização e entrega) e "reserva" (contingência). A soma de cada perfil deve dar 100.
+  6. CUB por estado: preencha o objeto CUB_POR_UF com o valor do mês (R$/m²) publicado em cub.org.br
+     ou pelo Sinduscon do estado, com o mês de referência. Estado sem valor fica vazio.
+  5. Nunca inventar porcentagem: perfil sem obra de referência fica fora da base.
+  Os perfis também podem ser salvos pela própria tela (botão "Salvar como base deste perfil")
+  e exportados/importados em JSON.
+-->
+<style>
+  :root{
+    --bg:#f4f2ee; --card:#ffffff; --ink:#1d1d1b; --ink-2:#5b5a55; --ink-3:#8a8880;
+    --line:#e3e0d9; --line-2:#efede8; --accent:#1f3a34; --accent-2:#2f5a50; --accent-soft:#e6efec;
+    --f1:#b98a4b; --f2:#4f7a6f; --serv:#3c4a63; --doc:#7b5e8c; --res:#9b968a; --ent:#5b8aa6;
+    --ok:#2e7d4f; --ok-soft:#e5f3ea; --warn:#a86a08; --warn-soft:#fbf0dc; --bad:#b3261e; --bad-soft:#fbe6e4;
+    --radius:14px;
+  }
+  *{box-sizing:border-box}
+  html{-webkit-text-size-adjust:100%}
+  body{margin:0;background:var(--bg);color:var(--ink);
+    font:15px/1.45 -apple-system,BlinkMacSystemFont,"Segoe UI",Inter,Roboto,Helvetica,Arial,sans-serif;}
+  .wrap{max-width:1180px;margin:0 auto;padding:28px 20px 60px}
+  header.top{display:flex;flex-wrap:wrap;gap:12px 24px;align-items:flex-end;justify-content:space-between;margin-bottom:22px}
+  .eyebrow{font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-3);margin:0 0 6px}
+  h1{font-size:26px;line-height:1.15;margin:0;font-weight:650;letter-spacing:-.01em}
+  .nome-projeto{margin-top:10px;width:min(460px,100%);font-size:16px;border:0;border-bottom:1px dashed var(--line);
+    background:transparent;padding:4px 0;color:var(--ink);outline:none}
+  .nome-projeto:focus{border-bottom-color:var(--accent)}
+  .selo{display:inline-flex;align-items:center;gap:8px;font-size:12.5px;color:var(--warn);background:var(--warn-soft);
+    border-radius:999px;padding:6px 12px;font-weight:600}
+  .acoes-topo{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+  .grid{display:grid;grid-template-columns:1fr 1.15fr;gap:18px}
+  @media (max-width:880px){.grid{grid-template-columns:1fr}}
+  .card{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:20px}
+  .card h2{font-size:13px;letter-spacing:.12em;text-transform:uppercase;margin:0 0 14px;color:var(--ink-2);font-weight:650}
+  .campo{display:grid;grid-template-columns:150px 1fr;gap:10px;align-items:center;padding:7px 0;border-bottom:1px solid var(--line-2)}
+  .campo:last-child{border-bottom:0}
+  .campo label{color:var(--ink-2);font-size:14px}
+  @media (max-width:520px){.campo{grid-template-columns:1fr;gap:4px}}
+  input[type=text],input[type=number],select{width:100%;font:inherit;color:var(--ink);background:#fbfaf7;border:1px solid var(--line);
+    border-radius:9px;padding:8px 10px;outline:none}
+  input:focus,select:focus{border-color:var(--accent);background:#fff;box-shadow:0 0 0 3px var(--accent-soft)}
+  .preencher{background:#fffbea;border-color:#efe2a8}
+  .seg{display:flex;flex-wrap:wrap;gap:6px}
+  .seg button{font:inherit;font-size:13.5px;border:1px solid var(--line);background:#fbfaf7;color:var(--ink-2);
+    border-radius:999px;padding:6px 12px;cursor:pointer}
+  .seg button[aria-pressed=true]{background:var(--accent);border-color:var(--accent);color:#fff}
+  .btn{font:inherit;font-size:13.5px;border:1px solid var(--line);background:#fff;color:var(--ink);border-radius:9px;
+    padding:8px 12px;cursor:pointer;white-space:nowrap}
+  .btn:hover{border-color:var(--ink-3)}
+  .btn.primario{background:var(--accent);border-color:var(--accent);color:#fff}
+  .btn.primario:hover{background:var(--accent-2)}
+  .btn.sutil{border-color:transparent;background:transparent;color:var(--ink-2)}
+  .btn.sutil:hover{background:var(--line-2)}
+  .orcamento{display:flex;align-items:center;gap:10px;margin-bottom:16px}
+  .orcamento .rs{font-size:22px;color:var(--ink-3);font-weight:600}
+  .orcamento input{font-size:26px;font-weight:650;padding:10px 12px}
+  .rotulo-orc{font-size:13px;color:var(--ink-2);margin:0 0 6px}
+  .kpis{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}
+  .kpi{border:1px solid var(--line-2);background:#fbfaf7;border-radius:11px;padding:11px 13px}
+  .kpi .k{font-size:12.5px;color:var(--ink-2)}
+  .kpi .v{font-size:20px;font-weight:650;margin-top:2px;font-variant-numeric:tabular-nums}
+  .kpi .s{font-size:12px;color:var(--ink-3);margin-top:2px}
+  .kpi.destaque{background:var(--accent-soft);border-color:#cfe0db}
+  .barra{display:flex;height:12px;border-radius:999px;overflow:hidden;background:var(--line-2);margin:16px 0 8px}
+  .barra span{display:block;height:100%;transition:width .25s ease}
+  .legenda{display:flex;flex-wrap:wrap;gap:6px 16px;font-size:12.5px;color:var(--ink-2)}
+  .legenda i{display:inline-block;width:10px;height:10px;border-radius:3px;margin-right:6px;vertical-align:-1px}
+  .perfil{margin-top:18px;display:flex;flex-wrap:wrap;gap:12px;align-items:center;justify-content:space-between}
+  .perfil .info{display:flex;flex-direction:column;gap:3px;min-width:0}
+  .perfil .chave{font-weight:650}
+  .perfil .nota{font-size:13px;color:var(--ink-2)}
+  .total{position:sticky;top:0;z-index:5;margin:18px 0;display:flex;flex-wrap:wrap;gap:10px 22px;align-items:center;
+    border-radius:var(--radius);padding:14px 18px;border:1px solid var(--line);background:#fff;box-shadow:0 6px 18px -14px rgba(0,0,0,.35)}
+  .total .num{font-size:24px;font-weight:700;font-variant-numeric:tabular-nums}
+  .total .msg{font-weight:600;font-size:14px}
+  .total.ok{background:var(--ok-soft);border-color:#bfe0cb}.total.ok .msg{color:var(--ok)}
+  .total.falta{background:var(--warn-soft);border-color:#ecd6a9}.total.falta .msg{color:var(--warn)}
+  .total.passou{background:var(--bad-soft);border-color:#efc1bc}.total.passou .msg,.total.passou .num{color:var(--bad)}
+  .total .espaco{flex:1}
+  .tabela-wrap{overflow-x:auto}
+  table{width:100%;border-collapse:collapse;min-width:640px}
+  th{font-size:12px;letter-spacing:.06em;text-transform:uppercase;color:var(--ink-3);font-weight:600;text-align:right;padding:8px 10px;border-bottom:1px solid var(--line)}
+  th:first-child{text-align:left}
+  td{padding:6px 10px;border-bottom:1px solid var(--line-2);text-align:right;font-variant-numeric:tabular-nums;vertical-align:middle}
+  td:first-child{text-align:left}
+  tr.grupo td{padding-top:20px;border-bottom:1px solid var(--line);text-align:left}
+  .grupo-titulo{display:flex;align-items:baseline;gap:10px;flex-wrap:wrap}
+  .grupo-titulo b{font-size:15px}
+  .grupo-titulo .tag{font-size:11.5px;color:#fff;border-radius:6px;padding:2px 8px;letter-spacing:.06em;text-transform:uppercase;font-weight:650}
+  .grupo-titulo small{color:var(--ink-2);font-size:13px}
+  input.nome-item{border:1px solid transparent;background:transparent;padding:6px 8px;border-radius:8px;width:100%;min-width:240px;font:inherit}
+  input.nome-item:hover{border-color:var(--line)}
+  input.pct{width:84px;text-align:right;background:#fffbea;border-color:#efe2a8}
+  td:first-child{width:46%}
+  .sug{color:var(--ink-3)}
+  .sug button{font:inherit;font-size:13px;border:1px dashed var(--line);background:transparent;color:var(--accent);border-radius:7px;padding:3px 8px;cursor:pointer}
+  .sug button.igual{color:var(--ink-3);border-style:solid;border-color:transparent;cursor:default}
+  .rm{border:0;background:transparent;color:var(--ink-3);font-size:18px;line-height:1;cursor:pointer;padding:4px 8px;border-radius:7px}
+  .rm:hover{color:var(--bad);background:var(--bad-soft)}
+  tr.sub td{font-weight:650;color:var(--ink-2);border-bottom:0}
+  tr.add td{border-bottom:0;padding-top:2px}
+  tr.geral td{font-weight:700;font-size:16px;border-top:2px solid var(--ink);border-bottom:0;padding-top:12px}
+  .rodape-tab{font-size:13px;color:var(--ink-2);margin-top:10px}
+  .tres{display:grid;grid-template-columns:1.1fr 1fr;gap:18px;margin-top:18px}
+  @media (max-width:880px){.tres{grid-template-columns:1fr}}
+  .filtro-res{margin-top:12px;border-radius:11px;padding:12px 14px;font-size:14px;background:var(--line-2);color:var(--ink-2)}
+  .filtro-res.ok{background:var(--ok-soft);color:var(--ok)}
+  .filtro-res.bad{background:var(--bad-soft);color:var(--bad)}
+  .ajuda{font-size:13px;color:var(--ink-2);margin:6px 0 0}
+  .lista-perfis{margin:0;padding:0;list-style:none;max-height:230px;overflow:auto;border:1px solid var(--line-2);border-radius:10px}
+  .lista-perfis li{display:flex;gap:10px;justify-content:space-between;align-items:center;padding:8px 12px;border-bottom:1px solid var(--line-2);font-size:13.5px}
+  .lista-perfis li:last-child{border-bottom:0}
+  .lista-perfis .origem{font-size:12px;color:var(--ink-3)}
+  .lista-perfis .atual{background:var(--accent-soft)}
+  .linha-botoes{display:flex;flex-wrap:wrap;gap:8px;margin-top:12px}
+  .pizza-topo{display:flex;flex-wrap:wrap;gap:10px;justify-content:space-between;align-items:center;margin-bottom:14px}
+  .pizza{display:grid;grid-template-columns:260px 1fr;gap:28px;align-items:center}
+  @media (max-width:720px){.pizza{grid-template-columns:1fr}.pizza svg{max-width:260px;margin:0 auto}}
+  .pizza svg{width:100%;height:auto;display:block}
+  .pizza-legenda{list-style:none;margin:0;padding:0;columns:2 240px;column-gap:28px}
+  .pizza-legenda li{break-inside:avoid;display:grid;grid-template-columns:12px 1fr auto auto;gap:8px;align-items:center;
+    padding:5px 0;border-bottom:1px solid var(--line-2);font-size:13.5px;font-variant-numeric:tabular-nums}
+  .pizza-legenda li i{width:12px;height:12px;border-radius:3px}
+  .pizza-legenda li .p{font-weight:650}
+  .pizza-legenda li .r{color:var(--ink-2);font-size:12.5px;min-width:96px;text-align:right}
+  .pizza-legenda li.cab{grid-template-columns:1fr;border-bottom:0;padding-top:10px;font-size:11.5px;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-3)}
+  .pizza-legenda li.vazio{color:var(--ink-3)}
+  .etapas{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:0 0 18px}
+  .etapas button{text-align:left;font:inherit;font-size:13.5px;border:1px solid var(--line);background:#fff;border-radius:var(--radius);padding:14px 16px;cursor:pointer;color:var(--ink-2)}
+  .etapas button b{display:block;font-size:16px;color:var(--ink);margin-bottom:2px}
+  .etapas button[aria-pressed=true]{background:var(--accent);border-color:var(--accent);color:#d7e5e1}
+  .etapas button[aria-pressed=true] b{color:#fff}
+  @media (max-width:600px){.etapas{grid-template-columns:1fr}}
+  body[data-etapa=exec] .so-plan, body[data-etapa=plan] .so-exec{display:none!important}
+  .so-exec > .card{margin-top:18px}
+  .faixa-exemplo{display:flex;flex-wrap:wrap;gap:10px;align-items:center;justify-content:space-between;border-radius:var(--radius);
+    padding:12px 16px;margin-top:18px;font-weight:600;font-size:14px}
+  .faixa-exemplo.didatico{background:var(--warn-soft);color:var(--warn);border:1px solid #ecd6a9}
+  .faixa-exemplo.vazio{background:#fff;color:var(--ink-2);border:1px dashed var(--line)}
+  .kpis.k3{grid-template-columns:repeat(3,1fr);margin-bottom:16px}
+  @media (max-width:720px){.kpis.k3{grid-template-columns:repeat(2,1fr)}}
+  .kpi .v.bad{color:var(--bad)} .kpi .v.ok{color:var(--ok)}
+  input.real{width:140px;text-align:right;background:#fffbea;border-color:#efe2a8}
+  input.mini{width:56px;text-align:center;padding:5px 6px;background:#fffbea;border-color:#efe2a8}
+  .acima{color:var(--bad);font-weight:600}.abaixo{color:var(--ok);font-weight:600}
+  table.gantt th.mes,table.gantt td.mes{padding:4px 2px;min-width:46px;text-align:center}
+  table.gantt td.mes{border-left:1px solid var(--line-2)}
+  .gbar{height:18px;border-radius:5px}
+  table.ff td,table.ff th{white-space:nowrap;font-size:13px}
+  table.ff tr.tot td{font-weight:650;border-top:1px solid var(--line);background:#fbfaf7}
+  #curvaS{width:100%;height:auto;display:block;margin:4px 0 14px}
+  .linha-campo{display:flex;flex-wrap:wrap;gap:10px;align-items:center;margin-bottom:12px;font-size:14px;color:var(--ink-2)}
+  .linha-campo input{width:auto}
+  footer{margin-top:28px;font-size:12.5px;color:var(--ink-3);line-height:1.6}
+  .aviso-toast{position:fixed;left:50%;bottom:22px;transform:translateX(-50%);background:var(--ink);color:#fff;padding:10px 16px;border-radius:10px;
+    font-size:14px;opacity:0;pointer-events:none;transition:opacity .2s}
+  .aviso-toast.on{opacity:1}
+  @media print{
+    body{background:#fff}.wrap{padding:0}
+    .acoes-topo,.linha-botoes,.rm,tr.add,.sug button,#cardPerfis,.perfil .btn{display:none!important}
+    .card,.total{box-shadow:none;break-inside:avoid}
+    .total{position:static}
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header class="top">
+    <div>
+      <p class="eyebrow">Pré Projeto I Planejador automático de orçamento de obra</p>
+      <h1>Planejador de Orçamento de Obra</h1>
+      <input id="nome" class="nome-projeto" type="text" placeholder="Nome do projeto I Cliente" aria-label="Nome do projeto e cliente">
+    </div>
+    <div class="acoes-topo">
+      <span class="selo">Material interno · não mostrar ao cliente</span>
+      <button class="btn" id="btnImprimir" type="button">Imprimir / PDF</button>
+      <button class="btn sutil" id="btnExemplo" type="button" title="Volta para os números do exemplo da aula">Restaurar exemplo</button>
+    </div>
+  </header>
+
+  <nav class="etapas" id="segEtapa" aria-label="Etapa">
+    <button type="button" data-etapa="plan" aria-pressed="true"><b>1 · Planejamento</b>antes do projeto: distribuir o orçamento do briefing</button>
+    <button type="button" data-etapa="exec" aria-pressed="false"><b>2 · Projeto executivo</b>previsto x realizado, cronograma e físico-financeiro</button>
+  </nav>
+
+  <div class="grid">
+    <section class="card" aria-labelledby="tEscopo">
+      <h2 id="tEscopo">Escopo</h2>
+      <div class="campo"><label>Projeto de</label>
+        <div class="seg" id="segProjeto" role="group" aria-label="Projeto de"></div></div>
+      <div class="campo"><label for="categoria">Categoria</label>
+        <input id="categoria" type="text" list="lCategoria" class="preencher"></div>
+      <div class="campo"><label for="tipo">Tipo de obra</label>
+        <input id="tipo" type="text" list="lTipo" class="preencher"></div>
+      <div class="campo"><label for="status">Status da obra</label>
+        <input id="status" type="text" list="lStatus" class="preencher"></div>
+      <div class="campo"><label for="uf">Estado da obra</label>
+        <select id="uf" class="preencher"></select></div>
+      <div class="campo"><label for="cidade">Endereço da obra</label>
+        <input id="cidade" type="text" placeholder="cidade ou endereço"></div>
+      <div class="campo"><label for="area">Área do projeto (m²)</label>
+        <input id="area" type="number" min="0" step="1" inputmode="decimal" class="preencher"></div>
+      <div class="campo"><label for="ambientes">Quantidade de ambientes</label>
+        <input id="ambientes" type="number" min="0" step="1" inputmode="numeric" class="preencher"></div>
+      <p class="ajuda">Os campos em amarelo são os únicos que precisam ser preenchidos. Categoria, tipo e status aceitam valores novos: basta digitar.</p>
+      <datalist id="lCategoria"><option>Residencial</option><option>Comercial</option><option>Corporativo</option><option>Empreendimento</option></datalist>
+      <datalist id="lTipo"><option>Apartamento</option><option>Casa</option><option>Sala</option><option>Loja</option><option>Galpão</option></datalist>
+      <datalist id="lStatus"><option>Do zero</option><option>Na planta</option><option>Em construção</option><option>Recém entregue</option><option>Reforma</option></datalist>
+    </section>
+
+    <section class="card" aria-labelledby="tInd">
+      <h2 id="tInd">Indicadores</h2>
+      <p class="rotulo-orc">Orçamento definido no briefing</p>
+      <div class="orcamento"><span class="rs">R$</span>
+        <input id="orcamento" type="text" inputmode="decimal" class="preencher" aria-label="Orçamento definido no briefing"></div>
+      <div class="kpis">
+        <div class="kpi destaque"><div class="k">Custo / m²</div><div class="v" id="kM2">–</div><div class="s">orçamento total ÷ área</div></div>
+        <div class="kpi"><div class="k">Custo de obra / m²</div><div class="v" id="kObraM2">–</div><div class="s">fase 1 + fase 2, sem o seu serviço</div></div>
+        <div class="kpi"><div class="k">Custo F1 / m²</div><div class="v" id="kF1">–</div><div class="s">civil, instalações e acabamentos</div></div>
+        <div class="kpi"><div class="k">Custo F2 / m²</div><div class="v" id="kF2">–</div><div class="s">marcenaria, produtos e decoração</div></div>
+        <div class="kpi"><div class="k">Preço do serviço / m²</div><div class="v" id="kServ">–</div><div class="s" id="kServTotal">–</div></div>
+        <div class="kpi"><div class="k">Investimento por ambiente</div><div class="v" id="kAmb">–</div><div class="s">orçamento ÷ quantidade de ambientes</div></div>
+      </div>
+      <div class="barra" aria-hidden="true"><span id="bServ" style="background:var(--serv)"></span><span id="bDoc" style="background:var(--doc)"></span><span id="bF1" style="background:var(--f1)"></span><span id="bF2" style="background:var(--f2)"></span><span id="bEnt" style="background:var(--ent)"></span><span id="bRes" style="background:var(--res)"></span></div>
+      <div class="legenda">
+        <span><i style="background:var(--serv)"></i>Serviço <b id="lServ">–</b></span>
+        <span><i style="background:var(--f1)"></i>Fase 1 <b id="lF1">–</b></span>
+        <span><i style="background:var(--f2)"></i>Fase 2 <b id="lF2">–</b></span>
+        <span><i style="background:var(--doc)"></i>Documentação <b id="lDoc">–</b></span>
+        <span><i style="background:var(--ent)"></i>Entrega <b id="lEnt">–</b></span>
+        <span><i style="background:var(--res)"></i>Contingência <b id="lRes">–</b></span>
+      </div>
+    </section>
+  </div>
+
+  <section class="card perfil so-plan" aria-label="Perfil de obra">
+    <div class="info">
+      <span class="nota">Perfil de obra ativo</span>
+      <span class="chave" id="perfilChave">–</span>
+      <span class="nota" id="perfilNota">–</span>
+    </div>
+    <div class="linha-botoes" style="margin-top:0">
+      <button class="btn primario" id="btnAplicar" type="button">Aplicar % sugerida em tudo</button>
+      <button class="btn" id="btnSalvarPerfil" type="button">Salvar % atuais como base deste perfil</button>
+    </div>
+  </section>
+
+  <div class="total so-plan" id="total" role="status" aria-live="polite">
+    <span class="num" id="totalPct">–</span>
+    <span class="num" id="totalRs" style="font-weight:600;font-size:18px">–</span>
+    <span class="msg" id="totalMsg">–</span>
+    <span class="espaco"></span>
+    <span class="nota" style="font-size:13px;color:var(--ink-2)">A soma precisa fechar em 100%</span>
+  </div>
+
+  <section class="card so-plan" id="cardPizza" aria-labelledby="tPizza" style="margin-bottom:18px">
+    <div class="pizza-topo">
+      <h2 id="tPizza" style="margin:0">Para onde vai o orçamento</h2>
+      <div class="seg" id="segPizza" role="group" aria-label="Detalhe do gráfico">
+        <button type="button" data-modo="grupo" aria-pressed="true">Por grupo</button>
+        <button type="button" data-modo="item" aria-pressed="false">Por item</button>
+      </div>
+    </div>
+    <div class="pizza">
+      <svg id="donut" viewBox="0 0 220 220" role="img" aria-label="Gráfico de distribuição do orçamento"></svg>
+      <ul id="pizzaLegenda" class="pizza-legenda"></ul>
+    </div>
+  </section>
+
+  <section class="card so-plan" aria-label="Distribuição do orçamento">
+    <div class="tabela-wrap">
+      <table>
+        <thead><tr><th>Serviço / item</th><th>% sugerida</th><th>% obra</th><th>R$</th><th>R$ / m²</th><th></th></tr></thead>
+        <tbody id="corpo"></tbody>
+      </table>
+    </div>
+    <p class="rodape-tab">Todos os produtos já são considerados instalados. Isto é planejamento, não orçamento executivo: aqui não entra especificação, só a direção do investimento antes de começar a criar.</p>
+  </section>
+
+  <div class="tres so-plan">
+    <section class="card" aria-labelledby="tFiltro">
+      <h2 id="tFiltro">Filtro de cliente e referências de mercado</h2>
+      <div class="campo"><label for="piso">Seu custo mínimo de obra (R$/m²)</label>
+        <input id="piso" type="text" inputmode="decimal" placeholder="a preencher com o seu histórico"></div>
+      <div class="campo"><label for="cub" id="cubLabel">CUB do estado (R$/m²)</label>
+        <input id="cub" type="text" inputmode="decimal" placeholder="a preencher, Sinduscon do seu estado"></div>
+      <div class="campo"><label for="sinapi">SINAPI custo médio (R$/m²)</label>
+        <input id="sinapi" type="text" inputmode="decimal" placeholder="a preencher, IBGE/Caixa do seu estado"></div>
+      <div class="filtro-res" id="filtroRes">Preencha o custo mínimo das obras que o seu escritório executou nos últimos um ou dois anos para comparar com o orçamento deste cliente.</div>
+      <p class="ajuda">Escolha o estado da obra no Escopo: o CUB é publicado todo mês por estado em <a href="https://www.cub.org.br" target="_blank" rel="noopener">cub.org.br</a> e pelo Sinduscon local; o SINAPI, pelo IBGE e Caixa. Os dois medem obra civil padrão, então servem como piso de referência, principalmente em arquitetura; o seu próprio histórico é o número que mais importa.</p>
+    </section>
+
+    <section class="card" id="cardPerfis" aria-labelledby="tPerfis">
+      <h2 id="tPerfis">Base de perfis</h2>
+      <ul class="lista-perfis" id="listaPerfis"></ul>
+      <div class="linha-botoes">
+        <button class="btn" id="btnExportar" type="button">Exportar perfis (JSON)</button>
+        <label class="btn" for="arqImportar" style="display:inline-block">Importar perfis</label>
+        <input id="arqImportar" type="file" accept="application/json,.json" hidden>
+        <button class="btn" id="btnCsv" type="button">Baixar planejamento (CSV)</button>
+      </div>
+      <p class="ajuda">Para alimentar com os seus números, peça ao Claude: "leia a pasta com os orçamentos aprovados das minhas obras e preencha a base de perfis deste planejador". As instruções para ele estão no começo deste arquivo.</p>
+    </section>
+  </div>
+
+  <div class="so-exec">
+    <div class="faixa-exemplo" id="faixaExemplo"></div>
+
+    <section class="card" aria-labelledby="tComp">
+      <h2 id="tComp">Previsto x realizado</h2>
+      <div class="kpis k3">
+        <div class="kpi"><div class="k">Previsto no planejamento</div><div class="v" id="ePrev">–</div><div class="s" id="ePrevS">–</div></div>
+        <div class="kpi"><div class="k">Realizado / contratado</div><div class="v" id="eReal">–</div><div class="s" id="eRealS">–</div></div>
+        <div class="kpi"><div class="k">Desvio nos itens fechados</div><div class="v" id="eDif">–</div><div class="s" id="eDifS">–</div></div>
+        <div class="kpi destaque"><div class="k">Projeção de fechamento da obra</div><div class="v" id="eProj">–</div><div class="s" id="eProjS">–</div></div>
+        <div class="kpi"><div class="k">Itens acima do previsto</div><div class="v" id="eAcima">–</div><div class="s" id="eAcimaS">–</div></div>
+        <div class="kpi"><div class="k">Duração da obra</div><div class="v" id="eMeses">–</div><div class="s">pelo cronograma de execução</div></div>
+      </div>
+      <div class="tabela-wrap">
+        <table>
+          <thead><tr><th>Item</th><th>Previsto</th><th>Realizado (R$)</th><th>Diferença</th><th>Desvio</th></tr></thead>
+          <tbody id="corpoComp"></tbody>
+        </table>
+      </div>
+      <p class="ajuda">Previsto é a % do planejamento aplicada sobre o orçamento do briefing. Realizado é o valor do orçamento executivo fechado com o fornecedor ou o valor efetivamente pago. Item sem realizado entra na projeção pelo previsto.</p>
+    </section>
+
+    <section class="card" aria-labelledby="tGantt">
+      <h2 id="tGantt">Cronograma de execução</h2>
+      <div class="linha-campo"><label for="inicioObra">Início da obra</label><input id="inicioObra" type="month"><span>(opcional; sem data, os meses aparecem como Mês 1, Mês 2...)</span></div>
+      <div class="tabela-wrap"><table class="gantt"><thead id="ganttHead"></thead><tbody id="ganttBody"></tbody></table></div>
+      <p class="ajuda">Para cada item, informe em que mês começa e quantos meses dura. A barra mostra a ocupação no tempo.</p>
+    </section>
+
+    <section class="card" aria-labelledby="tFF">
+      <h2 id="tFF">Cronograma físico-financeiro</h2>
+      <svg id="curvaS" viewBox="0 0 760 240" role="img" aria-label="Desembolso mensal e acumulado"></svg>
+      <div class="legenda" style="margin-bottom:12px"><span><i style="background:var(--f2)"></i>Desembolso do mês</span><span><i style="background:var(--ink)"></i>Acumulado (curva S)</span></div>
+      <div class="tabela-wrap"><table class="ff"><thead id="ffHead"></thead><tbody id="ffBody"></tbody></table></div>
+      <p class="ajuda" id="ffNota">O valor de cada item é distribuído igualmente pelos meses de execução. Usa o realizado quando preenchido; senão, o previsto.</p>
+    </section>
+  </div>
+
+  <footer>
+    Instituto METRIK · PDP, Processo de Projeto. Um bom projeto tem forma, função e financeiro. Os dados ficam só neste navegador; nada é enviado para servidor.
+  </footer>
+</div>
+<div class="aviso-toast" id="toast" role="status"></div>
+
+<script>
+/* ================= BASE DE PERFIS =================
+   Chave: "Projeto de|Categoria|Tipo de obra|Status da obra".
+   Grupos: "servico", "f1" (civil, instalações e acabamentos), "f2" (marcenaria, produtos e decoração).
+   Só entra perfil com obra real de referência. Perfil sem base fica com a coluna sugerida vazia. */
+const PERFIS_BASE = {
+  "Interiores|Residencial|Apartamento|Recém entregue": {
+    fonte: "Exemplo da aula (planilha do Rodrigo)",
+    itens: [
+      { grupo: "servico", nome: "Acompanhamento / gestão", pct: 10 },
+      { grupo: "f1", nome: "Civil - Pequenas modificações", pct: 10 },
+      { grupo: "f1", nome: "Automação", pct: 5 },
+      { grupo: "f1", nome: "Revestimentos - decorativos e WCs", pct: 2 },
+      { grupo: "f1", nome: "Pintura todo apto", pct: 1 },
+      { grupo: "f1", nome: "Iluminação técnica e decorativa", pct: 2 },
+      { grupo: "f1", nome: "Box", pct: 1 },
+      { grupo: "f1", nome: "Fechamento de sacada", pct: 3 },
+      { grupo: "f1", nome: "Climatização (split)", pct: 3.5 },
+      { grupo: "f2", nome: "Marcenaria", pct: 20 },
+      { grupo: "f2", nome: "Marmoraria", pct: 5 },
+      { grupo: "f2", nome: "Vidraçaria", pct: 9 },
+      { grupo: "f2", nome: "Acessórios de marcenaria", pct: 1.5 },
+      { grupo: "f2", nome: "Cortinas e Persianas", pct: 4 },
+      { grupo: "f2", nome: "Eletrodomésticos e TVs", pct: 10 },
+      { grupo: "f2", nome: "Louças e metais + instalação", pct: 6 },
+      { grupo: "f2", nome: "Mobiliário solto", pct: 5 },
+      { grupo: "f2", nome: "Decoração e produção", pct: 2 }
+    ]
+  }
+};
+
+/* Estrutura de itens por tipo de projeto (só nomes; as porcentagens vêm da base ou de você). */
+const ESTRUTURAS = {
+  "Interiores": {
+    servico: ["Acompanhamento / gestão"],
+    doc: ["ITBI","Cartório e emolumentos","Alvarás, licenças e taxas"],
+    f1: ["Mobilização e desmobilização","Demolição e retirada de entulho","Civil - Pequenas modificações",
+         "Instalações elétricas","Instalações hidrossanitárias e gás","Impermeabilização","Forro de gesso e sancas",
+         "Pisos e rodapés","Revestimentos - decorativos e WCs","Portas internas e ferragens","Pintura todo apto",
+         "Iluminação técnica e decorativa","Automação","Climatização (split)","Box","Fechamento de sacada"],
+    f2: ["Marcenaria","Acessórios de marcenaria","Marmoraria","Vidraçaria","Espelhos","Serralheria e metais decorativos",
+         "Louças e metais + instalação","Eletrodomésticos e TVs","Cortinas e Persianas","Papel de parede e painéis",
+         "Mobiliário solto","Tapetes","Enxoval (cama, mesa e banho)","Decoração e produção","Paisagismo interno e vasos"],
+    entrega: ["Limpeza pós-obra","Vistoria e ajustes finais","Entrega técnica e manual do proprietário"],
+    reserva: ["Contingência (imprevistos)"]
+  },
+  "Arquitetura": {
+    servico: ["Acompanhamento / gestão","Projetos complementares"],
+    doc: ["ITBI","Cartório e emolumentos","Alvarás, licenças e taxas","Aprovação na prefeitura e Habite-se"],
+    f1: ["Mobilização e desmobilização","Serviços preliminares e canteiro","Terraplenagem","Fundação","Estrutura",
+         "Alvenaria e vedações","Cobertura","Impermeabilização","Instalações elétricas","Instalações hidrossanitárias",
+         "Gás e preventivo de incêndio","Esquadrias","Contrapiso e regularização","Revestimentos e pisos","Forro",
+         "Pintura","Fachada"],
+    f2: ["Louças e metais + instalação","Bancadas e marmoraria","Vidraçaria e guarda-corpos","Iluminação",
+         "Paisagismo e áreas externas","Piscina e área de lazer"],
+    entrega: ["Limpeza pós-obra","Vistoria e ajustes finais","Entrega técnica e manual do proprietário"],
+    reserva: ["Contingência (imprevistos)"]
+  }
+};
+ESTRUTURAS["Arquitetura + Interiores"] = {
+  servico: ["Acompanhamento / gestão","Projetos complementares"],
+  doc: [...ESTRUTURAS["Arquitetura"].doc],
+  f1: [...ESTRUTURAS["Arquitetura"].f1, "Forro de gesso e sancas","Revestimentos - decorativos e WCs","Portas internas e ferragens",
+       "Iluminação técnica e decorativa","Automação","Climatização (split)","Box"],
+  f2: [...ESTRUTURAS["Interiores"].f2, "Paisagismo e áreas externas","Piscina e área de lazer"],
+  entrega: [...ESTRUTURAS["Interiores"].entrega],
+  reserva: ["Contingência (imprevistos)"]
+};
+ESTRUTURAS["Consultoria"] = ESTRUTURAS["Interiores"];
+
+const GRUPOS = [
+  { key: "servico", titulo: "Serviço", desc: "o seu acompanhamento ou gestão e, em arquitetura, os projetos complementares (o projeto de arquitetura já está fechado)", cor: "var(--serv)" },
+  { key: "doc", titulo: "Documentação", desc: "ITBI, cartório, emolumentos, alvarás. Dica: digite \"R$ 25.000\" na % que a calculadora converte", cor: "var(--doc)" },
+  { key: "f1", titulo: "Fase 1", desc: "mobilização, civil, instalações e acabamentos", cor: "var(--f1)" },
+  { key: "f2", titulo: "Fase 2", desc: "marcenaria, produtos e decoração", cor: "var(--f2)" },
+  { key: "entrega", titulo: "Entrega", desc: "limpeza, finalização e entrega da obra", cor: "var(--ent)" },
+  { key: "reserva", titulo: "Contingência", desc: "reserva para imprevistos, em % do orçamento", cor: "var(--res)" }
+];
+const CHAVES_GRUPO = GRUPOS.map(g => g.key);
+const UFS = ["AC","AL","AP","AM","BA","CE","DF","ES","GO","MA","MT","MS","MG","PA","PB","PR","PE","PI","RJ","RN","RS","RO","RR","SC","SP","SE","TO"];
+/* CUB do mês por estado, R$/m² (preencher com o valor publicado; nunca estimar).
+   Ex.: const CUB_POR_UF = { SC: { valor: 0000.00, ref: "set/2026", padrao: "R8-N" } }; */
+const CUB_POR_UF = {};
+const TIPOS_PROJETO = ["Interiores","Arquitetura","Arquitetura + Interiores","Consultoria"];
+
+/* Exemplo didático do executivo: fator realizado/previsto, mês de início e duração em meses.
+   Valores FICTÍCIOS, só para mostrar a ferramenta pronta na aula. */
+const EX_EXEC = {
+  "Acompanhamento / gestão": [1.00, 1, 8], "Civil - Pequenas modificações": [1.18, 1, 2], "Automação": [1.06, 2, 3],
+  "Revestimentos - decorativos e WCs": [0.92, 2, 2], "Fechamento de sacada": [1.00, 3, 1], "Climatização (split)": [1.08, 2, 3],
+  "Pintura todo apto": [1.10, 5, 2], "Iluminação técnica e decorativa": [1.05, 6, 2], "Box": [0.95, 6, 1],
+  "Marcenaria": [1.07, 4, 4], "Marmoraria": [0.94, 4, 2], "Vidraçaria": [1.03, 6, 2], "Acessórios de marcenaria": [1.12, 6, 2],
+  "Louças e metais + instalação": [0.97, 6, 2], "Eletrodomésticos e TVs": [1.15, 7, 1], "Mobiliário solto": [1.20, 7, 2],
+  "Cortinas e Persianas": [0.90, 8, 1], "Decoração e produção": [0.85, 8, 1]
+};
+function aplicarExemploExec(st) {
+  st.itens.forEach(i => {
+    const ex = EX_EXEC[i.nome];
+    if (ex && i.pct > 0) { i.real = Math.round((st.orcamento || 0) * i.pct / 100 * ex[0]); i.ini = ex[1]; i.dur = ex[2]; }
+  });
+  st.exemploDidatico = true;
+}
+const EXEMPLO = {
+  nome: "", etapa: "plan", inicioObra: "", uf: "", cidade: "", projetoDe: "Interiores", categoria: "Residencial", tipo: "Apartamento", status: "Recém entregue",
+  area: 150, ambientes: 14, orcamento: 1000000, piso: null, cub: null, sinapi: null,
+  itens: (() => {
+    const base = PERFIS_BASE["Interiores|Residencial|Apartamento|Recém entregue"].itens;
+    const est = ESTRUTURAS["Interiores"];
+    return GRUPOS.flatMap(g => (est[g.key] || []).map(nome => {
+      const b = base.find(x => x.grupo === g.key && x.nome === nome);
+      return { grupo: g.key, nome, pct: b ? b.pct : null };
+    }));
+  })()
+};
+
+aplicarExemploExec(EXEMPLO);
+const K_ESTADO = "planejador-obra-estado-v1", K_PERFIS = "planejador-obra-perfis-v1";
+const ler = (k) => { try { const v = localStorage.getItem(k); return v ? JSON.parse(v) : null; } catch (e) { return null; } };
+const gravar = (k, v) => { try { localStorage.setItem(k, JSON.stringify(v)); } catch (e) { /* navegador sem armazenamento: segue funcionando sem salvar */ } };
+
+let uid = 0;
+const novoId = () => "i" + (++uid);
+let estado = ler(K_ESTADO) || JSON.parse(JSON.stringify(EXEMPLO));
+estado.itens.forEach(i => i.id = novoId());
+let perfisLocais = ler(K_PERFIS) || {};
+
+/* ---------- formatação pt-BR ---------- */
+const fmtRs = (v) => isFinite(v) ? v.toLocaleString("pt-BR", { style: "currency", currency: "BRL", minimumFractionDigits: 2 }) : "–";
+const fmtPct = (v, d = 1) => isFinite(v) ? v.toLocaleString("pt-BR", { minimumFractionDigits: d, maximumFractionDigits: 2 }) + "%" : "–";
+const fmtNum = (v) => v == null || !isFinite(v) ? "" : v.toLocaleString("pt-BR", { maximumFractionDigits: 2 });
+function numBR(txt) {
+  if (txt == null) return null;
+  let s = String(txt).trim().replace(/[R$\s%]/g, "");
+  if (!s) return null;
+  if (s.includes(",")) s = s.replace(/\./g, "").replace(",", ".");
+  else if (/^\d{1,3}(\.\d{3})+$/.test(s)) s = s.replace(/\./g, "");
+  const n = Number(s);
+  return isFinite(n) ? n : null;
+}
+const $ = (id) => document.getElementById(id);
+const chavePerfil = () => [estado.projetoDe, estado.categoria, estado.tipo, estado.status].map(s => (s || "").trim()).join("|");
+const todosPerfis = () => ({ ...PERFIS_BASE, ...perfisLocais });
+function perfilAtual() { return todosPerfis()[chavePerfil()] || null; }
+function sugeridaDe(item) {
+  const p = perfilAtual(); if (!p) return null;
+  const achado = p.itens.find(x => x.grupo === item.grupo && x.nome.trim().toLowerCase() === item.nome.trim().toLowerCase());
+  return achado ? achado.pct : null;
+}
+function toast(msg) { const t = $("toast"); t.textContent = msg; t.classList.add("on"); clearTimeout(toast._t); toast._t = setTimeout(() => t.classList.remove("on"), 2600); }
+
+/* ---------- tabela ---------- */
+function renderTabela() {
+  const corpo = $("corpo"); corpo.innerHTML = "";
+  GRUPOS.forEach(g => {
+    const trg = document.createElement("tr"); trg.className = "grupo";
+    trg.innerHTML = `<td colspan="6"><div class="grupo-titulo"><span class="tag" style="background:${g.cor}">${g.titulo}</span><small>${g.desc}</small></div></td>`;
+    corpo.appendChild(trg);
+    estado.itens.filter(i => i.grupo === g.key).forEach(item => {
+      const tr = document.createElement("tr"); tr.dataset.id = item.id;
+      tr.innerHTML = `
+        <td><input class="nome-item" type="text" aria-label="Nome do item"></td>
+        <td class="sug"></td>
+        <td><input class="pct" type="text" inputmode="decimal" aria-label="Porcentagem da obra"></td>
+        <td class="rs">–</td><td class="m2">–</td>
+        <td><button class="rm" type="button" title="Remover item" aria-label="Remover item">×</button></td>`;
+      const nome = tr.querySelector(".nome-item"); nome.value = item.nome;
+      nome.addEventListener("input", () => { item.nome = nome.value; atualizar(); });
+      const pct = tr.querySelector(".pct"); pct.value = item.pct == null ? "" : fmtNum(item.pct);
+      pct.addEventListener("input", () => {
+        const emReais = /r\$/i.test(pct.value), n = numBR(pct.value);
+        item.pct = emReais ? (n != null && estado.orcamento ? n / estado.orcamento * 100 : null) : n;
+        atualizar();
+      });
+      pct.addEventListener("blur", () => { pct.value = item.pct == null ? "" : fmtNum(item.pct); });
+      tr.querySelector(".rm").addEventListener("click", () => { estado.itens = estado.itens.filter(x => x.id !== item.id); renderTabela(); });
+      corpo.appendChild(tr);
+    });
+    const sub = document.createElement("tr"); sub.className = "sub"; sub.dataset.sub = g.key;
+    sub.innerHTML = `<td>Subtotal ${g.titulo}</td><td></td><td class="sp">–</td><td class="srs">–</td><td class="sm2">–</td><td></td>`;
+    corpo.appendChild(sub);
+    const add = document.createElement("tr"); add.className = "add";
+    add.innerHTML = `<td colspan="6"><button class="btn sutil" type="button">+ adicionar item em ${g.titulo}</button></td>`;
+    add.querySelector("button").addEventListener("click", () => {
+      const novo = { id: novoId(), grupo: g.key, nome: "", pct: null };
+      estado.itens.push(novo); renderTabela();
+      const campo = document.querySelector(`tr[data-id="${novo.id}"] .nome-item`); if (campo) campo.focus();
+    });
+    corpo.appendChild(add);
+  });
+  const ger = document.createElement("tr"); ger.className = "geral";
+  ger.innerHTML = `<td>TOTAL GERAL</td><td class="gsug"></td><td class="gp">–</td><td class="grs">–</td><td class="gm2">–</td><td></td>`;
+  corpo.appendChild(ger);
+  atualizar();
+}
+
+/* ---------- cálculos ---------- */
+function atualizar() {
+  const orc = estado.orcamento || 0, area = estado.area || 0, amb = estado.ambientes || 0;
+  const soma = Object.fromEntries(CHAVES_GRUPO.map(k => [k, 0]));
+  estado.itens.forEach(i => { if (i.grupo in soma) soma[i.grupo] += i.pct || 0; });
+  const total = Object.values(soma).reduce((a, b) => a + b, 0);
+
+  estado.itens.forEach(item => {
+    const tr = document.querySelector(`tr[data-id="${item.id}"]`); if (!tr) return;
+    const v = orc * (item.pct || 0) / 100;
+    tr.querySelector(".rs").textContent = item.pct == null ? "–" : fmtRs(v);
+    tr.querySelector(".m2").textContent = item.pct == null || !area ? "–" : fmtRs(v / area);
+    const s = sugeridaDe(item), cel = tr.querySelector(".sug");
+    if (s == null) cel.innerHTML = "–";
+    else {
+      const igual = item.pct != null && Math.abs(item.pct - s) < 0.001;
+      cel.innerHTML = `<button type="button" class="${igual ? "igual" : ""}" title="${igual ? "Igual à sugerida" : "Usar a % sugerida neste item"}">${fmtPct(s)}</button>`;
+      if (!igual) cel.querySelector("button").addEventListener("click", () => {
+        item.pct = s; tr.querySelector(".pct").value = fmtNum(s); atualizar();
+      });
+    }
+  });
+  GRUPOS.forEach(g => {
+    const sub = document.querySelector(`tr[data-sub="${g.key}"]`); if (!sub) return;
+    const v = orc * soma[g.key] / 100;
+    sub.querySelector(".sp").textContent = fmtPct(soma[g.key]);
+    sub.querySelector(".srs").textContent = fmtRs(v);
+    sub.querySelector(".sm2").textContent = area ? fmtRs(v / area) : "–";
+  });
+  const ger = document.querySelector("tr.geral");
+  if (ger) {
+    ger.querySelector(".gp").textContent = fmtPct(total, 2);
+    ger.querySelector(".grs").textContent = fmtRs(orc * total / 100);
+    ger.querySelector(".gm2").textContent = area ? fmtRs(orc * total / 100 / area) : "–";
+  }
+
+  // indicadores
+  const porM2 = (pct) => area ? fmtRs(orc * pct / 100 / area) : "–";
+  $("kM2").textContent = area ? fmtRs(orc / area) : "–";
+  $("kObraM2").textContent = porM2(soma.f1 + soma.f2);
+  $("kF1").textContent = porM2(soma.f1);
+  $("kF2").textContent = porM2(soma.f2);
+  $("kServ").textContent = porM2(soma.servico);
+  $("kServTotal").textContent = "total do serviço: " + fmtRs(orc * soma.servico / 100) + " (" + fmtPct(soma.servico) + ")";
+  $("kAmb").textContent = amb ? fmtRs(orc / amb) : "–";
+  const base = Math.max(total, 100);
+  $("bServ").style.width = (soma.servico / base * 100) + "%";
+  $("bF1").style.width = (soma.f1 / base * 100) + "%";
+  $("bF2").style.width = (soma.f2 / base * 100) + "%";
+  $("bDoc").style.width = (soma.doc / base * 100) + "%";
+  $("bRes").style.width = (soma.reserva / base * 100) + "%";
+  $("bEnt").style.width = (soma.entrega / base * 100) + "%"; $("lEnt").textContent = fmtPct(soma.entrega);
+  desenharPizza(soma, total);
+  $("lDoc").textContent = fmtPct(soma.doc); $("lRes").textContent = fmtPct(soma.reserva);
+  $("lServ").textContent = fmtPct(soma.servico); $("lF1").textContent = fmtPct(soma.f1); $("lF2").textContent = fmtPct(soma.f2);
+
+  // total e alerta de 100%
+  const t = $("total"), dif = total - 100;
+  $("totalPct").textContent = fmtPct(total, 2);
+  $("totalRs").textContent = fmtRs(orc * total / 100);
+  t.classList.remove("ok", "falta", "passou");
+  if (Math.abs(dif) < 0.005) { t.classList.add("ok"); $("totalMsg").textContent = "Fechou em 100%. Orçamento todo distribuído."; }
+  else if (dif > 0) { t.classList.add("passou"); $("totalMsg").textContent = `Passou de 100% em ${fmtPct(dif, 2)}: ${fmtRs(orc * dif / 100)} acima do orçamento do briefing. Reduza algum item.`; }
+  else { t.classList.add("falta"); $("totalMsg").textContent = `Faltam ${fmtPct(-dif, 2)} para distribuir (${fmtRs(orc * -dif / 100)}).`; }
+
+  atualizarPerfil();
+  atualizarFiltro(soma);
+  document.body.dataset.etapa = estado.etapa || "plan";
+  document.querySelectorAll("#segEtapa button").forEach(b => b.setAttribute("aria-pressed", String(b.dataset.etapa === (estado.etapa || "plan"))));
+  if (estado.etapa === "exec") renderExec();
+  gravar(K_ESTADO, estado);
+}
+
+function desenharPizza(soma, total) {
+  const orc = estado.orcamento || 0, modo = estado.modoPizza || "grupo";
+  const segs = [];
+  if (modo === "grupo") {
+    GRUPOS.forEach(g => { if (soma[g.key] > 0) segs.push({ nome: g.titulo, pct: soma[g.key], cor: g.cor, op: 1 }); });
+  } else {
+    GRUPOS.forEach(g => {
+      const its = estado.itens.filter(i => i.grupo === g.key && i.pct > 0).sort((a, b) => b.pct - a.pct);
+      its.forEach((i, k) => segs.push({ nome: i.nome.trim() || "(sem nome)", pct: i.pct, cor: g.cor,
+        op: its.length > 1 ? 1 - 0.6 * k / (its.length - 1) : 1, grupo: g.titulo }));
+    });
+  }
+  if (total < 100) segs.push({ nome: "Não distribuído", pct: 100 - total, cor: "var(--line)", op: 1, vazio: true });
+  const base = Math.max(total, 100), r = 80, C = 2 * Math.PI * r;
+  let acc = 0, arcos = "";
+  segs.forEach(sg => {
+    const len = sg.pct / base * C;
+    arcos += `<circle cx="110" cy="110" r="${r}" fill="none" style="stroke:${sg.cor};stroke-opacity:${sg.op}" stroke-width="36"
+      stroke-dasharray="${len} ${C - len}" stroke-dashoffset="${-acc}" transform="rotate(-90 110 110)"><title></title></circle>`;
+    acc += len;
+  });
+  const centro = total > 100.005 ? `<text x="110" y="104" text-anchor="middle" style="fill:var(--bad);font-weight:700;font-size:20px">${fmtPct(total, 1)}</text>
+      <text x="110" y="124" text-anchor="middle" style="fill:var(--bad);font-size:11px">passou de 100%</text>`
+    : `<text x="110" y="104" text-anchor="middle" style="fill:var(--ink);font-weight:700;font-size:15px">${fmtRs(orc).replace(",00", "")}</text>
+      <text x="110" y="124" text-anchor="middle" style="fill:var(--ink-3);font-size:11px">orçamento do briefing</text>`;
+  const svg = $("donut"); svg.innerHTML = arcos + centro;
+  [...svg.querySelectorAll("title")].forEach((tt, k) => { const sg = segs[k]; tt.textContent = `${sg.nome}: ${fmtPct(sg.pct)} · ${fmtRs(orc * sg.pct / 100)}`; });
+  const ul = $("pizzaLegenda"); ul.innerHTML = ""; ul.style.columns = modo === "grupo" ? "1" : "";
+  let grupoAtual = null;
+  segs.forEach(sg => {
+    if (modo === "item" && sg.grupo && sg.grupo !== grupoAtual) {
+      grupoAtual = sg.grupo; const cab = document.createElement("li"); cab.className = "cab"; cab.textContent = sg.grupo; ul.appendChild(cab);
+    }
+    const li = document.createElement("li"); if (sg.vazio) li.className = "vazio";
+    li.innerHTML = `<i style="background:${sg.cor};opacity:${sg.op}"></i><span class="n"></span><span class="p">${fmtPct(sg.pct)}</span><span class="r">${fmtRs(orc * sg.pct / 100)}</span>`;
+    li.querySelector(".n").textContent = sg.nome; ul.appendChild(li);
+  });
+  document.querySelectorAll("#segPizza button").forEach(b => b.setAttribute("aria-pressed", String(b.dataset.modo === modo)));
+}
+
+/* ================= PROJETO EXECUTIVO ================= */
+const MESES = ["jan","fev","mar","abr","mai","jun","jul","ago","set","out","nov","dez"];
+const previstoDe = (i) => (estado.orcamento || 0) * (i.pct || 0) / 100;
+const refDe = (i) => i.real != null ? i.real : previstoDe(i);
+const itensExec = () => estado.itens.filter(i => (i.pct || 0) > 0 || i.real != null);
+const agendado = (i) => i.ini > 0 && i.dur > 0;
+const fmtCurto = (v) => v >= 1e6 ? (v / 1e6).toLocaleString("pt-BR", { maximumFractionDigits: 2 }) + " mi" : v >= 1e3 ? Math.round(v / 1e3) + " mil" : Math.round(v).toString();
+function rotuloMes(k) {
+  if (/^\d{4}-\d{2}$/.test(estado.inicioObra || "")) {
+    const [y, m] = estado.inicioObra.split("-").map(Number); const d = new Date(y, m - 1 + k, 1);
+    return MESES[d.getMonth()] + "/" + String(d.getFullYear()).slice(2);
+  }
+  return "Mês " + (k + 1);
+}
+function nMeses() { let n = 1; itensExec().forEach(i => { if (agendado(i)) n = Math.max(n, i.ini + i.dur - 1); }); return n; }
+
+// re-render sem perder o campo em que a pessoa está digitando
+function comFoco(fn) {
+  const a = document.activeElement, tr = a && a.closest ? a.closest("tr") : null;
+  const sel = tr && tr.dataset.cid ? `tr[data-cid="${tr.dataset.cid}"]` : tr && tr.dataset.gid ? `tr[data-gid="${tr.dataset.gid}"]` : null;
+  const campo = a && a.dataset ? a.dataset.campo : null, bruto = a ? a.value : null, pos = a ? a.selectionStart : null;
+  fn();
+  if (sel && campo) {
+    const el = document.querySelector(`${sel} [data-campo="${campo}"]`);
+    if (el) { el.value = bruto; el.focus(); try { el.setSelectionRange(pos, pos); } catch (e) { /* campo sem seleção de texto */ } }
+  }
+}
+
+function renderExec() { comFoco(() => { renderFaixa(); renderComp(); renderGantt(); renderFF(); }); }
+
+function renderFaixa() {
+  const f = $("faixaExemplo"), temDados = estado.itens.some(i => i.real != null || agendado(i));
+  if (estado.exemploDidatico) {
+    f.className = "faixa-exemplo didatico";
+    f.innerHTML = `<span>Exemplo didático: os valores realizados e o cronograma abaixo são fictícios, só para mostrar a ferramenta pronta.</span><button class="btn" type="button" id="btnLimparEx">Limpar exemplo e usar os meus dados</button>`;
+    $("btnLimparEx").addEventListener("click", () => {
+      if (!confirm("Apagar os valores realizados e o cronograma do exemplo? O planejamento continua.")) return;
+      estado.itens.forEach(i => { i.real = null; i.ini = null; i.dur = null; }); estado.exemploDidatico = false; atualizar();
+    });
+  } else if (!temDados) {
+    f.className = "faixa-exemplo vazio";
+    f.innerHTML = `<span>Ainda não há realizado nem cronograma. Preencha nas tabelas abaixo ou veja um exemplo pronto.</span><button class="btn" type="button" id="btnCarregarEx">Carregar exemplo didático</button>`;
+    $("btnCarregarEx").addEventListener("click", () => { aplicarExemploExec(estado); atualizar(); });
+  } else { f.className = ""; f.innerHTML = ""; }
+}
+
+function renderComp() {
+  const corpo = $("corpoComp"); corpo.innerHTML = "";
+  const its = itensExec();
+  let tPrev = 0, tReal = 0, tPrevFech = 0, tRef = 0, acima = 0, fechados = 0;
+  GRUPOS.forEach(g => {
+    const doGrupo = its.filter(i => i.grupo === g.key); if (!doGrupo.length) return;
+    const cab = document.createElement("tr"); cab.className = "grupo";
+    cab.innerHTML = `<td colspan="5"><div class="grupo-titulo"><span class="tag" style="background:${g.cor}">${g.titulo}</span></div></td>`;
+    corpo.appendChild(cab);
+    let sPrev = 0, sReal = 0, sPrevF = 0;
+    doGrupo.forEach(i => {
+      const prev = previstoDe(i); sPrev += prev; tPrev += prev; tRef += refDe(i);
+      const tr = document.createElement("tr"); tr.dataset.cid = i.id;
+      let dif = "–", desv = "–", cls = "";
+      if (i.real != null) {
+        sReal += i.real; sPrevF += prev; tReal += i.real; tPrevFech += prev; fechados++;
+        const d = i.real - prev; if (d > 0.5) { cls = "acima"; acima++; } else if (d < -0.5) cls = "abaixo";
+        dif = (d > 0 ? "+" : "") + fmtRs(d); desv = prev ? (d > 0 ? "+" : "") + fmtPct(d / prev * 100) : "–";
+      }
+      tr.innerHTML = `<td></td><td>${fmtRs(prev)}</td><td><input class="real" type="text" inputmode="decimal" data-campo="real" aria-label="Valor realizado"></td><td class="${cls}">${dif}</td><td class="${cls}">${desv}</td>`;
+      tr.cells[0].textContent = i.nome || "(sem nome)";
+      tr.querySelector("input").value = i.real == null ? "" : fmtNum(i.real);
+      corpo.appendChild(tr);
+    });
+    const ds = sReal - sPrevF, sub = document.createElement("tr"); sub.className = "sub";
+    sub.innerHTML = `<td>Subtotal ${g.titulo}</td><td>${fmtRs(sPrev)}</td><td>${sReal ? fmtRs(sReal) : "–"}</td><td class="${ds > 0.5 ? "acima" : ds < -0.5 ? "abaixo" : ""}">${sReal ? (ds > 0 ? "+" : "") + fmtRs(ds) : "–"}</td><td></td>`;
+    corpo.appendChild(sub);
+  });
+  const dT = tReal - tPrevFech, ger = document.createElement("tr"); ger.className = "geral";
+  ger.innerHTML = `<td>TOTAL</td><td>${fmtRs(tPrev)}</td><td>${tReal ? fmtRs(tReal) : "–"}</td><td class="${dT > 0.5 ? "acima" : dT < -0.5 ? "abaixo" : ""}">${tReal ? (dT > 0 ? "+" : "") + fmtRs(dT) : "–"}</td><td class="${dT > 0.5 ? "acima" : dT < -0.5 ? "abaixo" : ""}">${tPrevFech ? (dT > 0 ? "+" : "") + fmtPct(dT / tPrevFech * 100) : "–"}</td>`;
+  corpo.appendChild(ger);
+
+  const orc = estado.orcamento || 0;
+  $("ePrev").textContent = fmtRs(tPrev); $("ePrevS").textContent = `${its.length} itens com valor no planejamento`;
+  $("eReal").textContent = fmtRs(tReal); $("eRealS").textContent = `${fechados} de ${its.length} itens fechados`;
+  $("eDif").textContent = tPrevFech ? (dT > 0 ? "+" : "") + fmtRs(dT) : "–";
+  $("eDif").className = "v " + (dT > 0.5 ? "bad" : dT < -0.5 ? "ok" : "");
+  $("eDifS").textContent = tPrevFech ? `${dT > 0 ? "+" : ""}${fmtPct(dT / tPrevFech * 100)} sobre o previsto desses itens` : "preencha o realizado";
+  const dProj = tRef - orc;
+  $("eProj").textContent = fmtRs(tRef); $("eProj").className = "v " + (dProj > 0.5 ? "bad" : "ok");
+  $("eProjS").textContent = orc ? (dProj > 0.5 ? `${fmtRs(dProj)} acima do orçamento do briefing (${fmtPct(dProj / orc * 100)})` : `${fmtRs(-dProj)} de folga sobre o orçamento do briefing`) : "–";
+  $("eAcima").textContent = String(acima); $("eAcima").className = "v " + (acima ? "bad" : "");
+  $("eAcimaS").textContent = acima ? "conferir antes de seguir com a compra" : "nenhum item estourou";
+  const n = nMeses(), algum = its.some(agendado);
+  $("eMeses").textContent = algum ? `${n} ${n > 1 ? "meses" : "mês"}` : "–";
+}
+
+function renderGantt() {
+  const n = nMeses(), its = itensExec();
+  $("inicioObra").value = estado.inicioObra || "";
+  let h = `<tr><th>Item</th><th>Início (mês)</th><th>Duração (meses)</th>`;
+  for (let k = 0; k < n; k++) h += `<th class="mes">${rotuloMes(k)}</th>`;
+  $("ganttHead").innerHTML = h + `<th class="mes">+</th></tr>`;
+  const corpo = $("ganttBody"); corpo.innerHTML = "";
+  GRUPOS.forEach(g => {
+    const doGrupo = its.filter(i => i.grupo === g.key); if (!doGrupo.length) return;
+    const cab = document.createElement("tr"); cab.className = "grupo";
+    cab.innerHTML = `<td colspan="${n + 4}"><div class="grupo-titulo"><span class="tag" style="background:${g.cor}">${g.titulo}</span></div></td>`;
+    corpo.appendChild(cab);
+    doGrupo.forEach(i => {
+      const tr = document.createElement("tr"); tr.dataset.gid = i.id;
+      let cel = "";
+      for (let k = 1; k <= n + 1; k++) {
+        const on = agendado(i) && k >= i.ini && k < i.ini + i.dur;
+        cel += `<td class="mes">${on ? `<div class="gbar" style="background:${g.cor}" title="${rotuloMes(k - 1)}: ${fmtRs(refDe(i) / i.dur)}"></div>` : ""}</td>`;
+      }
+      tr.innerHTML = `<td></td><td><input class="mini" type="text" inputmode="numeric" data-campo="ini" aria-label="Mês de início"></td><td><input class="mini" type="text" inputmode="numeric" data-campo="dur" aria-label="Duração em meses"></td>${cel}`;
+      tr.cells[0].textContent = i.nome || "(sem nome)";
+      tr.querySelector('[data-campo="ini"]').value = i.ini ?? ""; tr.querySelector('[data-campo="dur"]').value = i.dur ?? "";
+      corpo.appendChild(tr);
+    });
+  });
+}
+
+function renderFF() {
+  const n = nMeses(), its = itensExec(), ag = its.filter(agendado);
+  const totalRef = its.reduce((a, i) => a + refDe(i), 0);
+  const mes = Array(n).fill(0);
+  let h = `<tr><th>Item</th>`; for (let k = 0; k < n; k++) h += `<th>${rotuloMes(k)}</th>`;
+  $("ffHead").innerHTML = h + `<th>Total</th></tr>`;
+  const corpo = $("ffBody"); corpo.innerHTML = "";
+  GRUPOS.forEach(g => {
+    const doGrupo = ag.filter(i => i.grupo === g.key); if (!doGrupo.length) return;
+    const cab = document.createElement("tr"); cab.className = "grupo";
+    cab.innerHTML = `<td colspan="${n + 2}"><div class="grupo-titulo"><span class="tag" style="background:${g.cor}">${g.titulo}</span></div></td>`;
+    corpo.appendChild(cab);
+    doGrupo.forEach(i => {
+      const parcela = refDe(i) / i.dur, tr = document.createElement("tr");
+      let cel = "";
+      for (let k = 1; k <= n; k++) {
+        const on = k >= i.ini && k < i.ini + i.dur;
+        if (on) mes[k - 1] += parcela;
+        cel += `<td>${on ? fmtRs(parcela) : ""}</td>`;
+      }
+      tr.innerHTML = `<td></td>${cel}<td>${fmtRs(refDe(i))}</td>`; tr.cells[0].textContent = i.nome || "(sem nome)";
+      corpo.appendChild(tr);
+    });
+  });
+  const somaAg = mes.reduce((a, b) => a + b, 0);
+  let acc = 0;
+  const linhaTot = (rot, f) => { const tr = document.createElement("tr"); tr.className = "tot"; let c = `<td>${rot}</td>`; mes.forEach((v, k) => c += `<td>${f(v, k)}</td>`); tr.innerHTML = c + `<td>${rot === "Desembolso do mês" ? fmtRs(somaAg) : ""}</td>`; corpo.appendChild(tr); };
+  linhaTot("Desembolso do mês", (v) => fmtRs(v));
+  const acum = mes.map(v => (acc += v));
+  linhaTot("Acumulado", (v, k) => fmtRs(acum[k]));
+  linhaTot("Avanço físico-financeiro", (v, k) => totalRef ? fmtPct(acum[k] / totalRef * 100) : "–");
+
+  const semCrono = its.length - ag.length;
+  $("ffNota").textContent = "O valor de cada item é distribuído igualmente pelos meses de execução. Usa o realizado quando preenchido; senão, o previsto." +
+    (semCrono ? ` Atenção: ${semCrono} ${semCrono > 1 ? "itens com valor ainda não têm" : "item com valor ainda não tem"} cronograma, então o acumulado não chega a 100%.` : "");
+
+  // curva S
+  const W = 760, H = 240, pl = 16, pr = 16, pt = 24, pb = 30, larg = (W - pl - pr) / n, max = Math.max(...mes, 1);
+  let svg = "", rotulos = "";
+  mes.forEach((v, k) => {
+    const bh = v / max * (H - pt - pb) * 0.75, x = pl + k * larg + larg * 0.18, w = larg * 0.64, y = H - pb - bh;
+    svg += `<rect x="${x}" y="${y}" width="${w}" height="${bh}" rx="4" style="fill:var(--f2);opacity:.8"><title>${rotuloMes(k)}: ${fmtRs(v)}</title></rect>`;
+    if (v > 0) rotulos += `<text x="${x + w / 2}" y="${y - 5}" text-anchor="middle" style="fill:var(--ink-2);font-size:10.5px;paint-order:stroke;stroke:#fff;stroke-width:3px">${fmtCurto(v)}</text>`;
+    svg += `<text x="${pl + k * larg + larg / 2}" y="${H - 10}" text-anchor="middle" style="fill:var(--ink-3);font-size:11px">${rotuloMes(k)}</text>`;
+  });
+  if (totalRef) {
+    const pts = acum.map((v, k) => `${pl + k * larg + larg / 2},${H - pb - v / totalRef * (H - pt - pb)}`);
+    svg += `<polyline points="${pl},${H - pb} ${pts.join(" ")}" fill="none" style="stroke:var(--ink)" stroke-width="2.5" stroke-linejoin="round"/>`;
+    acum.forEach((v, k) => { const x = pl + k * larg + larg / 2, y = H - pb - v / totalRef * (H - pt - pb);
+      svg += `<circle cx="${x}" cy="${y}" r="3.5" style="fill:var(--ink)"><title>${rotuloMes(k)}: ${fmtPct(v / totalRef * 100)} acumulado</title></circle>`; });
+    svg += `<text x="${W - pr}" y="${pt - 8}" text-anchor="end" style="fill:var(--ink-3);font-size:11px">100% = ${fmtRs(totalRef)}</text>`;
+  }
+  svg += `<line x1="${pl}" x2="${W - pr}" y1="${H - pb}" y2="${H - pb}" style="stroke:var(--line)"/>`;
+  $("curvaS").innerHTML = svg + rotulos;
+}
+
+function atualizarPerfil() {
+  const p = perfilAtual(), chave = chavePerfil();
+  $("perfilChave").textContent = chave.split("|").filter(Boolean).join(" · ") || "–";
+  if (p) {
+    const soma = p.itens.reduce((a, i) => a + (i.pct || 0), 0);
+    const origem = perfisLocais[chave] ? "salvo neste navegador" : (p.fonte || "base do arquivo");
+    $("perfilNota").textContent = `Base com ${p.itens.length} itens (${fmtPct(soma, 2)}) · ${origem}. A coluna "% sugerida" vem daqui.`;
+    $("btnAplicar").disabled = false;
+  } else {
+    $("perfilNota").textContent = "Ainda não há base para este perfil, então a coluna sugerida fica vazia. Preencha com o seu histórico e salve, ou peça ao Claude para alimentar a base com os seus orçamentos.";
+    $("btnAplicar").disabled = true;
+  }
+  renderListaPerfis();
+}
+
+function atualizarFiltro(soma) {
+  const area = estado.area || 0, orc = estado.orcamento || 0;
+  const obraM2 = area ? orc * (soma.f1 + soma.f2) / 100 / area : null;
+  const totalM2 = area ? orc / area : null;
+  const el = $("filtroRes"); el.className = "filtro-res";
+  const partes = [];
+  if (estado.piso && obraM2 != null) {
+    if (obraM2 >= estado.piso) { el.classList.add("ok"); partes.push(`Custo de obra deste cliente: ${fmtRs(obraM2)}/m², acima do seu mínimo de ${fmtRs(estado.piso)}/m². Dentro do perfil do escritório.`); }
+    else { el.classList.add("bad"); partes.push(`Custo de obra deste cliente: ${fmtRs(obraM2)}/m², ${fmtRs(estado.piso - obraM2)}/m² abaixo do seu mínimo de ${fmtRs(estado.piso)}/m². Vale conversar sobre expectativa antes de criar.`); }
+  }
+  if (estado.cub && totalM2 != null) partes.push(`Orçamento/m² equivale a ${(totalM2 / estado.cub).toLocaleString("pt-BR", { maximumFractionDigits: 2 })} × o CUB informado.`);
+  if (estado.sinapi && totalM2 != null) partes.push(`Equivale a ${(totalM2 / estado.sinapi).toLocaleString("pt-BR", { maximumFractionDigits: 2 })} × o custo médio SINAPI informado.`);
+  el.textContent = partes.length ? partes.join(" ") : "Preencha o custo mínimo das obras que o seu escritório executou nos últimos um ou dois anos para comparar com o orçamento deste cliente.";
+}
+
+function renderListaPerfis() {
+  const ul = $("listaPerfis"), todos = todosPerfis(), chave = chavePerfil();
+  ul.innerHTML = "";
+  const chaves = Object.keys(todos);
+  if (!chaves.length) { ul.innerHTML = "<li>Nenhum perfil ainda.</li>"; return; }
+  chaves.forEach(k => {
+    const li = document.createElement("li"); if (k === chave) li.className = "atual";
+    const local = !!perfisLocais[k];
+    li.innerHTML = `<span><span class="nome"></span><br><span class="origem">${local ? "salvo neste navegador" : "base do arquivo"} · ${todos[k].itens.length} itens</span></span>`;
+    li.querySelector(".nome").textContent = k.split("|").join(" · ");
+    const acoes = document.createElement("span");
+    const usar = document.createElement("button"); usar.className = "btn sutil"; usar.type = "button"; usar.textContent = "Usar";
+    usar.addEventListener("click", () => carregarPerfil(k));
+    acoes.appendChild(usar);
+    if (local) {
+      const rm = document.createElement("button"); rm.className = "rm"; rm.type = "button"; rm.title = "Remover perfil salvo"; rm.textContent = "×";
+      rm.addEventListener("click", () => { if (confirm("Remover este perfil salvo neste navegador?")) { delete perfisLocais[k]; gravar(K_PERFIS, perfisLocais); atualizar(); } });
+      acoes.appendChild(rm);
+    }
+    li.appendChild(acoes); ul.appendChild(li);
+  });
+}
+
+function carregarPerfil(k) {
+  const [projetoDe, categoria, tipo, status] = k.split("|");
+  Object.assign(estado, { projetoDe, categoria, tipo, status });
+  estado.itens = todosPerfis()[k].itens.map(i => ({ ...i, id: novoId() }));
+  preencherCampos(); renderTabela(); toast("Perfil carregado");
+}
+
+/* ---------- escopo ---------- */
+function trocarEstrutura(tipoProjeto) {
+  const est = ESTRUTURAS[tipoProjeto] || ESTRUTURAS["Interiores"];
+  const antigos = estado.itens;
+  // guarda as % digitadas para não perder nada ao alternar entre tipos de projeto
+  estado.memoria = estado.memoria || {};
+  antigos.forEach(a => { if (a.nome.trim() && a.pct != null) estado.memoria[a.grupo + "|" + a.nome.trim().toLowerCase()] = a.pct; });
+  const novos = [];
+  CHAVES_GRUPO.forEach(g => (est[g] || []).forEach(nome => {
+    const igual = antigos.find(a => a.grupo === g && a.nome.trim().toLowerCase() === nome.toLowerCase());
+    const lembrada = estado.memoria[g + "|" + nome.toLowerCase()];
+    novos.push({ id: novoId(), grupo: g, nome, pct: igual && igual.pct != null ? igual.pct : (lembrada ?? null),
+      real: igual ? igual.real ?? null : null, ini: igual ? igual.ini ?? null : null, dur: igual ? igual.dur ?? null : null });
+  }));
+  // itens criados pelo usuário continuam
+  antigos.forEach(a => {
+    const naEstrutura = Object.values(ESTRUTURAS).some(e => (e[a.grupo] || []).some(n => n.toLowerCase() === a.nome.trim().toLowerCase()));
+    if (!naEstrutura && a.nome.trim()) novos.push({ ...a, id: novoId() });
+  });
+  estado.itens = novos;
+}
+
+function preencherCampos() {
+  $("nome").value = estado.nome || "";
+  const uf = $("uf");
+  if (!uf.options.length) uf.innerHTML = '<option value="">escolha</option>' + UFS.map(u => `<option>${u}</option>`).join("");
+  uf.value = estado.uf || ""; $("cidade").value = estado.cidade || "";
+  rotuloCub();
+  $("categoria").value = estado.categoria || "";
+  $("tipo").value = estado.tipo || "";
+  $("status").value = estado.status || "";
+  $("area").value = estado.area ?? "";
+  $("ambientes").value = estado.ambientes ?? "";
+  $("orcamento").value = estado.orcamento == null ? "" : fmtNum(estado.orcamento);
+  $("piso").value = estado.piso == null ? "" : fmtNum(estado.piso);
+  $("cub").value = estado.cub == null ? "" : fmtNum(estado.cub);
+  $("sinapi").value = estado.sinapi == null ? "" : fmtNum(estado.sinapi);
+  const seg = $("segProjeto"); seg.innerHTML = "";
+  TIPOS_PROJETO.forEach(t => {
+    const b = document.createElement("button"); b.type = "button"; b.textContent = t;
+    b.setAttribute("aria-pressed", String(estado.projetoDe === t));
+    b.addEventListener("click", () => {
+      if (estado.projetoDe === t) return;
+      estado.projetoDe = t; trocarEstrutura(t); preencherCampos(); renderTabela();
+    });
+    seg.appendChild(b);
+  });
+}
+
+function rotuloCub() {
+  const c = CUB_POR_UF[estado.uf];
+  $("cubLabel").textContent = estado.uf ? `CUB ${estado.uf} (R$/m²)${c && c.ref ? " · " + c.ref : ""}` : "CUB do estado (R$/m²)";
+  $("cub").placeholder = estado.uf ? `a preencher, CUB ${estado.uf} do mês` : "escolha o estado da obra no Escopo";
+}
+function ligarCampos() {
+  document.querySelectorAll("#segEtapa button").forEach(b => b.addEventListener("click", () => { estado.etapa = b.dataset.etapa; atualizar(); window.scrollTo({ top: 0 }); }));
+  $("inicioObra").addEventListener("change", e => { estado.inicioObra = e.target.value; atualizar(); });
+  const porId = (tr, attr) => tr && estado.itens.find(i => i.id === tr.dataset[attr]);
+  $("corpoComp").addEventListener("input", e => {
+    const it = porId(e.target.closest("tr"), "cid"); if (!it || e.target.dataset.campo !== "real") return;
+    it.real = numBR(e.target.value); atualizar();
+  });
+  $("ganttBody").addEventListener("input", e => {
+    const it = porId(e.target.closest("tr"), "gid"), c = e.target.dataset.campo; if (!it || !c) return;
+    const v = parseInt(e.target.value, 10); it[c] = v > 0 ? Math.min(v, 60) : null; atualizar();
+  });
+  document.querySelectorAll("#segPizza button").forEach(b => b.addEventListener("click", () => { estado.modoPizza = b.dataset.modo; atualizar(); }));
+  $("uf").addEventListener("change", e => {
+    estado.uf = e.target.value;
+    const c = CUB_POR_UF[estado.uf];
+    if (c && c.valor) { estado.cub = c.valor; $("cub").value = fmtNum(c.valor); }
+    rotuloCub(); atualizar();
+  });
+  $("cidade").addEventListener("input", e => { estado.cidade = e.target.value; gravar(K_ESTADO, estado); });
+  $("nome").addEventListener("input", e => { estado.nome = e.target.value; gravar(K_ESTADO, estado); });
+  ["categoria", "tipo", "status"].forEach(id => $(id).addEventListener("input", e => { estado[id] = e.target.value; atualizar(); }));
+  $("area").addEventListener("input", e => { estado.area = numBR(e.target.value); atualizar(); });
+  $("ambientes").addEventListener("input", e => { estado.ambientes = numBR(e.target.value); atualizar(); });
+  [["orcamento", "orcamento"], ["piso", "piso"], ["cub", "cub"], ["sinapi", "sinapi"]].forEach(([id, k]) => {
+    $(id).addEventListener("input", e => { estado[k] = numBR(e.target.value); atualizar(); });
+    $(id).addEventListener("blur", e => { e.target.value = estado[k] == null ? "" : fmtNum(estado[k]); });
+  });
+
+  $("btnAplicar").addEventListener("click", () => {
+    const p = perfilAtual(); if (!p) return;
+    // traz os itens da base que faltam na tabela e aplica as % sugeridas
+    p.itens.forEach(b => {
+      const it = estado.itens.find(i => i.grupo === b.grupo && i.nome.trim().toLowerCase() === b.nome.trim().toLowerCase());
+      if (it) it.pct = b.pct; else estado.itens.push({ id: novoId(), grupo: b.grupo, nome: b.nome, pct: b.pct });
+    });
+    renderTabela(); toast("% sugerida aplicada");
+  });
+  $("btnSalvarPerfil").addEventListener("click", () => {
+    const itens = estado.itens.filter(i => i.nome.trim() && i.pct != null).map(i => ({ grupo: i.grupo, nome: i.nome.trim(), pct: i.pct }));
+    if (!itens.length) { toast("Preencha as porcentagens antes de salvar"); return; }
+    const soma = itens.reduce((a, i) => a + i.pct, 0);
+    if (Math.abs(soma - 100) > 0.005 && !confirm(`A soma está em ${fmtPct(soma, 2)}, não em 100%. Salvar assim mesmo?`)) return;
+    perfisLocais[chavePerfil()] = { fonte: "salvo neste navegador", itens };
+    gravar(K_PERFIS, perfisLocais); atualizar(); toast("Perfil salvo como base");
+  });
+  $("btnExemplo").addEventListener("click", () => {
+    if (!confirm("Voltar para os números do exemplo da aula? O planejamento atual será substituído (os perfis salvos continuam).")) return;
+    const etapa = estado.etapa;
+    estado = JSON.parse(JSON.stringify(EXEMPLO)); estado.itens.forEach(i => i.id = novoId()); estado.memoria = {}; estado.etapa = etapa;
+    preencherCampos(); renderTabela();
+  });
+  $("btnImprimir").addEventListener("click", () => window.print());
+
+  const baixar = (nome, conteudo, tipo) => {
+    const a = document.createElement("a");
+    a.href = URL.createObjectURL(new Blob([conteudo], { type: tipo })); a.download = nome;
+    document.body.appendChild(a); a.click(); a.remove(); setTimeout(() => URL.revokeObjectURL(a.href), 1000);
+  };
+  $("btnExportar").addEventListener("click", () => baixar("perfis-planejador-obra.json", JSON.stringify(todosPerfis(), null, 2), "application/json"));
+  $("arqImportar").addEventListener("change", e => {
+    const f = e.target.files[0]; if (!f) return;
+    const r = new FileReader();
+    r.onload = () => {
+      try {
+        const dados = JSON.parse(r.result); let n = 0;
+        Object.entries(dados).forEach(([k, v]) => {
+          if (k.split("|").length === 4 && v && Array.isArray(v.itens)
+              && v.itens.every(i => CHAVES_GRUPO.includes(i.grupo) && typeof i.nome === "string" && typeof i.pct === "number")) {
+            perfisLocais[k] = { fonte: v.fonte || "importado", itens: v.itens }; n++;
+          }
+        });
+        gravar(K_PERFIS, perfisLocais); atualizar();
+        toast(n ? `${n} perfil(is) importado(s)` : "Nenhum perfil válido no arquivo");
+      } catch (err) { toast("Arquivo inválido: " + err.message); }
+      e.target.value = "";
+    };
+    r.readAsText(f);
+  });
+  $("btnCsv").addEventListener("click", () => {
+    const orc = estado.orcamento || 0, area = estado.area || 0;
+    const linhas = [["Grupo", "Item", "% sugerida", "% obra", "R$", "R$/m²"]];
+    estado.itens.forEach(i => {
+      const v = orc * (i.pct || 0) / 100, s = sugeridaDe(i);
+      linhas.push([GRUPOS.find(g => g.key === i.grupo).titulo, i.nome, s == null ? "" : fmtNum(s), i.pct == null ? "" : fmtNum(i.pct), fmtNum(+v.toFixed(2)), area ? fmtNum(+(v / area).toFixed(2)) : ""]);
+    });
+    const csv = linhas.map(l => l.map(c => `"${String(c).replace(/"/g, '""')}"`).join(";")).join("\n");
+    baixar(`planejamento-obra${estado.nome ? "-" + estado.nome.replace(/[^\wÀ-ú -]/g, "").trim().replace(/\s+/g, "-") : ""}.csv`, "﻿" + csv, "text/csv");
+  });
+}
+
+// versão anterior salva sem os grupos novos: completa a estrutura sem perder as % digitadas
+if (["doc", "entrega"].some(k => !estado.itens.some(i => i.grupo === k))) trocarEstrutura(estado.projetoDe || "Interiores");
+preencherCampos();
+ligarCampos();
+renderTabela();
+</script>
+</body>
+</html>

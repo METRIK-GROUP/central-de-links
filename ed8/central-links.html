@@ -142,13 +142,17 @@
   <!-- ====== BARRA FIXA DE CONVITE ====== -->
   <div id="barra-impl" style="display:none" class="sticky top-0 z-50 border-b border-accent/25 bg-[#0c1817]/95 backdrop-blur">
     <div class="mx-auto max-w-[680px] px-4 py-2.5 flex items-center gap-3">
-      <p class="text-[13px] text-[#cfd8d7] leading-tight flex-1 min-w-0">
+      <p data-fase="desconto" class="text-[13px] text-[#cfd8d7] leading-tight flex-1 min-w-0">
+        <span class="text-white font-semibold">R$ 1.000 de desconto</span><span class="hidden sm:inline"> na Implementação PDP + IA</span>
+        <span class="block sm:inline text-[#ff9a8f] font-semibold">só até hoje, 23h59</span>
+      </p>
+      <p data-fase="aberto" style="display:none" class="text-[13px] text-[#cfd8d7] leading-tight flex-1 min-w-0">
         <span class="text-white font-semibold">Matrículas abertas</span><span class="hidden sm:inline"> na Implementação PDP + IA</span>
-        <span class="block sm:inline text-[#8fa09e]">encerra sábado, 23h59</span>
+        <span class="block sm:inline text-[#8fa09e]">encerra sexta, 30/10, 23h59</span>
       </p>
       <span id="cd-barra" class="font-bold text-white text-[13px] tabular-nums whitespace-nowrap shrink-0"></span>
-      <a href="https://implementacao.rodrigorosar.com.br" target="_blank" rel="noopener"
-         class="shrink-0 rounded-full bg-accent px-3.5 py-1.5 text-[12px] font-bold text-white hover:opacity-90 transition-opacity whitespace-nowrap">Quero conhecer</a>
+      <a id="cta-barra" href="https://implementacao.rodrigorosar.com.br/#preco" target="_blank" rel="noopener"
+         class="shrink-0 rounded-full bg-accent px-3.5 py-1.5 text-[12px] font-bold text-white hover:opacity-90 transition-opacity whitespace-nowrap"><span data-fase="desconto">Garantir desconto</span><span data-fase="aberto" style="display:none">Quero conhecer</span></a>
     </div>
   </div>
 
@@ -162,7 +166,7 @@
         <p class="text-[10px] uppercase tracking-[0.18em] font-bold text-accent mb-3">Acesso encerrado</p>
         <h2 class="text-foreground font-bold text-xl sm:text-2xl leading-snug">Esta central não é mais uma página&nbsp;aberta</h2>
         <p class="text-sm text-muted-foreground mt-3 leading-relaxed">
-          Ela ficou aberta durante o workshop e nos dias seguintes. As matrículas encerraram, e a partir de agora o conteúdo fica com quem adquiriu <b class="text-foreground font-semibold">as aulas gravadas</b>, com um ano de acesso, ou com quem entrou na <b class="text-foreground font-semibold">Implementação Projeto de Primeira + IA</b>.
+          Ela ficou aberta durante o workshop e nos dias seguintes. Esse período terminou, e a partir de agora o conteúdo fica com quem adquiriu <b class="text-foreground font-semibold">as aulas gravadas</b>, com um ano de acesso, ou com quem entrou na <b class="text-foreground font-semibold">Implementação Projeto de Primeira + IA</b>.
         </p>
 
         <div class="mt-6 pt-5 border-t border-border">
@@ -1319,26 +1323,42 @@ O resultado final deve transmitir a sensação de um vídeo editorial de arquite
       <div class="pointer-events-none absolute -top-24 -left-16 w-64 h-64 rounded-full bg-accent/15 blur-3xl"></div>
       <div class="relative">
         <img src="/ed7/img/logo-implementacao.png" alt="Implementação Projeto de Primeira + IA" class="h-9 w-auto mb-4">
-        <p class="text-[10px] uppercase tracking-[0.18em] font-bold text-accent mb-3">As matrículas ainda estão abertas</p>
+        <p id="selo-impl" class="text-[10px] uppercase tracking-[0.18em] font-bold text-accent mb-3">As matrículas estão abertas</p>
         <h2 class="text-white font-bold text-xl sm:text-2xl leading-snug">Vamos continuar nos desenvolvendo juntos?</h2>
         <p class="text-sm text-[#a9b3b2] mt-2 mb-5 leading-relaxed">A <span class="text-white font-semibold">Implementação Projeto de Primeira + IA</span> é o programa de seis semanas para ir do caos à ordem no seu escritório, com acompanhamento semanal, treinamento e documentação pronta para usar. Não é mais um curso para pegar pó, é ação real para sair da inércia que a rotina criou no seu crescimento.</p>
+        <!-- DESCONTO DO EVENTO: só domingo 18/10, até 23h59 (o bloco some sozinho à meia-noite) -->
+        <div data-fase="desconto" class="rounded-xl border border-[#ff6b5e]/35 bg-[#ff6b5e]/10 px-4 py-3.5 mb-5">
+          <p class="text-[10px] uppercase tracking-[0.16em] font-bold text-[#ff9a8f]">Só hoje, até 23h59</p>
+          <p class="text-white font-bold text-lg leading-snug mt-1">R$ 1.000 de desconto para quem entrar hoje</p>
+          <p class="text-sm text-[#cfd8d7] mt-1 leading-relaxed"><span class="text-white font-semibold">12x de R$ 390</span> ou <span class="text-white font-semibold">R$ 3.997 no PIX</span>. À meia-noite o valor sobe para 12x de R$ 490 ou R$ 4.997 no PIX.</p>
+        </div>
         <div id="cd-box" class="flex items-center gap-3 mb-5">
           <div class="flex gap-2" id="cd-nums"></div>
-          <span class="text-[11px] uppercase tracking-[0.14em] text-[#7e8b8a] leading-tight">encerra <span class="text-white font-bold">sábado,<br>23h59</span></span>
+          <span data-fase="desconto" class="text-[11px] uppercase tracking-[0.14em] text-[#7e8b8a] leading-tight">o desconto acaba <span class="text-white font-bold">hoje,<br>às 23h59</span></span>
+          <span data-fase="aberto" style="display:none" class="text-[11px] uppercase tracking-[0.14em] text-[#7e8b8a] leading-tight">matrículas até <span class="text-white font-bold">sexta, 30/10,<br>às 23h59</span></span>
         </div>
-        <a href="https://implementacao.rodrigorosar.com.br" target="_blank" rel="noopener" class="inline-flex items-center gap-2 rounded-full bg-accent px-5 py-3 text-sm font-bold text-white hover:opacity-90 transition-opacity">Quero conhecer a Implementação PDP + IA
+        <a href="https://implementacao.rodrigorosar.com.br/#preco" target="_blank" rel="noopener" class="inline-flex items-center gap-2 rounded-full bg-accent px-5 py-3 text-sm font-bold text-white hover:opacity-90 transition-opacity"><span data-fase="desconto">Quero garantir meu desconto</span><span data-fase="aberto" style="display:none">Quero conhecer a Implementação PDP + IA</span>
           <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
         </a>
-        <!-- INICIO_TURMA_ED8: frase "A turma começa ..." retirada até a data da turma da Ed.8 ser definida -->
-        <p class="text-xs text-[#7e8b8a] mt-2">Está com alguma dúvida? <a href="https://rodrigorosar.com.br/comercial" target="_blank" rel="noopener" class="text-accent hover:underline">Chame o comercial</a>.</p>
+        <p class="text-xs text-[#a9b3b2] mt-3">A turma começa <span class="text-white font-semibold">terça, 03/11</span>.</p>
+        <p class="text-xs text-[#7e8b8a] mt-1">Está com alguma dúvida? <a href="https://rodrigorosar.com.br/comercial" target="_blank" rel="noopener" class="text-accent hover:underline">Chame o comercial</a>.</p>
       </div>
     </div>
     <script>
     (function () {
-      var INICIO = Date.UTC(2026, 9, 18, 17, 45, 0); // domingo 18/10/2026, 14h45 BRT: convite aparece junto da abertura do carrinho (como na Ed.7)
-      var FIM = Date.UTC(2026, 9, 25, 2, 59, 0);    // sábado 24/10/2026, 23h59 BRT: fim do carrinho cadastrado no dashboard
-      var INICIO_BARRA = Date.UTC(2026, 9, 18, 15, 0, 0); // domingo 18/10/2026, 12h00 BRT: barra do topo aparece antes do convite
+      var INICIO = Date.UTC(2026, 9, 18, 14, 30, 0); // domingo 18/10/2026, 11h30 BRT: convite aparece junto da abertura do carrinho
+      var FIM_DESCONTO = Date.UTC(2026, 9, 19, 3, 0, 0); // segunda 19/10/2026, 0h BRT: acaba o desconto de R$ 1.000 (mesma virada do site)
+      var FIM = Date.UTC(2026, 9, 31, 3, 0, 0);    // sexta 30/10/2026, 23h59 BRT: fim do carrinho da Ed.8
+      var INICIO_BARRA = INICIO; // a barra do topo aparece junto com o convite
       var nums = document.getElementById('cd-nums'), caixa = document.getElementById('cd-box'), bloco = document.getElementById('convite-impl'), barra = document.getElementById('cd-barra'), bimpl = document.getElementById('barra-impl'), t;
+      // Fase "desconto" até a meia-noite de domingo; depois "aberto" até o fim do carrinho.
+      function fase(agora) {
+        var atual = agora < FIM_DESCONTO ? 'desconto' : 'aberto';
+        document.querySelectorAll('[data-fase]').forEach(function (el) {
+          el.style.display = el.getAttribute('data-fase') === atual ? '' : 'none';
+        });
+        return atual === 'desconto' ? FIM_DESCONTO : FIM;
+      }
       function cel(v, r) {
         return '<div class="flex flex-col items-center rounded-lg bg-black/35 border border-white/10 px-3 py-2 min-w-[54px]">' +
                '<span class="text-white font-bold text-lg leading-none tabular-nums">' + String(v).padStart(2, '0') + '</span>' +
@@ -1349,12 +1369,14 @@ O resultado final deve transmitir a sensação de um vídeo editorial de arquite
         bloco.style.display = Date.now() < INICIO ? 'none' : '';
         var muro = document.getElementById('muro');
         if (!muro || muro.style.display === 'none') bimpl.style.display = '';
-        var falta = FIM - Date.now();
-        if (falta <= 0) { caixa.innerHTML = '<span class="text-sm font-semibold text-[#a9b3b2]">As inscrições desta turma foram encerradas.</span>'; bloco.classList.add('opacity-70'); bimpl.style.display = 'none'; clearInterval(t); return; }
+        var agora = Date.now();
+        var alvo = fase(agora);
+        var falta = alvo - agora;
+        if (agora >= FIM) { document.getElementById('selo-impl').textContent = 'Matrículas encerradas'; caixa.innerHTML = '<span class="text-sm font-semibold text-[#a9b3b2]">As inscrições desta turma foram encerradas.</span>'; bloco.classList.add('opacity-70'); bimpl.style.display = 'none'; clearInterval(t); return; }
         var s = Math.floor(falta / 1000);
         var d = Math.floor(s / 86400), hh = Math.floor(s / 3600) % 24, mm = Math.floor(s / 60) % 60, ss = s % 60;
-        nums.innerHTML = cel(d, 'dias') + cel(hh, 'horas') + cel(mm, 'min') + cel(ss, 'seg');
-        barra.textContent = d + 'd ' + String(hh).padStart(2,'0') + ':' + String(mm).padStart(2,'0') + ':' + String(ss).padStart(2,'0');
+        nums.innerHTML = (d > 0 ? cel(d, 'dias') : '') + cel(hh, 'horas') + cel(mm, 'min') + cel(ss, 'seg');
+        barra.textContent = (d > 0 ? d + 'd ' : '') + String(hh).padStart(2,'0') + ':' + String(mm).padStart(2,'0') + ':' + String(ss).padStart(2,'0');
       }
       tick(); t = setInterval(tick, 1000);
     })();
@@ -1375,7 +1397,7 @@ O resultado final deve transmitir a sensação de um vídeo editorial de arquite
      Depois disso, só abre para quem confirma o e-mail de compra.
      Para a próxima edição, basta mudar VIRADA e ENDPOINT. */
   (function () {
-    var VIRADA   = Date.UTC(2026, 9, 25, 2, 59, 0);          // sábado 24/10/2026, 23h59 BRT (fim do carrinho da Ed.8)
+    var VIRADA   = Date.UTC(2026, 9, 25, 2, 59, 0);          // sábado 24/10/2026, 23h59 BRT (fim do replay aberto; o carrinho da Ed.8 vai até 30/10)
     var ENDPOINT = 'https://wpdp07.vercel.app/api/acesso';
     var SELO     = 'wpdp08-acesso';
 
@@ -1393,8 +1415,8 @@ O resultado final deve transmitir a sensação de um vídeo editorial de arquite
       var travado = precisaMuro();
       muro.style.display = travado ? '' : 'none';
       conteudo.style.display = travado ? 'none' : '';
-      // a barra da Implementação só existe a partir de domingo 18/10, 12h00 BRT
-      if (barra) barra.style.display = (travado || Date.now() < Date.UTC(2026, 9, 18, 15, 0, 0)) ? 'none' : '';
+      // a barra da Implementação só existe a partir de domingo 18/10, 11h30 BRT (abertura do carrinho)
+      if (barra) barra.style.display = (travado || Date.now() < Date.UTC(2026, 9, 18, 14, 30, 0)) ? 'none' : '';
     }
     aplica();
 

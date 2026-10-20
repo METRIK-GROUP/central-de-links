@@ -48,26 +48,16 @@ A fase 1 se separa **por disciplina, não por ambiente**. Cada disciplina atrave
 
 A fase 2, que resolve marcenaria, louças e metais, mobiliário e arremates, não entra nesta versão.
 
-### As disciplinas da fase 1, na ordem oficial do método
+### As disciplinas da fase 1 e a ordem das pranchas
 
-É a ordem em que as pranchas são feitas no escritório, uma dependendo da anterior.
-
-1. **Construir e demolir.** O que sai, o que entra e o que muda de posição no perímetro dos ambientes.
-2. **Climatização.** Onde o equipamento fica, por onde o ar e o dreno atravessam e o que isso ocupa do projeto.
-3. **Elétrica e dados.** Onde vai precisar de ponto, de comando e de sinal, e o que a instalação existente suporta.
-4. **Hidráulico e gás.** Por onde a água e o gás chegam, por onde a água sai e o quanto os pontos novos dependem do que já existe.
-5. **Paginação de revestimentos.** Como o revestimento começa, encontra e termina em cada superfície.
-6. **Forro.** O que precisa caber acima dele e como ele conversa com esquadria, cortina e equipamento.
-7. **Luminotécnico.** Onde a luz nasce, o que ela ilumina e como cada ambiente é acionado.
-8. **Som e imagem.** Onde o equipamento fica, o que ele exige de infraestrutura e o que ele pede da superfície que o recebe.
-9. **Pintura e texturas.** Onde cada tratamento de superfície começa e termina, e o que ele exige de base pronta.
+São as do escritório da pessoa, nunca uma lista pronta. A skill pergunta o caminho da pasta onde estão (veja "A primeira pergunta é sempre esta") e varre as disciplinas na ordem em que aquele escritório faz as pranchas. Se o projeto pede uma disciplina que não aparece nessa estrutura, ela registra como pendência, com a pergunta de onde ela entra.
 
 ### Disciplinas transversais
 
 Não são pranchas próprias: são varridas junto com as demais, em qualquer modo de execução.
 
-10. **Circulação e uso.** Como as pessoas atravessam, alcançam e usam os ambientes, incluindo os perfis de morador que o briefing indicar.
-11. **Prazo e sequência.** O que precisa ser decidido antes do quê, e onde o prazo de fornecedor conflita com o prazo de obra.
+- **Circulação e uso.** Como as pessoas atravessam, alcançam e usam os ambientes, incluindo os perfis de morador que o briefing indicar.
+- **Prazo e sequência.** O que precisa ser decidido antes do quê, e onde o prazo de fornecedor conflita com o prazo de obra.
 
 ## Como cada bandeira é escrita
 
@@ -96,7 +86,7 @@ Ela também nunca ensina o fornecedor a executar. A bandeira diz **o que precisa
 
 **3. As bandeiras críticas.** Primeiro as que param a obra, cada uma com os quatro campos.
 
-**4. As demais, por disciplina.** Importantes e de atenção, agrupadas na ordem das disciplinas e, por fim, nas transversais.
+**4. As demais, por disciplina.** Importantes e de atenção, agrupadas na ordem das pranchas do escritório e, por fim, nas transversais.
 
 **5. A ordem de decisão.** O que precisa ser decidido antes do quê, considerando prazo de fornecedor. É a seção que evita o executivo travar esperando uma escolha.
 
@@ -110,7 +100,7 @@ Antes de gerar, faz **uma pergunta por vez**, numerada, com opções rotuladas p
 
 ### A primeira pergunta é sempre esta
 
-Antes de qualquer análise, ela pergunta **onde estão os checklists de projeto executivo do escritório**. Não é uma pergunta opcional nem uma formalidade: é o checklist que direciona a varredura inteira.
+Antes de qualquer análise, ela pede **o caminho da pasta onde estão a ordem das pranchas, o padrão de executivo e os checklists do escritório**, de preferência a biblioteca técnica que a pessoa montou. Não é uma pergunta opcional nem uma formalidade: é o checklist que direciona a varredura inteira.
 
 > **(a)** estão nesta pasta, e o caminho é este
 > **(b)** eu tenho, mas não sei onde estão agora
@@ -121,7 +111,7 @@ Junto com o checklist ela aceita, e pede, o resto do material de apoio que exist
 
 **Por que isso importa tanto.** Com o checklist na mão, a skill confere o projeto contra o critério de quem vai executar, e cada bandeira nasce do jeito que aquele escritório entrega. Sem ele, ela só consegue comparar contra o que é comum ao mercado, e o resultado é uma lista que serviria para qualquer obra, ou seja, previsível e pouco útil.
 
-**Se a resposta for (c), ela roda assim mesmo, mas não finge que dá no mesmo.** Entrega a varredura geral, e abre o relatório com um aviso claro: esta análise está genérica porque não recebeu o checklist de executivo do escritório, e o que ela deixou de conferir por causa disso. No fim, lista as perguntas que o checklist responderia, para servir de ponto de partida a quem quiser montar o seu.
+**Se a resposta for (c), ela roda assim mesmo, mas não finge que dá no mesmo.** Pede que a pessoa liste as pranchas do executivo dela na ordem em que faz, usa só essa lista, entrega a varredura, e abre o relatório com um aviso claro: esta análise está genérica porque não recebeu o checklist de executivo do escritório, e o que ela deixou de conferir por causa disso. No fim, lista as perguntas que o checklist responderia, para servir de ponto de partida a quem quiser montar o seu.
 
 Ela nunca trata a ausência de checklist como detalhe, e nunca inventa um critério para preencher o vazio.
 
@@ -153,6 +143,6 @@ Termo técnico que já se usa em inglês no dia a dia do escritório (briefing, 
 
 ## Nota
 
-Esta é a versão do Workshop Projeto de Primeira com IA. Ela roda com o que estiver na mão e cobre as nove disciplinas da fase 1 mais as transversais.
+Esta é a versão do Workshop Projeto de Primeira com IA. Ela roda com o que estiver na mão e cobre as disciplinas da fase 1 do escritório da pessoa mais as transversais.
 
 A versão completa, que avança também sobre a fase 2, cruza cada achado contra a Biblioteca Técnica do escritório e contra os checklists próprios da pessoa, emenda na revisão do executivo desenhado e vira plano de ação priorizado com aceite item a item, faz parte do programa de Implementação.

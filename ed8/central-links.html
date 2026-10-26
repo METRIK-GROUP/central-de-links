@@ -166,12 +166,12 @@
         <p class="text-[10px] uppercase tracking-[0.18em] font-bold text-accent mb-3">Acesso encerrado</p>
         <h2 class="text-foreground font-bold text-xl sm:text-2xl leading-snug">Esta central não é mais uma página&nbsp;aberta</h2>
         <p class="text-sm text-muted-foreground mt-3 leading-relaxed">
-          Ela ficou aberta durante o workshop e nos dias seguintes. Esse período terminou, e a partir de agora o conteúdo fica com quem adquiriu <b class="text-foreground font-semibold">as aulas gravadas</b>, com um ano de acesso, ou com quem entrou na <b class="text-foreground font-semibold">Implementação Projeto de Primeira + IA</b>.
+          Ela ficou aberta durante o workshop e nos dias seguintes. Esse período terminou, e a partir de agora o conteúdo fica com quem adquiriu <b class="text-foreground font-semibold">as aulas gravadas</b>, com um ano de acesso.
         </p>
 
         <div class="mt-6 pt-5 border-t border-border">
           <p class="text-sm font-semibold text-foreground mb-1">Já tem acesso?</p>
-          <p class="text-sm text-muted-foreground mb-3">Digite o e-mail que você usou na compra e a central abre na hora. É o mesmo e-mail que dá acesso ao conector do Claude.</p>
+          <p class="text-sm text-muted-foreground mb-3">Digite o e-mail que você usou na compra das aulas gravadas e a central abre na hora.</p>
           <form id="form-acesso" class="flex flex-col sm:flex-row gap-2">
             <input id="email-acesso" type="email" required autocomplete="email" placeholder="seu@email.com"
               class="flex-1 rounded-lg border border-border bg-background px-4 py-2.5 text-sm text-foreground outline-none focus:border-accent">
@@ -179,9 +179,6 @@
               class="rounded-lg bg-accent px-5 py-2.5 text-sm font-bold text-white hover:opacity-90 transition-opacity whitespace-nowrap">Liberar acesso</button>
           </form>
           <p id="msg-acesso" class="text-sm mt-3"></p>
-          <p class="text-xs text-muted-foreground mt-4">
-            O conector do Claude também mudou de endereço. O novo está na área de membros, na Hotmart, junto com as aulas.
-          </p>
         </div>
       </div>
     </div>
@@ -1401,11 +1398,12 @@ O resultado final deve transmitir a sensação de um vídeo editorial de arquite
   <script>
   /* ====== ACESSO APÓS A VIRADA ======
      Até sábado 24/10 23h59 a central fica aberta para todo mundo (ação de replay).
-     Depois disso, só abre para quem confirma o e-mail de compra.
-     Para a próxima edição, basta mudar VIRADA e ENDPOINT. */
+     Depois disso, só abre para quem tem a gravação vigente (compra aprovada nos
+     últimos 365 dias), conferida ao vivo no banco pelo launch-dashboard.
+     Para a próxima edição, basta mudar VIRADA e SELO; o ENDPOINT não depende de edição. */
   (function () {
     var VIRADA   = Date.UTC(2026, 9, 25, 2, 59, 0);          // sábado 24/10/2026, 23h59 BRT (fim do replay aberto; o carrinho da Ed.8 vai até 30/10)
-    var ENDPOINT = 'https://wpdp07.vercel.app/api/acesso';
+    var ENDPOINT = 'https://dashboard.rodrigorosar.com.br/api/public/central-acesso';
     var SELO     = 'wpdp08-acesso';
 
     var muro = document.getElementById('muro');
@@ -1457,8 +1455,10 @@ O resultado final deve transmitir a sensação de um vídeo editorial de arquite
         }
         if (res.s === 429) {
           msg.textContent = 'Muitas tentativas seguidas. Espere alguns minutos e tente de novo.';
+        } else if (res.s >= 500) {
+          msg.textContent = 'Não consegui conferir agora. Tente de novo em instantes.';
         } else {
-          msg.innerHTML = 'Não encontrei esse e-mail entre quem tem acesso. Confira se é o mesmo que você usou na compra. ' +
+          msg.innerHTML = 'Não encontrei esse e-mail entre quem tem as aulas gravadas. Confira se é o mesmo que você usou na compra. ' +
             'Se acha que é engano, <a href="https://rodrigorosar.com.br/comercial" target="_blank" rel="noopener" class="text-accent underline">fale com o comercial</a>.';
         }
         msg.className = 'text-sm mt-3 text-muted-foreground';
